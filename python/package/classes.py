@@ -75,11 +75,36 @@ class Duree:
 
         return self  # On renvoie la nouvelle duree
 
+    def __sub__(self, objet_a_soustraire):
+        """
+            Soustrait le nombre de seconde passe en parametre
+            Ne retourne jamais de duree negative
+
+            :param a: secondes a soustraire
+            :type a: int
+            :return: object
+        """
+        allsec = (self.min * 60) + self.sec
+
+        if objet_a_soustraire > allsec:
+            self.min = 0
+            self.sec = 0
+        else:
+            allsec -= objet_a_soustraire  # On soustrait la duree
+            self.min = allsec // 60
+            self.sec = allsec % 60
+
+        return self  # On renvoie la nouvelle duree
+
 
 if __name__ == "__main__":
     # pseudo-tests de la class «Duree»
-    print("[03:05]:", Duree(3, 5))
+    print("[03:05]:", Duree(3, 5))          # __add__
     print("[03:55]:", Duree(3, 5) + 50)
     print("[05:35]:", Duree(3, 5) + 150)
     print("[14:41]:", Duree(13, 51) + 50)
     print("[11:05]:", Duree(10, 3*5) + 50)
+
+    print("[10:00]:", Duree(10, 5) - 5)     # __sub__
+    print("[00:05]:", Duree(10, 5) - 600)
+    print("[00:00]:", Duree(2, 5) - 600)
