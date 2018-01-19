@@ -9,6 +9,7 @@
     .. _GNU GPL v3: http://www.gnu.org/licenses/
 """
 
+
 class TableauNoir:
     """
         Definis une surface sur laquelle on peut ecrire.
@@ -81,8 +82,8 @@ class Duree:
 
 if __name__ == "__main__":
     # pseudo-tests de la class «Duree»
-    print("[03:05]:", Duree(3,5))
-    print("[03:55]:", Duree(3,5) + 50)
-    print("[05:35]:", Duree(3,5) + 150)
-    print("[14:41]:", Duree(13,51) + 50)
-    print("[11:05]:", Duree(10,3*5) + 50)
+    print("[03:05]:", Duree(3, 5))
+    print("[03:55]:", Duree(3, 5) + 50)
+    print("[05:35]:", Duree(3, 5) + 150)
+    print("[14:41]:", Duree(13, 51) + 50)
+    print("[11:05]:", Duree(10, 3*5) + 50)
