@@ -67,17 +67,13 @@ class Duree:
 
     def __add__(self, objet_a_ajouter):
         """L'objet a ajouter est un entier, le nombre de secondes"""
-        nouvelle_duree = Duree()
-        # On va copier self dans l'objet cree pour avoir la même duree
-        nouvelle_duree.min = self.min
-        nouvelle_duree.sec = self.sec
-        nouvelle_duree.sec += objet_a_ajouter  # On ajoute la duree
+        self.sec += objet_a_ajouter  # On ajoute la duree
 
-        if nouvelle_duree.sec >= 60:  # Si le nombre de secondes >= 60
-            nouvelle_duree.min += nouvelle_duree.sec // 60
-            nouvelle_duree.sec = nouvelle_duree.sec % 60
+        if self.sec >= 60:  # Si le nombre de secondes >= 60
+            self.min += self.sec // 60
+            self.sec = self.sec % 60
 
-        return nouvelle_duree  # On renvoie la nouvelle duree
+        return self  # On renvoie la nouvelle duree
 
 
 if __name__ == "__main__":
