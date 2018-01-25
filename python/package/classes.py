@@ -99,12 +99,12 @@ class Duree:
 
 if __name__ == "__main__":
     # pseudo-tests de la class «Duree»
-    print("[03:05]:", Duree(3, 5))          # __add__
+    print("[03:05]:", Duree(3, 5))      # __add__
     print("[03:55]:", Duree(3, 5) + 50)
     print("[05:35]:", Duree(3, 5) + 150)
     print("[14:41]:", Duree(13, 51) + 50)
     print("[11:05]:", Duree(10, 3*5) + 50)
 
-    print("[10:00]:", Duree(10, 5) - 5)     # __sub__
+    print("[10:00]:", Duree(10, 5) - 5)
     print("[00:05]:", Duree(10, 5) - 600)
     print("[00:00]:", Duree(2, 5) - 600)
