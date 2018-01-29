@@ -30,122 +30,145 @@ class DictionnaireOrdonne:
         sont ajoutees au premier.
 
         :Example:
-
+        >>> fruits = DictionnaireOrdonne()
         >>> fruits
         {}
 
-        >>> fruits["pomme"] = 52
-        >>> fruits["poire"] = 34
-        >>> fruits["prune"] = 128
-        >>> fruits["melon"] = 15
-        >>> fruits
-        {'pomme': 52, 'poire': 34, 'prune': 128, 'melon': 15}
+        #>>> fruits["pomme"] = 52
+        #>>> fruits["poire"] = 34
+        #>>> fruits["prune"] = 128
+        #>>> fruits["melon"] = 15
+        #>>> fruits
+        #{'pomme': 52, 'poire': 34, 'prune': 128, 'melon': 15}
 
-        >>> fruits.sort()
-        >>> print(fruits)
-        {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128}
+        #>>> fruits.sort()
+        #>>> print(fruits)
+        #{'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128}
 
-        >>> legumes = DictionnaireOrdonne(carotte = 26, haricot = 48)
-        >>> print(legumes)
-        {'carotte': 26, 'haricot': 48}
+        #>>> legumes = DictionnaireOrdonne(carotte = 26, haricot = 48)
+        #>>> print(legumes)
+        #{'carotte': 26, 'haricot': 48}
 
-        >>> len(legumes)
-        2
+        #>>> len(legumes)
+        #2
 
-        >>> legumes.reverse()
-        >>> fruits = fruits + legumes
-        >>> fruits
-        {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128, 'haricot': 48, 'carotte':26}
+        #>>> legumes.reverse()
+        #>>> fruits = fruits + legumes
+        #>>> fruits
+        #{'melon': 15, 'poire': 34, 'pomme': 52,
+            #'prune': 128, 'haricot': 48, 'carotte':26}
 
-        >>> del fruits['haricot']
-        >>> 'haricot' in fruits
-        False
+        #>>> del fruits['haricot']
+        #>>> 'haricot' in fruits
+        #False
 
-        >>> legumes['haricot']
-        48
+        #>>> legumes['haricot']
+        #48
 
-        >>> for cle in legumes:
-        ...     print(cle)
-        ...
-        haricot
-        carotte
+        #>>> for cle in legumes:
+        #...     print(cle)
+        #...
+        #haricot
+        #carotte
 
-        >>> legumes.keys()
-        ['haricot', 'carotte']
+        #>>> legumes.keys()
+        #['haricot', 'carotte']
 
-        >>> legumes.values()
-        [48, 26]
+        #>>> legumes.values()
+        #[48, 26]
 
-        >>> for nom, qtt in legumes.items():
-        ...     print("{0} ({1})".format(nom, qtt))
-        ...
-        haricot (48)
-        carotte (26)
+        #>>> for nom, qtt in legumes.items():
+        #...     print("{0} ({1})".format(nom, qtt))
+        #...
+        #haricot (48)
+        #carotte (26)
     """
 
-    def __init__(self):
+    def __init__(self, *liste, **dico):
         """
-            On doit pouvoir creer le dictionnaire de plusieurs façons :
-            - Vide: sans passer aucun parametre
-            - Copie d'un dict(): parametre du constructeur un dict() que
-                l'on copie par la suite dans notre objet. On peut ainsi
-                ecrire constructeur(dictionnaire) et les cles et valeurs
-                contenues dans le dictionnaire sont copiees dans l'objet
-                construit.
-            - Pre-rempli de cles/valeurs en parametre: comme les dict()
-                usuels, on doit ici avoir la possibilite de pre-remplir
-                notre objet avec des couples cles-valeurs passes en
-                param (constructeur(cle1 = valeur1, cle2 = valeur2, …))
-            Les cles et valeurs doivent etre couplees
-        """
-
-    def __contains__():
-        """ Cherche une cle dans notre objet (cle in dictionnaire) """
-
-    def __delattr__(self):
-        """
-            Les cles et valeurs doivent etre couplees. Si on cherche
-            a supprimer une cle sa valeur doit etre supprimee.
+        On doit pouvoir creer le dictionnaire de plusieurs façons :
+        - Vide: sans passer aucun parametre
+        - Copie d'un dict(): parametre du constructeur un dict() que
+            l'on copie par la suite dans notre objet. On peut ainsi
+            ecrire constructeur(dictionnaire) et les cles et valeurs
+            contenues dans le dictionnaire sont copiees dans l'objet
+            construit.
+        - Pre-rempli de cles/valeurs en parametre: comme les dict()
+            usuels, on doit ici avoir la possibilite de pre-remplir
+            notre objet avec des couples cles-valeurs passes en
+            param (constructeur(cle1 = valeur1, cle2 = valeur2, …))
+        Les cles et valeurs doivent etre couplees
         """
 
-    def __getitem__():
-        """ Acces avec crochets pour recuperer une valeur (objet[cle]) """
+        self.kl = list()
+        self.vl = list()
 
-    def __delitem__():
-        """ Acces avec crochets pour suppression (del objet[cle]) """
+        if len(liste) != 0:
+            for v in enumerate(liste):
+                entry = split(' = ', v)
+                kl.append()
+                vl.append()
 
-    def __setitem__():
-        """
-            Acces avec crochets pour modif (objet[cle] = valeur)
-            Si la cle existe on ecrase l'ancienne valeur, si elle
-            n'existe pas on ajoute le couple cle-valeur a la fin
-        """
+        if len(dico) != 0:
+            for k, v in dico.items():
+                kl.append(k)
+                vl.append(v)
 
-    def __len__():
-        """ Retourne la taille de l'objet grace a la fonction len """
+    def __repr__(self):
+        """
+        Affiche l'objet dans l'interpreteur ou grâce a la fonction
+        print. L'affichage identique aux dict()
+        ({cle1: valeur1, cle2: valeur2, …}).
+        """
+        self.content = "{"
 
-    def __str__(self):
-        """
-            Affiche l'objet dans l'interpreteur ou grâce a la fonction
-            print. L'affichage identique aux dict()
-            ({cle1: valeur1, cle2: valeur2, …}).
-        """
+        if len(self.kl) != 0:
+            for i in len(self.kl):
+                self.content += ("{}: {}, ".format(self.kl[i], self.vl[i]))
 
-    def __setattr__():
-        """ Function doc """
+        self.content += ("}")
+        return self.content
 
-    def generateur():
-        """
-            L'objet doit pouvoir etre parcouru.
-            Quand on ecrit for cle in dictionnaire, on doit parcourir
-            la liste des cles contenues dans le dictionnaire. A l'instar
-            des dictionnaires, trois methodes keys() (renvoyant la liste
-            des cles), values() (renvoyant la liste des valeurs) et
-            items() (renvoyant les couples (cle, valeur)) doivent etre
-            mises en œuvre. Le type de retour de ces methodes est laisse
-            a votre initiative : il peut s'agir d'iterateurs ou de
-            generateurs (tant qu'on peut les parcourir).
-        """
+    #def __contains__():
+        #""" Cherche une cle dans notre objet (cle in dictionnaire) """
+
+    #def __delattr__(self):
+        #"""
+            #Les cles et valeurs doivent etre couplees. Si on cherche
+            #a supprimer une cle sa valeur doit etre supprimee.
+        #"""
+
+    #def __getitem__():
+        #""" Acces avec crochets pour recuperer une valeur (objet[cle]) """
+
+    #def __delitem__():
+        #""" Acces avec crochets pour suppression (del objet[cle]) """
+
+    #def __setitem__():
+        #"""
+            #Acces avec crochets pour modif (objet[cle] = valeur)
+            #Si la cle existe on ecrase l'ancienne valeur, si elle
+            #n'existe pas on ajoute le couple cle-valeur a la fin
+        #"""
+
+    #def __len__():
+        #""" Retourne la taille de l'objet grace a la fonction len """
+
+    #def __setattr__():
+        #""" Function doc """
+
+    #def generateur():
+        #"""
+            #L'objet doit pouvoir etre parcouru.
+            #Quand on ecrit for cle in dictionnaire, on doit parcourir
+            #la liste des cles contenues dans le dictionnaire. A l'instar
+            #des dictionnaires, trois methodes keys() (renvoyant la liste
+            #des cles), values() (renvoyant la liste des valeurs) et
+            #items() (renvoyant les couples (cle, valeur)) doivent etre
+            #mises en œuvre. Le type de retour de ces methodes est laisse
+            #a votre initiative : il peut s'agir d'iterateurs ou de
+            #generateurs (tant qu'on peut les parcourir).
+        #"""
 
 
 if __name__ == "__main__":
