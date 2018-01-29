@@ -34,12 +34,12 @@ class DictionnaireOrdonne:
         >>> fruits
         {}
 
-        #>>> fruits["pomme"] = 52
-        #>>> fruits["poire"] = 34
-        #>>> fruits["prune"] = 128
-        #>>> fruits["melon"] = 15
-        #>>> fruits
-        #{'pomme': 52, 'poire': 34, 'prune': 128, 'melon': 15}
+        >>> fruits["pomme"] = 52
+        >>> fruits["poire"] = 34
+        >>> fruits["prune"] = 128
+        >>> fruits["melon"] = 15
+        >>> fruits
+        {'pomme': 52, 'poire': 34, 'prune': 128, 'melon': 15}
 
         #>>> fruits.sort()
         #>>> print(fruits)
@@ -129,6 +129,22 @@ class DictionnaireOrdonne:
         self.content += ("}")
         return self.content
 
+    def __setitem__(self, cle, valeur):
+        """
+        Acces avec crochets pour modif (objet[cle] = valeur)
+        Si la cle existe on ecrase l'ancienne valeur, si elle
+        n'existe pas on ajoute le couple cle-valeur a la fin
+        """
+        try:
+            index = self.kl.index(cle)
+            self.kl[index] = cle
+            self.vl[index] = valeur
+
+        except ValueError:
+            self.kl.append(cle)
+            self.vl.append(valeur)
+
+
     #def __contains__():
         #""" Cherche une cle dans notre objet (cle in dictionnaire) """
 
@@ -143,13 +159,6 @@ class DictionnaireOrdonne:
 
     #def __delitem__():
         #""" Acces avec crochets pour suppression (del objet[cle]) """
-
-    #def __setitem__():
-        #"""
-            #Acces avec crochets pour modif (objet[cle] = valeur)
-            #Si la cle existe on ecrase l'ancienne valeur, si elle
-            #n'existe pas on ajoute le couple cle-valeur a la fin
-        #"""
 
     #def __len__():
         #""" Retourne la taille de l'objet grace a la fonction len """
