@@ -41,9 +41,9 @@ class DictionnaireOrdonne:
         >>> print(fruits)
         {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128}
 
-        #>>> legumes = DictionnaireOrdonne(carotte = 26, haricot = 48)
-        #>>> print(legumes)
-        #{'carotte': 26, 'haricot': 48}
+        >>> legumes = DictionnaireOrdonne(carotte = 26, haricot = 48)
+        >>> print(legumes)
+        {'carotte': 26, 'haricot': 48}
 
         #>>> len(legumes)
         #2
@@ -102,13 +102,13 @@ class DictionnaireOrdonne:
         if len(liste) != 0:
             for v in enumerate(liste):
                 entry = split(' = ', v)
-                kl.append()
-                vl.append()
+                self.kl.append()
+                self.vl.append()
 
         if len(dico) != 0:
             for k, v in dico.items():
-                kl.append(k)
-                vl.append(v)
+                self.kl.append(k)
+                self.vl.append(v)
 
     def __repr__(self):
         """
