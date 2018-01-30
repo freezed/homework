@@ -80,7 +80,7 @@ class DictionnaireOrdonne:
         #carotte (26)
     """
 
-    def __init__(self, *liste, **dico):
+    def __init__(self, **dico):
         """
         On doit pouvoir creer le dictionnaire de plusieurs façons :
         - Vide: sans passer aucun parametre
@@ -98,12 +98,6 @@ class DictionnaireOrdonne:
 
         self.kl = list()
         self.vl = list()
-
-        if len(liste) != 0:
-            for v in enumerate(liste):
-                entry = split(' = ', v)
-                self.kl.append()
-                self.vl.append()
 
         if len(dico) != 0:
             for k, v in dico.items():
