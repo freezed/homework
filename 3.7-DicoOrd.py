@@ -120,14 +120,17 @@ class DictionnaireOrdonne:
         print. L'affichage identique aux dict()
         ({cle1: valeur1, cle2: valeur2, …}).
         """
-        self.content = "{"
+        content = list()
 
         if len(self.kl) != 0:
             for i in range(0, len(self.kl)):
-                self.content += ("{}: {}, ".format(self.kl[i], self.vl[i]))
+                content.append("'{}': {}".format(self.kl[i], self.vl[i]))
 
-        self.content += ("}")
-        return self.content
+        return "{0}{1}{2}".format(
+            "{",
+            ", ".join(content),
+            "}"
+        )
 
     def __setitem__(self, cle, valeur):
         """
