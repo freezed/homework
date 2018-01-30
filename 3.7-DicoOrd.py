@@ -123,7 +123,7 @@ class DictionnaireOrdonne:
         self.content = "{"
 
         if len(self.kl) != 0:
-            for i in len(self.kl):
+            for i in range(0, len(self.kl)):
                 self.content += ("{}: {}, ".format(self.kl[i], self.vl[i]))
 
         self.content += ("}")
