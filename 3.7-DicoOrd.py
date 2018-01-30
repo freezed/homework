@@ -45,8 +45,8 @@ class DictionnaireOrdonne:
         >>> print(legumes)
         {'carotte': 26, 'haricot': 48}
 
-        #>>> len(legumes)
-        #2
+        >>> len(legumes)
+        2
 
         #>>> legumes.reverse()
         #>>> fruits = fruits + legumes
@@ -159,6 +159,10 @@ class DictionnaireOrdonne:
             self.kl = [cle for cle, val in liste_triee]
             self.vl = [val for cle, val in liste_triee]
 
+    def __len__(self):
+        """ Retourne la taille de l'objet grace a la fonction len """
+        return len(self.kl)
+
     #def __contains__():
         #""" Cherche une cle dans notre objet (cle in dictionnaire) """
 
@@ -173,9 +177,6 @@ class DictionnaireOrdonne:
 
     #def __delitem__():
         #""" Acces avec crochets pour suppression (del objet[cle]) """
-
-    #def __len__():
-        #""" Retourne la taille de l'objet grace a la fonction len """
 
     #def __setattr__():
         #""" Function doc """
