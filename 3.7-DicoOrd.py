@@ -21,10 +21,6 @@ class DictionnaireOrdonne:
         savoir quel objet lui correspond dans l'autre. Par exemple,
         la cle d'indice 0 est couplee avec la valeur d'indice 0.
 
-        L'objet doit definir les methodes sort pour le trier et reverse
-        pour l'inverser. Le tri de l'objet doit se faire en fonction
-        des cles.
-
         On doit pouvoir ajouter deux dictionnaires ordonnes
         (dico1 + dico2) ; les cles et valeurs du second dictionnaire
         sont ajoutees au premier.
@@ -41,9 +37,9 @@ class DictionnaireOrdonne:
         >>> fruits
         {'pomme': 52, 'poire': 34, 'prune': 128, 'melon': 15}
 
-        #>>> fruits.sort()
-        #>>> print(fruits)
-        #{'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128}
+        >>> fruits.sort()
+        >>> print(fruits)
+        {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128}
 
         #>>> legumes = DictionnaireOrdonne(carotte = 26, haricot = 48)
         #>>> print(legumes)
@@ -147,6 +143,27 @@ class DictionnaireOrdonne:
             self.kl.append(cle)
             self.vl.append(valeur)
 
+    def sort(self, reverse=False):
+        """
+        L'objet doit definir les methodes sort pour le trier et reverse
+        pour l'inverser. Le tri de l'objet doit se faire en fonction
+        des cles
+        """
+        # pour trier on stocke les couples de cle & valeur sous forme
+        # de tuple dans une liste temporaire
+        liste_temporaire = list()
+
+        if len(self.kl) != 0:   # Seulement si il y a des donnees
+            for i in range(0, len(self.kl)):    # on parcour chaque entee
+                liste_temporaire.append((self.kl[i], self.vl[i]))
+
+            # Tri des tuples par la valeur par une comprension de liste
+            liste_permute = [(val, cle) for cle, val in liste_temporaire]
+            liste_triee = [(cle, val) for val, cle in sorted(liste_permute, reverse=reverse)]
+
+            # On range les donnees tries dans attributs de l'objet
+            self.kl = [cle for cle, val in liste_triee]
+            self.vl = [val for cle, val in liste_triee]
 
     #def __contains__():
         #""" Cherche une cle dans notre objet (cle in dictionnaire) """
