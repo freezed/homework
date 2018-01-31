@@ -138,6 +138,14 @@ class DictionnaireOrdonne:
             self.kl.append(cle)
             self.vl.append(valeur)
 
+    def reverse(self):
+        """
+        L'objet doit definir les methodes sort pour le trier et reverse
+        pour l'inverser. Le tri de l'objet doit se faire en fonction
+        des cles
+        """
+        return self.sort(reverse=True)
+
     def sort(self, reverse=False):
         """
         L'objet doit definir les methodes sort pour le trier et reverse
@@ -163,10 +171,6 @@ class DictionnaireOrdonne:
     def __len__(self):
         """ Retourne la taille de l'objet grace a la fonction len """
         return len(self.kl)
-
-    def reverse(self):
-        """ Function doc """
-        return self.sort(reverse = True)
 
     #def __contains__():
         #""" Cherche une cle dans notre objet (cle in dictionnaire) """
