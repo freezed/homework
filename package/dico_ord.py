@@ -56,8 +56,11 @@ class DictionnaireOrdonne:
         >>> del fruits['betterave']
         ValueError: «'betterave' is not in list»
 
-        #>>> 'haricot' in fruits
-        #False
+        >>> 'haricot' in fruits
+        False
+
+        >>> 'pomme' in fruits
+        True
 
         #>>> legumes['haricot']
         #48
@@ -196,8 +199,15 @@ class DictionnaireOrdonne:
             del self.kl[index_to_del]
             del self.vl[index_to_del]
 
-    #def __contains__():
-        #""" Cherche une cle dans notre objet (cle in dictionnaire) """
+    def __contains__(self, item_to_find):
+        """ Cherche une cle dans notre objet (cle in dictionnaire) """
+        try:
+            self.kl.index(item_to_find)
+        except ValueError:
+            return False
+        else:
+            return True
+
 
     #def __delattr__(self):
         #"""
