@@ -53,6 +53,8 @@ class DictionnaireOrdonne:
         {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128, 'haricot': 48, 'carotte': 26}
 
         >>> del fruits['haricot']
+        >>> del fruits['betterave']
+        ValueError: «'betterave' is not in list»
 
         #>>> 'haricot' in fruits
         #False
@@ -186,9 +188,13 @@ class DictionnaireOrdonne:
 
     def __delitem__(self, item_to_del):
         """ Acces avec crochets pour suppression (del objet[cle]) """
-        index_to_del = self.kl.index(item_to_del)
-        del self.kl[index_to_del]
-        del self.vl[index_to_del]
+        try:
+            index_to_del = self.kl.index(item_to_del)
+        except ValueError as except_detail:
+            print("ValueError: «{}»".format(except_detail))
+        else:
+            del self.kl[index_to_del]
+            del self.vl[index_to_del]
 
     #def __contains__():
         #""" Cherche une cle dans notre objet (cle in dictionnaire) """
