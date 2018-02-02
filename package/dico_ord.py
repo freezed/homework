@@ -42,8 +42,10 @@ class DictionnaireOrdonne:
         {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128}
 
         >>> legumes = DictionnaireOrdonne(carotte = 26, haricot = 48)
-        >>> print(legumes)
-        {'carotte': 26, 'haricot': 48}
+
+        # Test possible seulement aver python 3:6 ()
+        #>>> print(legumes)
+        #{'carotte': 26, 'haricot': 48}
 
         >>> len(legumes)
         2
