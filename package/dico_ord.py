@@ -63,8 +63,10 @@ class DictionnaireOrdonne:
     >>> 'pomme' in fruits
     True
 
-    #>>> legumes['haricot']
-    #48
+    >>> legumes['haricot']
+    48
+    >>> fruits['betterave']
+    False
 
     #>>> for cle in legumes:
     #...     print(cle)
@@ -139,6 +141,16 @@ class DictionnaireOrdonne:
             del self.kl[index_to_del]
             del self.vl[index_to_del]
 
+    def __getitem__(self, item_to_get):
+        """ Acces aux crochets pour recuperer une valeur (objet[cle]) """
+        try:
+            find_key = self.kl.index(item_to_get)
+        except ValueError:
+            return False
+        else:
+            print(self.vl[find_key])
+
+
     def __len__(self):
         """ Retourne la taille de l'objet grace a la fonction len """
         return len(self.kl)
@@ -205,9 +217,6 @@ class DictionnaireOrdonne:
         des cles
         """
         return self.sort(reverse=True)
-
-    #def __getitem__():
-        #""" Acces avec crochets pour recuperer une valeur (objet[cle]) """
 
     #def __setattr__():
         #""" Function doc """
