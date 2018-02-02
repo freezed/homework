@@ -21,10 +21,6 @@ class DictionnaireOrdonne:
         savoir quel objet lui correspond dans l'autre. Par exemple,
         la cle d'indice 0 est couplee avec la valeur d'indice 0.
 
-        On doit pouvoir ajouter deux dictionnaires ordonnes
-        (dico1 + dico2) ; les cles et valeurs du second dictionnaire
-        sont ajoutees au premier.
-
         :Example:
         >>> fruits = DictionnaireOrdonne()
         >>> fruits
@@ -52,10 +48,9 @@ class DictionnaireOrdonne:
 
         >>> legumes.reverse()
 
-        #>>> fruits = fruits + legumes
-        #>>> fruits
-        #{'melon': 15, 'poire': 34, 'pomme': 52,
-            #'prune': 128, 'haricot': 48, 'carotte':26}
+        >>> fruits = fruits + legumes
+        >>> fruits
+        {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128, 'haricot': 48, 'carotte': 26}
 
         #>>> del fruits['haricot']
         #>>> 'haricot' in fruits
@@ -173,6 +168,20 @@ class DictionnaireOrdonne:
     def __len__(self):
         """ Retourne la taille de l'objet grace a la fonction len """
         return len(self.kl)
+
+    def __add__(self, other_dict_ord):
+        """
+        On doit pouvoir ajouter deux dictionnaires ordonnes
+        (dico1 + dico2) ; les cles et valeurs du second dictionnaire
+        sont ajoutees au premier.
+        """
+        i = 0
+        while i < len(other_dict_ord):
+            self.kl.append(other_dict_ord.kl[i])
+            self.vl.append(other_dict_ord.vl[i])
+            i += 1
+
+        return self
 
     #def __contains__():
         #""" Cherche une cle dans notre objet (cle in dictionnaire) """
