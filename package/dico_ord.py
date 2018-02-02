@@ -2,152 +2,179 @@
 # -*- coding: utf-8 -*-
 
 """
-    Author: freezed <freezed@users.noreply.github.com> 2018-01-25
-    Version: 0.1
-    Licence: `GNU GPL v3`: http://www.gnu.org/licenses/
+Author: freezed <freezed@users.noreply.github.com> 2018-01-25
+Version: 0.1
+Licence: `GNU GPL v3`: http://www.gnu.org/licenses/
 """
 
 
 class DictionnaireOrdonne:
 
     """
-        Dictionnaire ordonne
-        ====================
+    Dictionnaire ordonne
+    ====================
 
-        Objet ressemblant a un dict, avec des capacitees de tri.
+    Objet ressemblant a un dict, avec des capacitees de tri.
 
-        Les cles et valeurs se trouvant dans des listes de meme
-        taille, il suffira de prendre l'indice dans une liste pour
-        savoir quel objet lui correspond dans l'autre. Par exemple,
-        la cle d'indice 0 est couplee avec la valeur d'indice 0.
+    Les cles et valeurs se trouvant dans des listes de meme
+    taille, il suffira de prendre l'indice dans une liste pour
+    savoir quel objet lui correspond dans l'autre. Par exemple,
+    la cle d'indice 0 est couplee avec la valeur d'indice 0.
 
-        :Example:
-        >>> fruits = DictionnaireOrdonne()
-        >>> fruits
-        {}
+    :Example:
+    >>> fruits = DictionnaireOrdonne()
+    >>> fruits
+    {}
 
-        >>> fruits["pomme"] = 52
-        >>> fruits["poire"] = 34
-        >>> fruits["prune"] = 128
-        >>> fruits["melon"] = 15
-        >>> fruits
-        {'pomme': 52, 'poire': 34, 'prune': 128, 'melon': 15}
+    >>> fruits["pomme"] = 52
+    >>> fruits["poire"] = 34
+    >>> fruits["prune"] = 128
+    >>> fruits["melon"] = 15
+    >>> fruits
+    {'pomme': 52, 'poire': 34, 'prune': 128, 'melon': 15}
 
-        >>> fruits.sort()
-        >>> print(fruits)
-        {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128}
+    >>> fruits.sort()
+    >>> print(fruits)
+    {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128}
 
-        >>> legumes = DictionnaireOrdonne(carotte = 26, haricot = 48)
+    >>> legumes = DictionnaireOrdonne(carotte = 26, haricot = 48)
 
-        # Test possible seulement aver python 3:6 ()
-        #>>> print(legumes)
-        #{'carotte': 26, 'haricot': 48}
+    # Test possible seulement avec python 3.6,
+    # voir: www.python.org/dev/peps/pep-0468/
+    #>>> print(legumes)
+    #{'carotte': 26, 'haricot': 48}
 
-        >>> len(legumes)
-        2
+    >>> len(legumes)
+    2
 
-        >>> legumes.reverse()
+    >>> legumes.reverse()
 
-        >>> fruits = fruits + legumes
-        >>> fruits
-        {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128, 'haricot': 48, 'carotte': 26}
+    >>> fruits = fruits + legumes
+    >>> fruits
+    {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128, 'haricot': 48, 'carotte': 26}
 
-        >>> del fruits['haricot']
-        >>> del fruits['betterave']
-        ValueError: «'betterave' is not in list»
+    >>> del fruits['haricot']
+    >>> del fruits['betterave']
+    ValueError: «'betterave' is not in list»
 
-        >>> 'haricot' in fruits
-        False
+    >>> 'haricot' in fruits
+    False
 
-        >>> 'pomme' in fruits
-        True
+    >>> 'pomme' in fruits
+    True
 
-        #>>> legumes['haricot']
-        #48
+    #>>> legumes['haricot']
+    #48
 
-        #>>> for cle in legumes:
-        #...     print(cle)
-        #...
-        #haricot
-        #carotte
+    #>>> for cle in legumes:
+    #...     print(cle)
+    #...
+    #haricot
+    #carotte
 
-        #>>> legumes.keys()
-        #['haricot', 'carotte']
+    #>>> legumes.keys()
+    #['haricot', 'carotte']
 
-        #>>> legumes.values()
-        #[48, 26]
+    #>>> legumes.values()
+    #[48, 26]
 
-        #>>> for nom, qtt in legumes.items():
-        #...     print("{0} ({1})".format(nom, qtt))
-        #...
-        #haricot (48)
-        #carotte (26)
+    #>>> for nom, qtt in legumes.items():
+    #...     print("{0} ({1})".format(nom, qtt))
+    #...
+    #haricot (48)
+    #carotte (26)
     """
 
     def __init__(self, **dico):
         """
         On doit pouvoir creer le dictionnaire de plusieurs façons :
-        - Vide: sans passer aucun parametre
-        - Copie d'un dict(): parametre du constructeur un dict() que
-            l'on copie par la suite dans notre objet. On peut ainsi
-            ecrire constructeur(dictionnaire) et les cles et valeurs
-            contenues dans le dictionnaire sont copiees dans l'objet
-            construit.
-        - Pre-rempli de cles/valeurs en parametre: comme les dict()
-            usuels, on doit ici avoir la possibilite de pre-remplir
+        - Vide: aucun parametre
+        - Copie d'un dict(): les cles et valeurs contenues dans le
+            dictionnaire sont copiees dans l'objet construit.
+        - Pre-rempli de cles/valeurs en parametre: pre-remplir
             notre objet avec des couples cles-valeurs passes en
             param (constructeur(cle1 = valeur1, cle2 = valeur2, …))
         Les cles et valeurs doivent etre couplees
         """
-
+        # Creation des attributs qui stokeront les cles et valeurs
         self.kl = list()
         self.vl = list()
 
+        # Si le dictionnaire fournit n'est pas vide, on ajoute les items
         if len(dico) != 0:
             for k, v in dico.items():
                 self.kl.append(k)
                 self.vl.append(v)
 
+    def __add__(self, other_dict_ord):
+        """
+        On doit pouvoir ajouter deux dictionnaires ordonnes
+        (dico1 + dico2) ; les cles et valeurs du second dictionnaire
+        sont ajoutees au premier.
+        """
+        i = 0
+        while i < len(other_dict_ord):
+            self.kl.append(other_dict_ord.kl[i])
+            self.vl.append(other_dict_ord.vl[i])
+            i += 1
+
+        return self
+
+    def __contains__(self, item_to_find):
+        """ Cherche une cle dans notre objet (cle in dictionnaire) """
+        try:
+            self.kl.index(item_to_find)
+        except ValueError:
+            return False
+        else:
+            return True
+
+    def __delitem__(self, item_to_del):
+        """ Acces avec crochets pour suppression (del objet[cle]) """
+        try:
+            index_to_del = self.kl.index(item_to_del)
+        except ValueError as except_detail:
+            print("ValueError: «{}»".format(except_detail))
+        else:
+            del self.kl[index_to_del]
+            del self.vl[index_to_del]
+
+    def __len__(self):
+        """ Retourne la taille de l'objet grace a la fonction len """
+        return len(self.kl)
+
     def __repr__(self):
         """
         Affiche l'objet dans l'interpreteur ou grâce a la fonction
-        print. L'affichage identique aux dict()
-        ({cle1: valeur1, cle2: valeur2, …}).
+        print: ({cle1: valeur1, cle2: valeur2, …}).
         """
-        content = list()
+        # contiendra le txt a afficher
+        object_repr = list()
 
+        # Si l'objet n'est pas vide
         if len(self.kl) != 0:
             for i in range(0, len(self.kl)):
-                content.append("'{}': {}".format(self.kl[i], self.vl[i]))
+                object_repr.append("'{}': {}".format(self.kl[i], self.vl[i]))
 
         return "{0}{1}{2}".format(
             "{",
-            ", ".join(content),
+            ", ".join(object_repr),
             "}"
         )
 
     def __setitem__(self, cle, valeur):
         """
-        Acces avec crochets pour modif (objet[cle] = valeur)
-        Si la cle existe on ecrase l'ancienne valeur, si elle
-        n'existe pas on ajoute le couple cle-valeur a la fin
+        Acces avec crochets pour modif (objet[cle] = valeur). Si la cle
+        existe on ecrase l'ancienne valeur, sinon on ajoute le couple
+        cle-valeur a la fin
         """
         try:
             index = self.kl.index(cle)
             self.kl[index] = cle
             self.vl[index] = valeur
-
         except ValueError:
             self.kl.append(cle)
             self.vl.append(valeur)
-
-    def reverse(self):
-        """
-        L'objet doit definir les methodes sort pour le trier et reverse
-        pour l'inverser. Le tri de l'objet doit se faire en fonction
-        des cles
-        """
-        return self.sort(reverse=True)
 
     def sort(self, reverse=False):
         """
@@ -171,49 +198,13 @@ class DictionnaireOrdonne:
             self.kl = [cle for cle, val in liste_triee]
             self.vl = [val for cle, val in liste_triee]
 
-    def __len__(self):
-        """ Retourne la taille de l'objet grace a la fonction len """
-        return len(self.kl)
-
-    def __add__(self, other_dict_ord):
+    def reverse(self):
         """
-        On doit pouvoir ajouter deux dictionnaires ordonnes
-        (dico1 + dico2) ; les cles et valeurs du second dictionnaire
-        sont ajoutees au premier.
+        L'objet doit definir les methodes sort pour le trier et reverse
+        pour l'inverser. Le tri de l'objet doit se faire en fonction
+        des cles
         """
-        i = 0
-        while i < len(other_dict_ord):
-            self.kl.append(other_dict_ord.kl[i])
-            self.vl.append(other_dict_ord.vl[i])
-            i += 1
-
-        return self
-
-    def __delitem__(self, item_to_del):
-        """ Acces avec crochets pour suppression (del objet[cle]) """
-        try:
-            index_to_del = self.kl.index(item_to_del)
-        except ValueError as except_detail:
-            print("ValueError: «{}»".format(except_detail))
-        else:
-            del self.kl[index_to_del]
-            del self.vl[index_to_del]
-
-    def __contains__(self, item_to_find):
-        """ Cherche une cle dans notre objet (cle in dictionnaire) """
-        try:
-            self.kl.index(item_to_find)
-        except ValueError:
-            return False
-        else:
-            return True
-
-
-    #def __delattr__(self):
-        #"""
-            #Les cles et valeurs doivent etre couplees. Si on cherche
-            #a supprimer une cle sa valeur doit etre supprimee.
-        #"""
+        return self.sort(reverse=True)
 
     #def __getitem__():
         #""" Acces avec crochets pour recuperer une valeur (objet[cle]) """
