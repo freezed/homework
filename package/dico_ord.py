@@ -68,11 +68,11 @@ class DictionnaireOrdonne:
     >>> fruits['betterave']
     False
 
-    #>>> for cle in legumes:
-    #...     print(cle)
-    #...
-    #haricot
-    #carotte
+    >>> for cle in legumes:
+    ...     print(cle)
+    ...
+    haricot
+    carotte
 
     #>>> legumes.keys()
     #['haricot', 'carotte']
@@ -141,6 +141,15 @@ class DictionnaireOrdonne:
             del self.kl[index_to_del]
             del self.vl[index_to_del]
 
+    def __iter__(self):
+        """
+        L'objet doit pouvoir etre parcouru.
+        Quand on ecrit for cle in dictionnaire, on doit parcourir
+        la liste des cles contenues dans le dictionnaire.
+        """
+        for label in self.kl.__iter__():
+            yield label
+
     def __getitem__(self, item_to_get):
         """ Acces aux crochets pour recuperer une valeur (objet[cle]) """
         try:
@@ -149,7 +158,6 @@ class DictionnaireOrdonne:
             return False
         else:
             print(self.vl[find_key])
-
 
     def __len__(self):
         """ Retourne la taille de l'objet grace a la fonction len """
@@ -218,21 +226,15 @@ class DictionnaireOrdonne:
         """
         return self.sort(reverse=True)
 
-    #def __setattr__():
-        #""" Function doc """
-
-    #def generateur():
-        #"""
-            #L'objet doit pouvoir etre parcouru.
-            #Quand on ecrit for cle in dictionnaire, on doit parcourir
-            #la liste des cles contenues dans le dictionnaire. A l'instar
-            #des dictionnaires, trois methodes keys() (renvoyant la liste
-            #des cles), values() (renvoyant la liste des valeurs) et
-            #items() (renvoyant les couples (cle, valeur)) doivent etre
-            #mises en œuvre. Le type de retour de ces methodes est laisse
-            #a votre initiative : il peut s'agir d'iterateurs ou de
-            #generateurs (tant qu'on peut les parcourir).
-        #"""
+    #def ():
+        #"""  A l'instar
+        #des dictionnaires, trois methodes keys() (renvoyant la liste
+        #des cles), values() (renvoyant la liste des valeurs) et
+        #items() (renvoyant les couples (cle, valeur)) doivent etre
+        #mises en œuvre. Le type de retour de ces methodes est laisse
+        #a votre initiative : il peut s'agir d'iterateurs ou de
+        #generateurs (tant qu'on peut les parcourir)
+         #"""
 
 
 if __name__ == "__main__":
