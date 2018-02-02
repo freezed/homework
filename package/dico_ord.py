@@ -52,7 +52,8 @@ class DictionnaireOrdonne:
         >>> fruits
         {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128, 'haricot': 48, 'carotte': 26}
 
-        #>>> del fruits['haricot']
+        >>> del fruits['haricot']
+
         #>>> 'haricot' in fruits
         #False
 
@@ -183,6 +184,12 @@ class DictionnaireOrdonne:
 
         return self
 
+    def __delitem__(self, item_to_del):
+        """ Acces avec crochets pour suppression (del objet[cle]) """
+        index_to_del = self.kl.index(item_to_del)
+        del self.kl[index_to_del]
+        del self.vl[index_to_del]
+
     #def __contains__():
         #""" Cherche une cle dans notre objet (cle in dictionnaire) """
 
@@ -194,9 +201,6 @@ class DictionnaireOrdonne:
 
     #def __getitem__():
         #""" Acces avec crochets pour recuperer une valeur (objet[cle]) """
-
-    #def __delitem__():
-        #""" Acces avec crochets pour suppression (del objet[cle]) """
 
     #def __setattr__():
         #""" Function doc """
