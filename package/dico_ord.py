@@ -91,6 +91,12 @@ class DictionnaireOrdonne:
     #...
     #haricot (48)
     #carotte (26)
+
+    #>>> mots = {'olive': 51, 'identite': 43, 'mercredi': 25, 'prout': 218, 'assiette': 8, 'truc': 26}
+    #>>> mots_ordonne = DictionnaireOrdonne(mots)
+    #>>> mots_ordonne.sort()
+    #>>> mots_ordonne
+    #{'assiette': 8, 'mercredi': 25, 'truc': 26, 'identite': 43, 'olive': 51, 'prout': 218, }
     """
 
     def __init__(self, **dico):
