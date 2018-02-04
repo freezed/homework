@@ -80,8 +80,11 @@ class DictionnaireOrdonne:
     >>> legumes.keys()
     ['haricot', 'carotte']
 
-    #>>> legumes.values()
-    #[48, 26]
+    >>> fruits.values()
+    [15, 34, 52, 128, 26]
+
+    >>> legumes.values()
+    [48, 26]
 
     #>>> for nom, qtt in legumes.items():
     #...     print("{0} ({1})".format(nom, qtt))
@@ -238,14 +241,23 @@ class DictionnaireOrdonne:
         """
         return self.sort(reverse=True)
 
-    #def ():
-        #"""  A l'instar
-        #des dictionnaires, trois, values() (renvoyant la liste des valeurs) et
+    #def items():
+        #"""
+        #La methode values() (renvoyant la liste des valeurs) et
         #items() (renvoyant les couples (cle, valeur)) doivent etre
         #mises en œuvre. Le type de retour de ces methodes est laisse
         #a votre initiative : il peut s'agir d'iterateurs ou de
         #generateurs (tant qu'on peut les parcourir)
-         #"""
+        #"""
+
+    def values(self):
+        """
+        La methode values() (renvoi la liste des valeurs) doit etre
+        mises en œuvre. Le type de retour de ces methodes est laisse
+        a votre initiative : il peut s'agir d'iterateurs ou de
+        generateurs (tant qu'on peut les parcourir)
+        """
+        print(self.vl)
 
 
 if __name__ == "__main__":
