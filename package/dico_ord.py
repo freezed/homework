@@ -74,8 +74,11 @@ class DictionnaireOrdonne:
     haricot
     carotte
 
-    #>>> legumes.keys()
-    #['haricot', 'carotte']
+    >>> fruits.keys()
+    ['melon', 'poire', 'pomme', 'prune', 'carotte']
+
+    >>> legumes.keys()
+    ['haricot', 'carotte']
 
     #>>> legumes.values()
     #[48, 26]
@@ -196,6 +199,15 @@ class DictionnaireOrdonne:
             self.kl.append(cle)
             self.vl.append(valeur)
 
+    def keys(self):
+        """
+        La methode keys() (renvoyant la liste des cles) doit etre
+        mises en œuvre. Le type de retour de ces methodes est laisse
+        a votre initiative : il peut s'agir d'iterateurs ou de
+        generateurs (tant qu'on peut les parcourir)
+        """
+        print(self.kl)
+
     def sort(self, reverse=False):
         """
         L'objet doit definir les methodes sort pour le trier et reverse
@@ -228,8 +240,7 @@ class DictionnaireOrdonne:
 
     #def ():
         #"""  A l'instar
-        #des dictionnaires, trois methodes keys() (renvoyant la liste
-        #des cles), values() (renvoyant la liste des valeurs) et
+        #des dictionnaires, trois, values() (renvoyant la liste des valeurs) et
         #items() (renvoyant les couples (cle, valeur)) doivent etre
         #mises en œuvre. Le type de retour de ces methodes est laisse
         #a votre initiative : il peut s'agir d'iterateurs ou de
