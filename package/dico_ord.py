@@ -134,26 +134,22 @@ class DictionnaireOrdonne:
 
         return self
 
-    def __contains__(self, item_to_find):
+    def __contains__(self, key_to_find):
         """ Cherche une cle dans notre objet (cle in dictionnaire) """
 
         # TODO utiliser «in»
-        # TODO renomer les variable item_to… en key_to…
 
         try:
-            self._keys_list.index(item_to_find)
+            self._keys_list.index(key_to_find)
         except ValueError:
             return False
         else:
             return True
 
-    def __delitem__(self, item_to_del):
+    def __delitem__(self, key_to_del):
         """ Acces avec crochets pour suppression (del objet[cle]) """
-
-        # TODO renomer les variable item_to… en key_to…
-
         try:
-            index_to_del = self._keys_list.index(item_to_del)
+            index_to_del = self._keys_list.index(key_to_del)
         except ValueError as except_detail:
             print("ValueError: «{}»".format(except_detail))
         else:
@@ -172,14 +168,11 @@ class DictionnaireOrdonne:
         for label in self._keys_list.__iter__():
             yield label
 
-    def __getitem__(self, item_to_get):
+    def __getitem__(self, key_to_get):
         """ Acces aux crochets pour recuperer une valeur (objet[cle]) """
-
-        # TODO renomer les variable item_to… en key_to…
         # TODO message d'erreur > __delitem__
-
         try:
-            find_key = self._keys_list.index(item_to_get)
+            find_key = self._keys_list.index(key_to_get)
         except ValueError:
             return False
         else:
