@@ -86,8 +86,6 @@ class DictionnaireOrdonne:
     >>> legumes.values()
     [48, 26]
 
-    >>> print(legumes.items())
-
     #>>> for nom, qtt in legumes.items():
     #...     print("{0} ({1})".format(nom, qtt))
     #...
@@ -98,7 +96,7 @@ class DictionnaireOrdonne:
     #>>> mots_ordonne = DictionnaireOrdonne(mots)
     #>>> mots_ordonne.sort()
     #>>> mots_ordonne
-    #{'assiette': 8, 'mercredi': 25, 'truc': 26, 'identite': 43, 'olive': 51, 'prout': 218, }
+    #{'assiette': 8, 'identite': 43, 'mercredi': 25, 'olive': 51, 'prout': 218, 'truc': 26}
     """
 
     def __init__(self, **dico):
@@ -226,7 +224,12 @@ class DictionnaireOrdonne:
             self.kl.append(cle)
             self.vl.append(valeur)
 
-    # TODO ajout methode str()
+    def __str__(self):
+        """
+        Methode pour afficher le dictionnaire avec «print()» ou pour
+        le convertir en chaine grâce aec «str()». Redirige sur __repr__
+        """
+        return repr(self)
 
     def keys(self):
         """
