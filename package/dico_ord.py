@@ -110,17 +110,15 @@ class DictionnaireOrdonne:
             param (constructeur(cle1 = valeur1, cle2 = valeur2, …))
         Les cles et valeurs doivent etre couplees
         """
-        # TODO renomer kl & vl  et les marquer inaccessibles
-
         # Creation des attributs qui stokeront les cles et valeurs
-        self.kl = list()
-        self.vl = list()
+        self._keys_list = list()
+        self._values_list = list()
 
         # Si le dictionnaire fournit n'est pas vide, on ajoute les items
         if len(dico) != 0:
             for k, v in dico.items():
-                self.kl.append(k)
-                self.vl.append(v)
+                self._keys_list.append(k)
+                self._values_list.append(v)
 
     def __add__(self, other_dict_ord):
         """
@@ -130,8 +128,8 @@ class DictionnaireOrdonne:
         """
         i = 0
         while i < len(other_dict_ord):
-            self.kl.append(other_dict_ord.kl[i])
-            self.vl.append(other_dict_ord.vl[i])
+            self._keys_list.append(other_dict_ord._keys_list[i])
+            self._values_list.append(other_dict_ord._values_list[i])
             i += 1
 
         return self
@@ -143,7 +141,7 @@ class DictionnaireOrdonne:
         # TODO renomer les variable item_to… en key_to…
 
         try:
-            self.kl.index(item_to_find)
+            self._keys_list.index(item_to_find)
         except ValueError:
             return False
         else:
@@ -155,12 +153,12 @@ class DictionnaireOrdonne:
         # TODO renomer les variable item_to… en key_to…
 
         try:
-            index_to_del = self.kl.index(item_to_del)
+            index_to_del = self._keys_list.index(item_to_del)
         except ValueError as except_detail:
             print("ValueError: «{}»".format(except_detail))
         else:
-            del self.kl[index_to_del]
-            del self.vl[index_to_del]
+            del self._keys_list[index_to_del]
+            del self._values_list[index_to_del]
 
     def __iter__(self):
         """
@@ -171,7 +169,7 @@ class DictionnaireOrdonne:
 
         # TODO revoir __iter__ (+iter()) & items()
 
-        for label in self.kl.__iter__():
+        for label in self._keys_list.__iter__():
             yield label
 
     def __getitem__(self, item_to_get):
@@ -181,15 +179,15 @@ class DictionnaireOrdonne:
         # TODO message d'erreur > __delitem__
 
         try:
-            find_key = self.kl.index(item_to_get)
+            find_key = self._keys_list.index(item_to_get)
         except ValueError:
             return False
         else:
-            print(self.vl[find_key])
+            print(self._values_list[find_key])
 
     def __len__(self):
         """ Retourne la taille de l'objet grace a la fonction len """
-        return len(self.kl)
+        return len(self._keys_list)
 
     def __repr__(self):
         """
@@ -200,9 +198,9 @@ class DictionnaireOrdonne:
         object_repr = list()
 
         # Si l'objet n'est pas vide
-        if len(self.kl) != 0:
-            for i in range(0, len(self.kl)):
-                object_repr.append("'{}': {}".format(self.kl[i], self.vl[i]))
+        if len(self._keys_list) != 0:
+            for i in range(0, len(self._keys_list)):
+                object_repr.append("'{}': {}".format(self._keys_list[i], self._values_list[i]))
 
         return "{0}{1}{2}".format(
             "{",
@@ -217,12 +215,12 @@ class DictionnaireOrdonne:
         cle-valeur a la fin
         """
         try:
-            index = self.kl.index(cle)
-            self.kl[index] = cle
-            self.vl[index] = valeur
+            index = self._keys_list.index(cle)
+            self._keys_list[index] = cle
+            self._values_list[index] = valeur
         except ValueError:
-            self.kl.append(cle)
-            self.vl.append(valeur)
+            self._keys_list.append(cle)
+            self._values_list.append(valeur)
 
     def __str__(self):
         """
@@ -239,7 +237,7 @@ class DictionnaireOrdonne:
         generateurs (tant qu'on peut les parcourir)
         """
         # TODO voir print() vs return list()
-        print(self.kl)
+        print(self._keys_list)
 
     def sort(self, reverse=False):
         """
@@ -253,17 +251,17 @@ class DictionnaireOrdonne:
         # de tuple dans une liste temporaire
         liste_temporaire = list()
 
-        if len(self.kl) != 0:   # Seulement si il y a des donnees
-            for i in range(0, len(self.kl)):    # on parcour chaque entee
-                liste_temporaire.append((self.kl[i], self.vl[i]))
+        if len(self._keys_list) != 0:   # Seulement si il y a des donnees
+            for i in range(0, len(self._keys_list)):    # on parcour chaque entee
+                liste_temporaire.append((self._keys_list[i], self._values_list[i]))
 
             # Tri des tuples par la valeur par une comprension de liste
             liste_permute = [(val, cle) for cle, val in liste_temporaire]
             liste_triee = [(cle, val) for val, cle in sorted(liste_permute, reverse=reverse)]
 
             # On range les donnees tries dans attributs de l'objet
-            self.kl = [cle for cle, val in liste_triee]
-            self.vl = [val for cle, val in liste_triee]
+            self._keys_list = [cle for cle, val in liste_triee]
+            self._values_list = [val for cle, val in liste_triee]
 
     def reverse(self):
         """
@@ -282,8 +280,8 @@ class DictionnaireOrdonne:
         generateurs (tant qu'on peut les parcourir)
         """
         i = 0
-        while i < len(self.kl):
-            yield (self.kl[i], self.vl[i])
+        while i < len(self._keys_list):
+            yield (self._keys_list[i], self._values_list[i])
 
     def values(self):
         """
@@ -293,7 +291,7 @@ class DictionnaireOrdonne:
         generateurs (tant qu'on peut les parcourir)
         """
         # TODO voir print() vs return list()
-        print(self.vl)
+        print(self._values_list)
 
 
 if __name__ == "__main__":
