@@ -86,11 +86,11 @@ class DictionnaireOrdonne:
     >>> legumes.values()
     [48, 26]
 
-    #>>> for nom, qtt in legumes.items():
-    #...     print("{0} ({1})".format(nom, qtt))
-    #...
-    #haricot (48)
-    #carotte (26)
+    >>> for nom, qtt in legumes.items():
+    ...     print("{0} ({1})".format(nom, qtt))
+    ...
+    haricot (48)
+    carotte (26)
 
     #>>> mots = {'olive': 51, 'identite': 43, 'mercredi': 25, 'prout': 218, 'assiette': 8, 'truc': 26}
     #>>> mots_ordonne = DictionnaireOrdonne(mots)
@@ -149,16 +149,8 @@ class DictionnaireOrdonne:
             del self._values_list[index_to_del]
 
     def __iter__(self):
-        """
-        L'objet doit pouvoir etre parcouru.
-        Quand on ecrit for cle in dictionnaire, on doit parcourir
-        la liste des cles contenues dans le dictionnaire.
-        """
-
-        # TODO revoir __iter__ (+iter()) & items()
-
-        for label in self._keys_list.__iter__():
-            yield label
+        """Parcours de l'objet, renvoi l'iterateur des cles"""
+        return iter(self._keys_list)
 
     def __getitem__(self, key_to_get):
         """ Acces aux crochets pour recuperer une valeur (objet[cle]) """
@@ -255,16 +247,9 @@ class DictionnaireOrdonne:
         return self.sort(reverse=True)
 
     def items(self):
-        """
-        La methode values() (renvoyant la liste des valeurs) et
-        items() (renvoyant les couples (cle, valeur)) doivent etre
-        mises en œuvre. Le type de retour de ces methodes est laisse
-        a votre initiative : il peut s'agir d'iterateurs ou de
-        generateurs (tant qu'on peut les parcourir)
-        """
-        i = 0
-        while i < len(self._keys_list):
-            yield (self._keys_list[i], self._values_list[i])
+        """Renvoi un generateur contenant les couples (cle, valeur)"""
+        for key, val in enumerate(self._keys_list):
+            yield (val, self._values_list[key])
 
     def values(self):
         """
