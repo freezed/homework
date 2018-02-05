@@ -66,7 +66,7 @@ class DictionnaireOrdonne:
     >>> legumes['haricot']
     48
     >>> fruits['betterave']
-    False
+    ValueError: «'betterave' is not in list»
 
     >>> for cle in legumes:
     ...     print(cle)
@@ -170,11 +170,10 @@ class DictionnaireOrdonne:
 
     def __getitem__(self, key_to_get):
         """ Acces aux crochets pour recuperer une valeur (objet[cle]) """
-        # TODO message d'erreur > __delitem__
         try:
             find_key = self._keys_list.index(key_to_get)
-        except ValueError:
-            return False
+        except ValueError as except_detail:
+            print("ValueError: «{}»".format(except_detail))
         else:
             print(self._values_list[find_key])
 
