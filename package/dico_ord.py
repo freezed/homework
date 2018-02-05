@@ -228,8 +228,7 @@ class DictionnaireOrdonne:
         a votre initiative : il peut s'agir d'iterateurs ou de
         generateurs (tant qu'on peut les parcourir)
         """
-        # TODO voir print() vs return list()
-        print(self._keys_list)
+        return list(self._keys_list)
 
     def sort(self, reverse=False):
         """
@@ -282,8 +281,7 @@ class DictionnaireOrdonne:
         a votre initiative : il peut s'agir d'iterateurs ou de
         generateurs (tant qu'on peut les parcourir)
         """
-        # TODO voir print() vs return list()
-        print(self._values_list)
+        return list(self._values_list)
 
 
 if __name__ == "__main__":
