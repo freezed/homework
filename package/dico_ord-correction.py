@@ -15,7 +15,6 @@ class DictionnaireOrdonne:
     Dictionnaire ordonne
     ====================
 
-
     Notre dictionnaire ordonné. L'ordre des données est maintenu
     et il peut donc, contrairement aux dictionnaires usuels, être trié
     ou voir l'ordre de ses données inversées
@@ -54,8 +53,6 @@ class DictionnaireOrdonne:
     {'melon': 15, 'poire': 34, 'pomme': 52, 'prune': 128, 'haricot': 48, 'carotte': 26}
 
     >>> del fruits['haricot']
-    >>> del fruits['betterave']
-    ValueError: «'betterave' is not in list»
 
     >>> 'haricot' in fruits
     False
@@ -65,8 +62,6 @@ class DictionnaireOrdonne:
 
     >>> legumes['haricot']
     48
-    >>> fruits['betterave']
-    False
 
     >>> for cle in legumes:
     ...     print(cle)
@@ -86,19 +81,17 @@ class DictionnaireOrdonne:
     >>> legumes.values()
     [48, 26]
 
-    >>> print(legumes.items())
+    >>> for nom, qtt in legumes.items():
+    ...     print("{0} ({1})".format(nom, qtt))
+    ...
+    haricot (48)
+    carotte (26)
 
-    #>>> for nom, qtt in legumes.items():
-    #...     print("{0} ({1})".format(nom, qtt))
-    #...
-    #haricot (48)
-    #carotte (26)
-
-    #>>> mots = {'olive': 51, 'identite': 43, 'mercredi': 25, 'prout': 218, 'assiette': 8, 'truc': 26}
-    #>>> mots_ordonne = DictionnaireOrdonne(mots)
-    #>>> mots_ordonne.sort()
-    #>>> mots_ordonne
-    #{'assiette': 8, 'mercredi': 25, 'truc': 26, 'identite': 43, 'olive': 51, 'prout': 218, }
+    >>> mots = {'olive': 51, 'identite': 43, 'mercredi': 25, 'prout': 218, 'assiette': 8, 'truc': 26}
+    >>> mots_ordonne = DictionnaireOrdonne(mots)
+    >>> mots_ordonne.sort()
+    >>> mots_ordonne
+    {'assiette': 8, 'identite': 43, 'mercredi': 25, 'olive': 51, 'prout': 218, 'truc': 26}
     """
 
     def __init__(self, base={}, **donnees):
