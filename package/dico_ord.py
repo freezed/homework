@@ -136,15 +136,7 @@ class DictionnaireOrdonne:
 
     def __contains__(self, key_to_find):
         """ Cherche une cle dans notre objet (cle in dictionnaire) """
-
-        # TODO utiliser «in»
-
-        try:
-            self._keys_list.index(key_to_find)
-        except ValueError:
-            return False
-        else:
-            return True
+        return key_to_find in self._keys_list
 
     def __delitem__(self, key_to_del):
         """ Acces avec crochets pour suppression (del objet[cle]) """
