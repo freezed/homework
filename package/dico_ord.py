@@ -112,6 +112,8 @@ class DictionnaireOrdonne:
             param (constructeur(cle1 = valeur1, cle2 = valeur2, …))
         Les cles et valeurs doivent etre couplees
         """
+        # TODO renomer kl & vl  et les marquer inaccessibles
+
         # Creation des attributs qui stokeront les cles et valeurs
         self.kl = list()
         self.vl = list()
@@ -138,6 +140,10 @@ class DictionnaireOrdonne:
 
     def __contains__(self, item_to_find):
         """ Cherche une cle dans notre objet (cle in dictionnaire) """
+
+        # TODO utiliser «in»
+        # TODO renomer les variable item_to… en key_to…
+
         try:
             self.kl.index(item_to_find)
         except ValueError:
@@ -147,6 +153,9 @@ class DictionnaireOrdonne:
 
     def __delitem__(self, item_to_del):
         """ Acces avec crochets pour suppression (del objet[cle]) """
+
+        # TODO renomer les variable item_to… en key_to…
+
         try:
             index_to_del = self.kl.index(item_to_del)
         except ValueError as except_detail:
@@ -161,11 +170,18 @@ class DictionnaireOrdonne:
         Quand on ecrit for cle in dictionnaire, on doit parcourir
         la liste des cles contenues dans le dictionnaire.
         """
+
+        # TODO revoir __iter__ (+iter()) & items()
+
         for label in self.kl.__iter__():
             yield label
 
     def __getitem__(self, item_to_get):
         """ Acces aux crochets pour recuperer une valeur (objet[cle]) """
+
+        # TODO renomer les variable item_to… en key_to…
+        # TODO message d'erreur > __delitem__
+
         try:
             find_key = self.kl.index(item_to_get)
         except ValueError:
@@ -210,6 +226,8 @@ class DictionnaireOrdonne:
             self.kl.append(cle)
             self.vl.append(valeur)
 
+    # TODO ajout methode str()
+
     def keys(self):
         """
         La methode keys() (renvoyant la liste des cles) doit etre
@@ -217,6 +235,7 @@ class DictionnaireOrdonne:
         a votre initiative : il peut s'agir d'iterateurs ou de
         generateurs (tant qu'on peut les parcourir)
         """
+        # TODO voir print() vs return list()
         print(self.kl)
 
     def sort(self, reverse=False):
@@ -225,6 +244,8 @@ class DictionnaireOrdonne:
         pour l'inverser. Le tri de l'objet doit se faire en fonction
         des cles
         """
+        # Peut etre un peu overkill… voir methode dans la correction
+
         # pour trier on stocke les couples de cle & valeur sous forme
         # de tuple dans une liste temporaire
         liste_temporaire = list()
@@ -268,6 +289,7 @@ class DictionnaireOrdonne:
         a votre initiative : il peut s'agir d'iterateurs ou de
         generateurs (tant qu'on peut les parcourir)
         """
+        # TODO voir print() vs return list()
         print(self.vl)
 
 
