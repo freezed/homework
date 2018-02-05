@@ -92,33 +92,46 @@ class DictionnaireOrdonne:
     haricot (48)
     carotte (26)
 
-    #>>> mots = {'olive': 51, 'identite': 43, 'mercredi': 25, 'prout': 218, 'assiette': 8, 'truc': 26}
-    #>>> mots_ordonne = DictionnaireOrdonne(mots)
-    #>>> mots_ordonne.sort()
-    #>>> mots_ordonne
-    #{'assiette': 8, 'identite': 43, 'mercredi': 25, 'olive': 51, 'prout': 218, 'truc': 26}
+    >>> liste = [0,1,2,3]
+    >>> tentative1 = DictionnaireOrdonne(liste)
+    Un dict() est attendu en argument!
+
+    >>> dico_vide = {}
+    >>> tentative2 = DictionnaireOrdonne(dico_vide)
+    >>> tentative2
+    {}
+
+    >>> mots = {'olive': 51, 'identite': 43, 'mercredi': 25, 'prout': 218, 'assiette': 8, 'truc': 26}
+    >>> mots_ordonne = DictionnaireOrdonne(mots)
+    >>> mots_ordonne.sort()
+    >>> mots_ordonne
+    {'assiette': 8, 'mercredi': 25, 'truc': 26, 'identite': 43, 'olive': 51, 'prout': 218}
     """
 
-    def __init__(self, **dico):
+    def __init__(self, filled_dict={}, **kwargs):
         """
-        On doit pouvoir creer le dictionnaire de plusieurs façons :
-        - Vide: aucun parametre
-        - Copie d'un dict(): les cles et valeurs contenues dans le
-            dictionnaire sont copiees dans l'objet construit.
-        - Pre-rempli de cles/valeurs en parametre: pre-remplir
-            notre objet avec des couples cles-valeurs passes en
-            param (constructeur(cle1 = valeur1, cle2 = valeur2, …))
-        Les cles et valeurs doivent etre couplees
+        Peu prendre aucun parametre ou:
+        - un dictionnaire 'filled_dict' en 1er argument
+        - des valeurs nommees dans 'kwargs'
         """
         # Creation des attributs qui stokeront les cles et valeurs
         self._keys_list = list()
         self._values_list = list()
 
-        # Si le dictionnaire fournit n'est pas vide, on ajoute les items
-        if len(dico) != 0:
-            for k, v in dico.items():
-                self._keys_list.append(k)
-                self._values_list.append(v)
+        # Si 'filled_dict' est un dict() non vide, ajout du contenu
+        if type(filled_dict) not in (dict, DictionnaireOrdonne):
+            #raise TypeError("Un dict() est attendu en argument!")
+            print("Un dict() est attendu en argument!")
+        else:
+            for key, val in filled_dict.items():
+                self._keys_list.append(key)
+                self._values_list.append(val)
+
+        # Si les kwargs ne sont pas vide, ajout du contenu
+        if len(kwargs) != 0:
+            for key, val in kwargs.items():
+                self._keys_list.append(key)
+                self._values_list.append(val)
 
     def __add__(self, other_dict_ord):
         """
