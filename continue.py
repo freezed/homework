@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# 1.5-continue.py : remplacer while/continue par une structure plus claire
+"""
+Cours OC/python 3 - Les boucles
+[Ex 1.5: continue](https://openclassrooms.com/courses/apprenez-a-programmer-en-python/les-boucles-14)
 
-# OpenClassrooms - Apprenez à programmer en Python - Les boucles
-# https://openclassroom
+Remplacer while/continue par une structure plus claire
+"""
 
 print("   Fonctionnement a reproduire:")
 i = 1
