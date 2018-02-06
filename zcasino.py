@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# 1.9-zCasino.py: petit jeu de roulette très simplifié
+"""
+Cours OC/python 3 - TP: tous au ZCasino
+[TP 1.9: zcasino](https://openclassrooms.com/courses/apprenez-a-programmer-en-python/tp-tous-au-zcasino)
+
+Un petit jeu de roulette très simplifie
+=======================================
+
+ Le joueur mise sur un numero compris entre 0 et 49
+ En choisissant son numero, il mise
+ Les numeros pairs sont noire, les impairs sont de rouge
+ Quand la roulette s'arrete:
+ -Si numero gagnant: gain = 3x la mise
+ -Si meme couleur: gain = 50% de la mise
+ -Sinon la mise est perdue
+
+"""
+
 import math
 import random
 import os
-
-# OpenClassrooms - Apprenez à programmer en Python - TP: tous au ZCasino
-# https://openclassrooms.com/courses/apprenez-a-programmer-en-python/tp-tous-au-zcasino
-
-# Le joueur mise sur un numéro compris entre 0 et 49
-# En choisissant son numéro, il mise
-# Les numéros pairs sont noire, les impairs sont de rouge
-# Quand la roulette s'arrête:
-# -Si numéro gagnant: gain = 3x la mise
-# -Si même couleur: gain = 50% de la mise
-# -Sinon la mise est perdue
 
 #############
 # VARIABLES #
