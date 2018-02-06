@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# 1.4-tp-bisextile : Déterminer si une année saisie par l'utilisateur est bissextile
+"""
+Cours OC/python 3 - Les structures conditionnelles
+[Ex 1.4: Bisextile](https://openclassrooms.com/courses/apprenez-a-programmer-en-python/les-structures-conditionnelles#/id/r-231173)
 
-# OpenClassrooms - Apprenez à programmer en Python - Les structures conditionnelles
-# https://openclassrooms.com/courses/apprenez-a-programmer-en-python/les-structures-conditionnelles#/id/r-231173
+Déterminer si une année saisie par l'utilisateur est bissextile
+"""
 
 annee = input("Saisir une année:")
 annee = int(annee)
