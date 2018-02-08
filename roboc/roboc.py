@@ -20,23 +20,52 @@ une sortie. Arrive sur ce point, la partie est terminee.
 
 """
 
-from map import Map
-from game import Game
+# from map import *
+# from game  import *
+import os
 import pickle
 
 # CONFIGURATION
-MAP_DIRECTORY = "cartes"
-MAP_EXTENTION = "txt"
-SAVED_GAME_FILENAME = ".backup"
-DIRECTIONS = ["n", "e", "s", "o"] # commandes de deplacement
-MAZE_ELEMENTS = {"wall": "O", # elements disponibles dans le labyrinthe
-               "door": ".",
-               "exit": "U",
-               "robo": "X"}
+MAP_DIRECTORY = 'cartes'     # repertoire des fichiers carte
+MAP_EXTENTION = '.txt'       # extention des fichiers carte
+SAVED_GAME_FILENAME = '.backup'     # fichier de sauvegarde
+DIRECTIONS = ['n', 'e', 's', 'o']   # commandes de deplacement
+MAZE_ELEMENTS = {'wall':'O', # elements disponibles dans le labyrinthe
+                 'door':'.',
+                 'exit':'U',
+                 'robo':'X'}
+MSG_DISCLAMER = "Bienvenue dans Roboc."
+MSG_CHOOSE_MAP = "Choississez une carte: "
+
 
 # VARIABLES
+maps_name_list = list()  # liste des maps proposees a l'utilisateur
+
+# FONCTIONS
+
 
 # DEBUT DU JEU
+
+# Recuperation de la liste des cartes
+try:
+    maps_avaiable = os.listdir(MAP_DIRECTORY)
+except FileNotFoundError as except_detail:
+    print("FileNotFoundError: «{}»".format(except_detail))
+else:
+    for map_file in maps_avaiable:
+        filename_len = len(map_file) - len(MAP_EXTENTION)
+
+        # garde les fichiers avec la bonne extention
+        if map_file[filename_len:] == MAP_EXTENTION:
+            maps_name_list.append(map_file[:filename_len])
+
+i = 0
+print(MSG_DISCLAMER)
+print(MSG_CHOOSE_MAP)
+for maps_name in maps_name_list:
+    print("\t[{}] - {}".format(i, maps_name))
+    i += 1
+
 
 #Lister les cartes dispo
 
@@ -50,6 +79,5 @@ MAZE_ELEMENTS = {"wall": "O", # elements disponibles dans le labyrinthe
 
 if __name__ == "__main__":
     """ Starting doctests """
-
-    import doctest
-    doctest.testmod()
+#    import doctest
+#    doctest.testmod()
