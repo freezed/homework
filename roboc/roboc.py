@@ -26,7 +26,7 @@ import os
 import pickle
 
 # CONFIGURATION
-MAP_DIRECTORY = 'cartes'     # repertoire des fichiers carte
+MAP_DIRECTORY = 'cartes/'     # repertoire des fichiers carte
 MAP_EXTENTION = '.txt'       # extention des fichiers carte
 SAVED_GAME_FILENAME = '.backup'     # fichier de sauvegarde
 DIRECTIONS = ['n', 'e', 's', 'o']   # commandes de deplacement
@@ -34,6 +34,7 @@ MAZE_ELEMENTS = {'wall':'O', # elements disponibles dans le labyrinthe
                  'door':'.',
                  'exit':'U',
                  'robo':'X'}
+ERR_MAP_FILE = "ERR_MAP_FILE"
 ERR_PLAGE = "Il faut saisir un nombre dans la plage indiquée! "
 ERR_SAISIE = "Il faut saisir un nombre! "
 MSG_DISCLAMER = "Bienvenue dans Roboc."
@@ -88,12 +89,23 @@ while selected_map > len(maps_name_list) or selected_map < 0:
     if selected_map > len(maps_name_list) or selected_map < 0:
         print(ERR_PLAGE)
 
-# Boucle de tour de jeu
+# DEBUT DE BOUCLE DE TOUR DE JEU
+
+# TODO : clear screen
+
 print(MSG_SELECTED_MAP.format(selected_map, maps_name_list[selected_map]))
+map_file = MAP_DIRECTORY + maps_name_list[selected_map] + MAP_EXTENTION
+
+# Chargement du fichier carte choisi
+if os.path.isfile(map_file) is True:
+    with open(map_file, "r") as map_data:
+        map_scheme = map_data.read()
+else:
+    raise ValueError(ERR_MAP_FILE)
 
 # Affichage de la carte et de la position de jeu
-
-
+# print(map_file)
+print(map_scheme)
 
 # Fin de partie
 
