@@ -34,12 +34,17 @@ MAZE_ELEMENTS = {'wall':'O', # elements disponibles dans le labyrinthe
                  'door':'.',
                  'exit':'U',
                  'robo':'X'}
+ERR_PLAGE = "Il faut saisir un nombre dans la plage indiquée! "
+ERR_SAISIE = "Il faut saisir un nombre! "
 MSG_DISCLAMER = "Bienvenue dans Roboc."
-MSG_CHOOSE_MAP = "Choississez une carte: "
+MSG_AVAIBLE_MAP = "Cartes disponible: "
+MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
+MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
 
 
 # VARIABLES
 maps_name_list = list()  # liste des maps proposees a l'utilisateur
+selected_map = -1       # carte choisie par l'utilisateur
 
 # FONCTIONS
 
@@ -59,23 +64,38 @@ else:
         if map_file[filename_len:] == MAP_EXTENTION:
             maps_name_list.append(map_file[:filename_len])
 
+#Chercher si une sauvegarde existe
+# TODO
+
+# Affichage du debut de partie
 i = 0
 print(MSG_DISCLAMER)
-print(MSG_CHOOSE_MAP)
+print(MSG_AVAIBLE_MAP)
 for maps_name in maps_name_list:
     print("\t[{}] - {}".format(i, maps_name))
     i += 1
 
+# Choix de la carte par l'utilisateur
+while selected_map > len(maps_name_list) or selected_map < 0:
+    selected_map = input(MSG_CHOOSE_MAP)
+    try:
+        selected_map = int(selected_map)
+    except ValueError:
+        print(ERR_SAISIE)
+        selected_map = -1
+        continue
 
-#Lister les cartes dispo
+    if selected_map > len(maps_name_list) or selected_map < 0:
+        print(ERR_PLAGE)
 
-#Chercher si une sauvegarde existe
+# Boucle de tour de jeu
+print(MSG_SELECTED_MAP.format(selected_map, maps_name_list[selected_map]))
 
-#Choix du joueur
+# Affichage de la carte et de la position de jeu
 
-#Debut de partie
 
-#Fin de partie
+
+# Fin de partie
 
 if __name__ == "__main__":
     """ Starting doctests """
