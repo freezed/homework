@@ -20,8 +20,7 @@ une sortie. Arrive sur ce point, la partie est terminee.
 
 """
 
-# from map import *
-# from game  import *
+from map import Map
 import os
 import pickle
 
@@ -41,6 +40,7 @@ MSG_DISCLAMER = "Bienvenue dans Roboc."
 MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
+DEBUG = False
 
 # VARIABLES
 maps_name_list = list()  # liste des maps proposees a l'utilisateur
@@ -84,8 +84,11 @@ while selected_map > len(maps_name_list) or selected_map < 0:
     selected_map = input(MSG_CHOOSE_MAP)
     try:
         selected_map = int(selected_map)
-    except ValueError:
-        print(ERR_SAISIE)
+    except ValueError as except_detail:
+        if DEBUG:
+            print("ValueError: «{}»".format(except_detail))
+        else:
+            print(ERR_SAISIE)
         selected_map = -1
         continue
 

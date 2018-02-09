@@ -46,7 +46,8 @@ class Map:
                 self._line_nb =  len(self._data_list)  # Contient le contenu de la carte en texte
 
         else:
-            raise ValueError('ERR_MAP_FILE')
+            raise FileNotFoundError('ERR_MAP_FILE: {}'.format(map_file))
+
 
         line = int(self._line_nb)
         while line == 0:
