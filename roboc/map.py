@@ -19,6 +19,8 @@ class Map:
     :Example:
     >>> MyMap = Map("cartes/test.txt")
     >>> print(MyMap)
+
+    >>> MyMap.map_print()
     """
 
     def __init__(self, map_file):
@@ -41,9 +43,43 @@ class Map:
         line = int(self._line_nb)
         while line == 0:
             if self._data_list[line].find(maze_elmnt['robo']) != -1:
-                self._position = (line, self._data_list[line].find(maze_elmnt['robo']))
+                self._init_position = (line, self._data_list[line].find(maze_elmnt['robo']))
+
+                # la position courante est la position initiale
+                self._current_position = self._init_position
 
             line -= 1
+
+
+    def __repr__():
+        """ Affichage de la carte, via print() """
+        return map_print(self)
+
+    def __str__():
+        """ Affichage de la carte, via str() """
+        return map_print(self)
+
+    def map_print(self):
+        """ Affiche la carte avec la position de jeu courante """
+
+    def move_on_map(self, start, move):
+        """
+        Deplace le «robo» sur la carte
+
+        :param start: coordonnee de depart
+        :param move: mouvement souhaite
+        :return: 0: wall, 1: sortie, 2: door, 3: ok
+        """
+        # verifie que le start est dans la carte
+
+        # verifie que le move est possible sur la carte
+
+        # effectue le move et met a jour la carte
+
+
+        def restore_backup(self, position):
+            """ Charge une carte issue d'une sauvegarde """
+
 
 if __name__ == "__main__":
     """ Starting doctests """
