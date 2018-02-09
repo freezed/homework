@@ -18,9 +18,17 @@ class Map:
 
     :Example:
     >>> MyMap = Map("cartes/test.txt")
-    >>> print(MyMap)
+
+    >>> type(MyMap._data_text)
+    <class 'str'>
 
     >>> MyMap.map_print()
+    O1234
+    abcde
+    ABCDE
+    zyxwv
+    <BLANKLINE>
+
     """
 
     def __init__(self, map_file):
@@ -50,17 +58,9 @@ class Map:
 
             line -= 1
 
-
-    def __repr__():
-        """ Affichage de la carte, via print() """
-        return map_print(self)
-
-    def __str__():
-        """ Affichage de la carte, via str() """
-        return map_print(self)
-
     def map_print(self):
         """ Affiche la carte avec la position de jeu courante """
+        print(self._data_text)
 
     def move_on_map(self, start, move):
         """
