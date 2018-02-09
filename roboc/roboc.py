@@ -65,9 +65,6 @@ else:
         if map_file[filename_len:] == MAP_EXTENTION:
             maps_name_list.append(map_file[:filename_len])
 
-# Fichier carte a recuperer
-map_file = MAP_DIRECTORY + maps_name_list[selected_map] + MAP_EXTENTION
-
 #Chercher si une sauvegarde existe
 # TODO
 
@@ -96,15 +93,15 @@ while selected_map > len(maps_name_list) or selected_map < 0:
         print(ERR_PLAGE)
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
-
 # TODO : clear screen
-
 print(MSG_SELECTED_MAP.format(selected_map, maps_name_list[selected_map]))
 
+# Fichier carte a recuperer
+map_file = MAP_DIRECTORY + maps_name_list[selected_map] + MAP_EXTENTION
+
 # Affichage de la carte et de la position de jeu
-# print(map_file)
-print(map_data_text)
-print("X" in map_data_list)
+current_map = Map(map_file)
+current_map.map_print()
 
 # Fin de partie
 

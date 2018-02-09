@@ -17,12 +17,30 @@ class Map:
     de partie.
 
     :Example:
-    >>> MyMap = Map("cartes/test.txt")
+    >>> TestMap = Map("cartes/test.txt")
 
-    >>> type(MyMap._data_text)
+    >>> PrisonMap = Map("cartes/prison.txt")
+
+    >>> print("_data_text: {}".format(TestMap._data_text))
+    _data_text: O1234
+    abcde
+    ABCDE
+    zyxwv
+    <BLANKLINE>
+
+    >>> print("_data_list: {}".format(TestMap._data_list))
+    _data_list: ['O1234', 'abcde', 'ABCDE', 'zyxwv']
+
+    >>> print("_column_nb: {}".format(TestMap._column_nb))
+    _column_nb: 5
+
+    >>> print("_line_nb: {}".format(TestMap._line_nb))
+    _line_nb: 4
+
+    >>> type(TestMap._data_text)
     <class 'str'>
 
-    >>> MyMap.map_print()
+    >>> TestMap.map_print()
     O1234
     abcde
     ABCDE
@@ -43,11 +61,10 @@ class Map:
                 self._data_text = map_data.read() # Contient le contenu de la carte en texte
                 self._data_list = self._data_text.splitlines() # Contient la carte ligne a ligne
                 self._column_nb = len(self._data_list[0]) # Nombre de colonne de la carte (1ere ligne)
-                self._line_nb =  len(self._data_list)  # Contient le contenu de la carte en texte
+                self._line_nb = len(self._data_list)  # Contient le contenu de la carte en texte
 
         else:
             raise FileNotFoundError('ERR_MAP_FILE: {}'.format(map_file))
-
 
         line = int(self._line_nb)
         while line == 0:
