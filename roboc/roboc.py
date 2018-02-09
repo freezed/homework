@@ -34,7 +34,7 @@ MAZE_ELEMENTS = {'wall':'O', # elements disponibles dans le labyrinthe
                  'door':'.',
                  'exit':'U',
                  'robo':'X'}
-ERR_MAP_FILE = "ERR_MAP_FILE"
+# ERR_MAP_FILE = "ERR_MAP_FILE"
 ERR_PLAGE = "Il faut saisir un nombre dans la plage indiquée! "
 ERR_SAISIE = "Il faut saisir un nombre! "
 MSG_DISCLAMER = "Bienvenue dans Roboc."
@@ -42,10 +42,10 @@ MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
 
-
 # VARIABLES
 maps_name_list = list()  # liste des maps proposees a l'utilisateur
 selected_map = -1       # carte choisie par l'utilisateur
+
 
 # FONCTIONS
 
@@ -64,6 +64,9 @@ else:
         # garde les fichiers avec la bonne extention
         if map_file[filename_len:] == MAP_EXTENTION:
             maps_name_list.append(map_file[:filename_len])
+
+# Fichier carte a recuperer
+map_file = MAP_DIRECTORY + maps_name_list[selected_map] + MAP_EXTENTION
 
 #Chercher si une sauvegarde existe
 # TODO
@@ -94,22 +97,15 @@ while selected_map > len(maps_name_list) or selected_map < 0:
 # TODO : clear screen
 
 print(MSG_SELECTED_MAP.format(selected_map, maps_name_list[selected_map]))
-map_file = MAP_DIRECTORY + maps_name_list[selected_map] + MAP_EXTENTION
-
-# Chargement du fichier carte choisi
-if os.path.isfile(map_file) is True:
-    with open(map_file, "r") as map_data:
-        map_scheme = map_data.read()
-else:
-    raise ValueError(ERR_MAP_FILE)
 
 # Affichage de la carte et de la position de jeu
 # print(map_file)
-print(map_scheme)
+print(map_data_text)
+print("X" in map_data_list)
 
 # Fin de partie
 
 if __name__ == "__main__":
     """ Starting doctests """
-#    import doctest
-#    doctest.testmod()
+    import doctest
+    doctest.testmod()

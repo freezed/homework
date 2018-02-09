@@ -13,53 +13,37 @@ import os
 
 class Map:
     """
-    Map
-    ===
-
     Classe gerant les cartes disponibles et la carte utilisee en cours
     de partie.
 
-
     :Example:
-    >>> a = 10
-    >>> a + 5
-    15
+    >>> MyMap = Map("cartes/test.txt")
+    >>> print(MyMap)
     """
 
-    def __init__(self, path_to_map_file):
+    def __init__(self, map_file):
         """
-        Initialisation de la carte utilisee, mise en cache (grid),
-
-        :param name: nom de la carte chargee
+        Initialisation de la carte utilise
+        :param map_file:
         """
-        _column_nb = str() # Nombre de colonne de la carte
-        _line_nb = str() # Nombre de ligne de la carte
-        _grid = dict() # Contient la carte {(x, y): MAZE_ELEMENT.keys}
-        name = str() # nom de la carte utilisee
 
-        # ouvre le fichier
+        # Chargement du fichier carte choisi
+        if os.path.isfile(map_file) is True:
+            with open(map_file, "r") as map_data:
+                self._data_text = map_data.read() # Contient le contenu de la carte en texte
+                self._data_list = self._data_text.splitlines() # Contient la carte ligne a ligne
+                self._column_nb = len(self._data_list[0]) # Nombre de colonne de la carte (1ere ligne)
+                self._line_nb =  len(self._data_list)  # Contient le contenu de la carte en texte
 
-        # parcours le fichier et stocke sont contenu
+        else:
+            raise ValueError('ERR_MAP_FILE')
 
-        # ? verifie la coherence de la carte ?
+        line = int(self._line_nb)
+        while line == 0:
+            if self._data_list[line].find(maze_elmnt['robo']) != -1:
+                self._position = (line, self._data_list[line].find(maze_elmnt['robo']))
 
-        # compte les colonnes et lignes
-
-
-    def move_check(self, start, move):
-        """
-        Verifie qu'un deplacement est possible
-
-        :param start: coordonnee de depart
-        :param move: mouvement souhaite
-        :return: 0: wall, 1: sortie, 2: door, 3: ok
-        """
-        # verifie que le start est dans la carte
-
-        # verifie que le move est possible sur la carte
-
-        # retour
-
+            line -= 1
 
 if __name__ == "__main__":
     """ Starting doctests """
