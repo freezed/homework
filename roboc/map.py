@@ -11,6 +11,7 @@ Ce fichier fait partie du projet `roboc`
 """
 import os
 
+
 class Map:
     """
     Classe gerant les cartes disponibles et la carte utilisee en cours
@@ -58,10 +59,14 @@ class Map:
         # Chargement du fichier carte choisi
         if os.path.isfile(map_file) is True:
             with open(map_file, "r") as map_data:
-                self._data_text = map_data.read() # Contient le contenu de la carte en texte
-                self._data_list = self._data_text.splitlines() # Contient la carte ligne a ligne
-                self._column_nb = len(self._data_list[0]) # Nombre de colonne de la carte (1ere ligne)
-                self._line_nb = len(self._data_list)  # Contient le contenu de la carte en texte
+                # contenu de la carte en texte
+                self._data_text = map_data.read()
+                # contenu de la carte ligne a ligne
+                self._data_list = self._data_text.splitlines()
+                # nbre de colonne de la carte (1ere ligne)
+                self._column_nb = len(self._data_list[0])
+                # nbre de ligne de la carte
+                self._line_nb = len(self._data_list)
 
         else:
             raise FileNotFoundError('ERR_MAP_FILE: {}'.format(map_file))
@@ -69,7 +74,8 @@ class Map:
         line = int(self._line_nb)
         while line == 0:
             if self._data_list[line].find(maze_elmnt['robo']) != -1:
-                self._init_position = (line, self._data_list[line].find(maze_elmnt['robo']))
+                self._init_position = \
+                    (line, self._data_list[line].find(maze_elmnt['robo']))
 
                 # la position courante est la position initiale
                 self._current_position = self._init_position
@@ -93,7 +99,6 @@ class Map:
         # verifie que le move est possible sur la carte
 
         # effectue le move et met a jour la carte
-
 
         def restore_backup(self, position):
             """ Charge une carte issue d'une sauvegarde """

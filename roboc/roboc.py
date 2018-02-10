@@ -22,17 +22,17 @@ une sortie. Arrive sur ce point, la partie est terminee.
 
 from map import Map
 import os
-import pickle
+# import pickle
 
 # CONFIGURATION
-MAP_DIRECTORY = 'cartes/'     # repertoire des fichiers carte
-MAP_EXTENTION = '.txt'       # extention des fichiers carte
+MAP_DIRECTORY = 'cartes/'           # repertoire des fichiers carte
+MAP_EXTENTION = '.txt'              # extention des fichiers carte
 SAVED_GAME_FILENAME = '.backup'     # fichier de sauvegarde
 DIRECTIONS = ['n', 'e', 's', 'o']   # commandes de deplacement
-MAZE_ELEMENTS = {'wall':'O', # elements disponibles dans le labyrinthe
-                 'door':'.',
-                 'exit':'U',
-                 'robo':'X'}
+MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
+                 'door': '.',
+                 'exit': 'U',
+                 'robo': 'X'}
 # ERR_MAP_FILE = "ERR_MAP_FILE"
 ERR_PLAGE = "Il faut saisir un nombre dans la plage indiquée! "
 ERR_SAISIE = "Il faut saisir un nombre! "
@@ -43,8 +43,8 @@ MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
 DEBUG = False
 
 # VARIABLES
-maps_name_list = list()  # liste des maps proposees a l'utilisateur
-selected_map = -1       # carte choisie par l'utilisateur
+maps_name_list = list()     # liste des maps proposees a l'utilisateur
+user_select_map_id = -1     # carte choisie par l'utilisateur
 
 
 # FONCTIONS
@@ -65,7 +65,7 @@ else:
         if map_file[filename_len:] == MAP_EXTENTION:
             maps_name_list.append(map_file[:filename_len])
 
-#Chercher si une sauvegarde existe
+# Chercher si une sauvegarde existe
 # TODO
 
 # Affichage du debut de partie
@@ -77,27 +77,32 @@ for maps_name in maps_name_list:
     i += 1
 
 # Choix de la carte par l'utilisateur
-while selected_map > len(maps_name_list) or selected_map < 0:
-    selected_map = input(MSG_CHOOSE_MAP)
+while user_select_map_id > len(maps_name_list) or \
+      user_select_map_id < 0:
+    user_select_map_id = input(MSG_CHOOSE_MAP)
     try:
-        selected_map = int(selected_map)
+        user_select_map_id = int(user_select_map_id)
     except ValueError as except_detail:
         if DEBUG:
             print("ValueError: «{}»".format(except_detail))
         else:
             print(ERR_SAISIE)
-        selected_map = -1
+        user_select_map_id = -1
         continue
 
-    if selected_map > len(maps_name_list) or selected_map < 0:
+    if user_select_map_id > len(maps_name_list) or \
+       user_select_map_id < 0:
         print(ERR_PLAGE)
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
 # TODO : clear screen
-print(MSG_SELECTED_MAP.format(selected_map, maps_name_list[selected_map]))
+print(MSG_SELECTED_MAP.format(user_select_map_id,
+      maps_name_list[user_select_map_id]))
 
 # Fichier carte a recuperer
-map_file = MAP_DIRECTORY + maps_name_list[selected_map] + MAP_EXTENTION
+map_file = MAP_DIRECTORY + \
+           maps_name_list[user_select_map_id] + \
+           MAP_EXTENTION
 
 # Affichage de la carte et de la position de jeu
 current_map = Map(map_file)
