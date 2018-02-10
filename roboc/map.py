@@ -10,6 +10,7 @@ Ce fichier fait partie du projet `roboc`
 
 """
 import os
+from roboc import MAZE_ELEMENTS
 
 
 class Map:
@@ -37,6 +38,9 @@ class Map:
 
     >>> print("_line_nb: {}".format(TestMap._line_nb))
     _line_nb: 4
+
+    >>> print("_line_position: {}".format(TestMap._line_position))
+    _line_position:
 
     >>> type(TestMap._data_text)
     <class 'str'>
@@ -73,9 +77,9 @@ class Map:
 
         line = int(self._line_nb)
         while line == 0:
-            if self._data_list[line].find(maze_elmnt['robo']) != -1:
+            if self._data_list[line].find(MAZE_ELEMENTS['robo']) != -1:
                 self._init_position = \
-                    (line, self._data_list[line].find(maze_elmnt['robo']))
+                    (line, self._data_list[line].find(MAZE_ELEMENTS['robo']))
 
                 # la position courante est la position initiale
                 self._current_position = self._init_position
