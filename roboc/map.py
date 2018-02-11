@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 """
 Author: freezed <freezed@users.noreply.github.com> 2018-02-06
 Version: 0.1
@@ -9,8 +6,9 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 Ce fichier fait partie du projet `roboc`
 
 """
+
 import os
-from roboc import MAZE_ELEMENTS
+from configuration import MAZE_ELEMENTS, ERR_MAP_FILE
 
 
 class Map:
@@ -39,8 +37,11 @@ class Map:
     >>> print("_line_nb: {}".format(TestMap._line_nb))
     _line_nb: 4
 
-    >>> print("_line_position: {}".format(TestMap._line_position))
+    >>> print("_init_position: {}".format(TestMap._init_position))
     _line_position:
+
+    >>> print("_current_position: {}".format(TestMap._current_position))
+    _current_position:
 
     >>> type(TestMap._data_text)
     <class 'str'>
@@ -59,7 +60,6 @@ class Map:
         Initialisation de la carte utilise
         :param map_file:
         """
-
         # Chargement du fichier carte choisi
         if os.path.isfile(map_file) is True:
             with open(map_file, "r") as map_data:
@@ -73,7 +73,7 @@ class Map:
                 self._line_nb = len(self._data_list)
 
         else:
-            raise FileNotFoundError('ERR_MAP_FILE: {}'.format(map_file))
+            raise FileNotFoundError('{}: {}'.format(ERR_MAP_FILE, map_file))
 
         line = int(self._line_nb)
         while line == 0:
@@ -83,7 +83,6 @@ class Map:
 
                 # la position courante est la position initiale
                 self._current_position = self._init_position
-
             line -= 1
 
     def map_print(self):

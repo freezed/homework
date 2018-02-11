@@ -20,32 +20,10 @@ une sortie. Arrive sur ce point, la partie est terminee.
 
 """
 
-from map import Map
 import os
+from map import Map
+from configuration import *
 # import pickle
-
-# CONFIGURATION
-MAP_DIRECTORY = 'cartes/'           # repertoire des fichiers carte
-MAP_EXTENTION = '.txt'              # extention des fichiers carte
-SAVED_GAME_FILENAME = '.backup'     # fichier de sauvegarde
-DIRECTIONS = ['n', 'e', 's', 'o']   # commandes de deplacement
-MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
-                 'door': '.',
-                 'exit': 'U',
-                 'robo': 'X'}
-# ERR_MAP_FILE = "ERR_MAP_FILE"
-ERR_PLAGE = "Il faut saisir un nombre dans la plage indiquée! "
-ERR_SAISIE = "Il faut saisir un nombre! "
-MSG_DISCLAMER = "Bienvenue dans Roboc."
-MSG_AVAIBLE_MAP = "Cartes disponible: "
-MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
-MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
-DEBUG = False
-
-# VARIABLES
-maps_name_list = list()     # liste des maps proposees a l'utilisateur
-user_select_map_id = -1     # carte choisie par l'utilisateur
-
 
 # FONCTIONS
 
@@ -77,11 +55,11 @@ for maps_name in maps_name_list:
     i += 1
 
 # Choix de la carte par l'utilisateur
-while user_select_map_id > len(maps_name_list) or \
-      user_select_map_id < 0:
+while user_select_map_id > len(maps_name_list) or user_select_map_id < 0:
     user_select_map_id = input(MSG_CHOOSE_MAP)
     try:
         user_select_map_id = int(user_select_map_id)
+        # ? if user_select_map_id is int(): ?
     except ValueError as except_detail:
         if DEBUG:
             print("ValueError: «{}»".format(except_detail))
