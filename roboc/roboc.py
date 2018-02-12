@@ -84,7 +84,12 @@ map_file = MAP_DIRECTORY + \
 
 # Affichage de la carte et de la position de jeu
 current_map = Map(map_file)
-current_map.map_print()
+
+if current_map.status:
+    current_map.map_print()
+
+else:
+    print(current_map.status_message)
 
 # Fin de partie
 

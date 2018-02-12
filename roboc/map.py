@@ -35,10 +35,10 @@ class Map:
     _line_nb: 4
 
     >>> print("_init_robo_position: {}".format(TestMap._init_robo_position))
-    _init_robo_position: None
+    _init_robo_position: 20
 
     >>> print("_robo_position: {}".format(TestMap._robo_position))
-    _robo_position: None
+    _robo_position: 20
 
     >>> type(TestMap._data_text)
     <class 'str'>
@@ -59,14 +59,25 @@ class Map:
         # Chargement du fichier carte choisi
         if os.path.isfile(map_file) is True:
             with open(map_file, "r") as map_data:
+
                 # contenu de la carte en texte
                 self._data_text = map_data.read()
+
                 # contenu de la carte ligne a ligne
                 map_data_list = self._data_text.splitlines()
+
                 # nbre de colonne de la carte (1ere ligne)
-                self._column_nb = len(map_data_list[0])
+                try:
+                   self._column_nb = len(map_data_list[0])
+                except IndexError:
+                   self._column_nb = 0
+
                 # nbre de ligne de la carte
-                self._line_nb = len(map_data_list)
+                try:
+                    self._line_nb = len(map_data_list)
+                except IndexError:
+                    self._line_nb = 0
+
                 # positior du robot
                 self._robo_position = self._data_text.find(MAZE_ELEMENTS['robo'])
 
