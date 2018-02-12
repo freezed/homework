@@ -18,9 +18,21 @@ class Map:
     de partie.
 
     :Example:
+    >>> EasyMap = Map("cartes/facile.txt")
     >>> TestMap = Map("cartes/test.txt")
-
     >>> PrisonMap = Map("cartes/prison.txt")
+    >>> EmptyMap = Map("cartes/vide.txt")
+    >>> TooSmallMap = Map("cartes/trop_petite.txt")
+    >>> NoRoboMap = Map("cartes/sans_robo.txt")
+
+    >>> print(EmptyMap.status_message)
+    #!@?# Oups… carte «cartes/vide.txt», dimensions incorrecte: «0 x 0»
+
+    >>> print(TooSmallMap.status_message)
+    #!@?# Oups… carte «cartes/trop_petite.txt», dimensions incorrecte: «2 x 2»
+
+    >>> print(NoRoboMap.status_message)
+    #!@?# Oups… robo est introuvable sur la carte «cartes/sans_robo.txt»!
 
     >>> print("_data_text: {}".format(TestMap._data_text))
     _data_text: O1234
@@ -66,44 +78,45 @@ class Map:
                 # contenu de la carte ligne a ligne
                 map_data_list = self._data_text.splitlines()
 
-                # nbre de colonne de la carte (1ere ligne)
-                try:
-                   self._column_nb = len(map_data_list[0])
-                except IndexError:
-                   self._column_nb = 0
+            # nbre de colonne de la carte (1ere ligne)
+            try:
+               self._column_nb = len(map_data_list[0])
+            except IndexError:
+               self._column_nb = 0
 
-                # nbre de ligne de la carte
-                try:
-                    self._line_nb = len(map_data_list)
-                except IndexError:
-                    self._line_nb = 0
+            # nbre de ligne de la carte
+            try:
+                self._line_nb = len(map_data_list)
+            except IndexError:
+                self._line_nb = 0
 
-                # positior du robot
-                self._robo_position = self._data_text.find(MAZE_ELEMENTS['robo'])
+            # positior du robot
+            self._robo_position = self._data_text.find(MAZE_ELEMENTS['robo'])
+
+            # Quelques controle sur la carte:
+            # - a t elle des dimensions mini?
+            if self._column_nb < MIN_MAP_SIDE or self._line_nb < MIN_MAP_SIDE:
+                self.status = False
+                self.status_message = ERR_MAP_SIZE.format(
+                    map_file, self._column_nb, self._line_nb
+                )
+
+            # - a t elle un robo ( TODO : hors mur)?
+            elif self._robo_position == -1:
+                self.status = False
+                self.status_message = ERR_MAP_ROBO.format(map_file)
+
+            # - a t elle une sortie (dans mur) TODO?
+            # - a t elle du mur tout autour TODO?
+            else:
+                self._init_robo_position = self._robo_position
+                self.status = True
 
         # Erreur de chargement du fichier
         else:
             self.status = False
             self.status_message = ERR_MAP_FILE.format(map_file)
 
-        # Quelques controle sur la carte:
-        # - a t elle des dimensions mini?
-        if self._column_nb < MIN_MAP_SIDE or self._line_nb < MIN_MAP_SIDE:
-            self.status = False
-            self.status_message = ERR_MAP_SIZE.format(
-                map_file, self._column_nb, self._line_nb
-            )
-
-        # - a t elle un robo ( TODO : hors mur)?
-        elif self._robo_position == -1:
-            self.status = False
-            self.status_message = ERR_MAP_ROBO.format(map_file)
-
-        # - a t elle une sortie (dans mur) TODO?
-        # - a t elle du mur tout autour TODO?
-
-        self._init_robo_position = self._robo_position
-        self.status = True
 
     def __getattr__(self, name):
         """
