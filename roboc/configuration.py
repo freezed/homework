@@ -18,9 +18,12 @@ MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
                  'door': '.',
                  'exit': 'U',
                  'robo': 'X'}
-ERR_MAP_FILE = "ERR_MAP_FILE"
+ERR_MAP_FILE = "\t#!@?# Oups… carte «{}» inaccessible!"
+ERR_MAP_SIZE = "\t#!@?# Oups… carte «{}», dimensions incorrecte: «{} x {}»"
+ERR_MAP_ROBO = "\t#!@?# Oups… robo est introuvable sur la carte «{}»!"
 ERR_PLAGE = "Il faut saisir un nombre dans la plage indiquée! "
 ERR_SAISIE = "Il faut saisir un nombre! "
+MIN_MAP_SIDE = 3
 MSG_DISCLAMER = "Bienvenue dans Roboc."
 MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
