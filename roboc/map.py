@@ -9,7 +9,7 @@ Ce fichier fait partie du projet `roboc`
 
 import os
 from configuration import MAZE_ELEMENTS, ERR_MAP_FILE, MIN_MAP_SIDE, \
-    ERR_MAP_SIZE, ERR_MAP_ROBO
+    ERR_MAP_SIZE, ERR_MAP_ROBO, MOVE_TO_STATUS
 
 
 class Map:
@@ -117,7 +117,6 @@ class Map:
             self.status = False
             self.status_message = ERR_MAP_FILE.format(map_file)
 
-
     def __getattr__(self, name):
         """
         Si un attribut manque a l'appel (_robo_position ou
@@ -129,22 +128,44 @@ class Map:
         """ Affiche la carte avec la position de jeu courante """
         print(self._data_text)
 
-    def move_on_map(self, start, move):
+    def move_to(self, move):
         """
         Deplace le «robo» sur la carte
 
-        :param start: coordonnee de depart
         :param move: mouvement souhaite
-        :return: 0: wall, 1: sortie, 2: door, 3: ok
+        :return: key in MOVE_TO_STATUS
         """
-        # verifie que le start est dans la carte
+        # decompose le move
+        direction = move[0]
+        distance = move[1:]
+        stop = False
 
-        # verifie que le move est possible sur la carte
+        # direction non conforme
+        if direction not in DIRECTIONS:
+            move_to_status = 0
 
-        # effectue le move et met a jour la carte
+        # move possible
+        else:
+            # pour chaque unite de distance on lit le charactere correspondant
+            while distance != 0 or stop:
+                next_char = what_is_next_char(direction)
+                if next_char == MAZE_ELEMENTS['door']:
 
-        def restore_backup(self, position):
-            """ Charge une carte issue d'une sauvegarde """
+                elif next_char == MAZE_ELEMENTS['exit']:
+
+                elif next_char == MAZE_ELEMENTS['wall']:
+
+                else:
+                    distance -= 1
+
+            # effectue le move et met a jour la carte
+
+            move_to_status =
+
+        return move_to_status
+
+    def restore_backup(self, position):
+        """ Charge une carte issue d'une sauvegarde """
 
 
 if __name__ == "__main__":

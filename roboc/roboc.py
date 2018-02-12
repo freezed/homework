@@ -72,7 +72,6 @@ while user_select_map_id > len(maps_name_list) or user_select_map_id < 0:
        user_select_map_id < 0:
         print(ERR_PLAGE)
 
-# DEBUT DE BOUCLE DE TOUR DE JEU
 # TODO : clear screen
 print(MSG_SELECTED_MAP.format(user_select_map_id,
       maps_name_list[user_select_map_id]))
@@ -82,13 +81,26 @@ map_file = MAP_DIRECTORY + \
            maps_name_list[user_select_map_id] + \
            MAP_EXTENTION
 
-# Affichage de la carte et de la position de jeu
+# instentiation de la carte choisie
 current_map = Map(map_file)
+
+# DEBUT DE BOUCLE DE TOUR DE JEU
+# TODO : clear screen
+
+# Affichage de la carte et de la position de jeu
 if current_map.status:
     current_map.map_print()
 
+    # choix du deplacement
+    user_select_move = input(MSG_CHOOSE_MOVE)
+
+    # traitement du deplacement
+    current_map.move_to(user_select_move)
+
 else:
     print(current_map.status_message)
+    # fin de la boucle de tour
+
 
 # Fin de partie
 

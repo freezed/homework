@@ -18,6 +18,7 @@ MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
                  'door': '.',
                  'exit': 'U',
                  'robo': 'X'}
+MOVE_TO_STATUS = ['bad', 'wall', 'exit', 'door', 'ok']
 
 ERR_ = "#!@?# Oups… "
 ERR_MAP_FILE = ERR_ + "carte «{}» inaccessible!"
@@ -30,7 +31,9 @@ MIN_MAP_SIDE = 3
 MSG_DISCLAMER = "Bienvenue dans Roboc."
 MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
+MSG_CHOOSE_MOVE = "Votre deplacement (h pour l'aide): "
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
+
 DEBUG = False
 
 
