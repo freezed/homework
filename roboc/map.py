@@ -28,13 +28,13 @@ class Map:
     #!@?# Oups… carte «cartes/vide.txt», dimensions incorrecte: «0 x 0»
 
     >>> print(TooSmallMap.status_message)
-    #!@?# Oups… carte «cartes/trop_petite.txt», dimensions incorrecte: «2 x 2»
+    #!@?# Oups… carte «cartes/trop_petite.txt», dimensions incorrecte: «3 x 2»
 
     >>> print(NoRoboMap.status_message)
     #!@?# Oups… robo est introuvable sur la carte «cartes/sans_robo.txt»!
 
     >>> print("_column_nb: {}".format(TestMap._column_nb))
-    _column_nb: 5
+    _column_nb: 6
 
     >>> print("_line_nb: {}".format(TestMap._line_nb))
     _line_nb: 4
@@ -48,6 +48,29 @@ class Map:
     ABCDE
     zyXwv
 
+    >>> TestMap.move_to("n3")
+    4
+
+    >>> TestMap.map_print()
+    01X34
+    abcde
+    ABCDE
+    zy wv
+
+    >>> TestMap.move_to("o2")
+    4
+
+    >>> TestMap.move_to("s3")
+    4
+
+    >>> TestMap.move_to("e4")
+    4
+
+    >>> TestMap.map_print()
+     1 34
+    abcde
+    ABCDE
+     y wX
     """
 
     def __init__(self, map_file):
@@ -67,7 +90,7 @@ class Map:
 
             # nbre de colonne de la carte (1ere ligne)
             try:
-               self._column_nb = len(map_data_list[0])
+               self._column_nb = len(map_data_list[0]) +1
             except IndexError:
                self._column_nb = 0
 
@@ -96,6 +119,7 @@ class Map:
             # - a t elle une sortie (dans mur) TODO?
             # - a t elle du mur tout autour TODO?
             else:
+                # TODO est-ce utile de concerver la pos initiale?
                 self._init_robo_position = self._robo_position
                 self.status = True
 
@@ -125,33 +149,64 @@ class Map:
         """
         # decompose le mouvement
         direction = move[0]
-        distance = move[1:]
-        stop = False
+        goal = int(move[1:])
+        steps = 0
+        move_status = 4
 
         # direction non conforme
         if direction not in DIRECTIONS:
             move_status = 0
 
-        # move possible
         else:
-            # pour chaque unite de distance on lit le charactere correspondant
-            while distance != 0 or stop:
-                next_char = what_is_next_char(direction)
-                if next_char == MAZE_ELEMENTS['door']:
+            # import pdb; pdb.set_trace()
+            # pour chaque pas on recupere la position suivante
+            while steps < goal or move_status != 4:
+                steps += 1
+                if direction == DIRECTIONS[0]:      # nord
+                    next_position = self._robo_position - self._column_nb
+
+                elif direction == DIRECTIONS[1]:    # sud
+                    next_position = self._robo_position + self._column_nb
+
+                elif direction == DIRECTIONS[2]:    # est
+                    next_position = self._robo_position + 1
+
+                elif direction == DIRECTIONS[3]:    # ouest
+                    next_position = self._robo_position - 1
+
+                else:   # juste au cas ou
+                    raise NotImplementedError(ERR_)
+
+                # verifie quelle est la case du prochain pas
+                next_char = self._data_text[next_position]
+                if next_char == MAZE_ELEMENTS['wall']:
+                    move_status = 1
 
                 elif next_char == MAZE_ELEMENTS['exit']:
+                    self._robo_position = next_position
+                    move_status = 2
 
-                elif next_char == MAZE_ELEMENTS['wall']:
+                elif next_char == MAZE_ELEMENTS['door']:
+                    self._robo_position = next_position
+                    move_status = 3
 
                 else:
-                    distance -= 1
+                    self._robo_position = next_position
 
-            # effectue le mouvement
+            # supprime le robo de son emplacement precedent
+            self._data_text = self._data_text.replace(
+                MAZE_ELEMENTS['robo'],
+                MAZE_ELEMENTS['trace']
+            )
+            # place le robo sur sa nouvelle position
+            self._data_text = self._data_text[:self._robo_position] + \
+                MAZE_ELEMENTS['robo'] + \
+                self._data_text[self._robo_position +1:]
 
         return move_status
 
-    def restore_backup(self, position):
-        """ Charge une carte issue d'une sauvegarde """
+    # def restore_backup(self, position):
+        # """ Charge une carte issue d'une sauvegarde """
 
 
 if __name__ == "__main__":
