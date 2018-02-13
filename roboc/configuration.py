@@ -13,12 +13,13 @@ Ce fichier fait partie du projet `roboc`
 MAP_DIRECTORY = 'cartes/'           # repertoire des fichiers carte
 MAP_EXTENTION = '.txt'              # extention des fichiers carte
 SAVED_GAME_FILENAME = '.backup'     # fichier de sauvegarde
-DIRECTIONS = ['n', 'e', 's', 'o']   # commandes de deplacement
+DIRECTIONS = ['n', 's', 'e', 'o']   # commandes de deplacement
 MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
                  'door': '.',
                  'exit': 'U',
-                 'robo': 'X'}
-MOVE_TO_STATUS = ['bad', 'wall', 'exit', 'door', 'ok']
+                 'robo': 'X',
+                 'trace': ' '}
+MOVE_STATUS = ['bad', 'wall', 'exit', 'door', 'ok']
 
 ERR_ = "#!@?# Oups… "
 ERR_MAP_FILE = ERR_ + "carte «{}» inaccessible!"

@@ -8,8 +8,7 @@ Ce fichier fait partie du projet `roboc`
 """
 
 import os
-from configuration import MAZE_ELEMENTS, ERR_MAP_FILE, MIN_MAP_SIDE, \
-    ERR_MAP_SIZE, ERR_MAP_ROBO, MOVE_TO_STATUS
+from configuration import *
 
 
 class Map:
@@ -34,12 +33,6 @@ class Map:
     >>> print(NoRoboMap.status_message)
     #!@?# Oups… robo est introuvable sur la carte «cartes/sans_robo.txt»!
 
-    >>> print("_data_text: {}".format(TestMap._data_text))
-    _data_text: O1234
-    abcde
-    ABCDE
-    zyXwv
-
     >>> print("_column_nb: {}".format(TestMap._column_nb))
     _column_nb: 5
 
@@ -49,14 +42,8 @@ class Map:
     >>> print("_init_robo_position: {}".format(TestMap._init_robo_position))
     _init_robo_position: 20
 
-    >>> print("_robo_position: {}".format(TestMap._robo_position))
-    _robo_position: 20
-
-    >>> type(TestMap._data_text)
-    <class 'str'>
-
     >>> TestMap.map_print()
-    O1234
+    01234
     abcde
     ABCDE
     zyXwv
@@ -117,6 +104,7 @@ class Map:
             self.status = False
             self.status_message = ERR_MAP_FILE.format(map_file)
 
+    # TODO est-ce utile de conserver cette methode?
     def __getattr__(self, name):
         """
         Si un attribut manque a l'appel (_robo_position ou
@@ -133,16 +121,16 @@ class Map:
         Deplace le «robo» sur la carte
 
         :param move: mouvement souhaite
-        :return: key in MOVE_TO_STATUS
+        :return: key in MOVE_STATUS
         """
-        # decompose le move
+        # decompose le mouvement
         direction = move[0]
         distance = move[1:]
         stop = False
 
         # direction non conforme
         if direction not in DIRECTIONS:
-            move_to_status = 0
+            move_status = 0
 
         # move possible
         else:
@@ -158,11 +146,9 @@ class Map:
                 else:
                     distance -= 1
 
-            # effectue le move et met a jour la carte
+            # effectue le mouvement
 
-            move_to_status =
-
-        return move_to_status
+        return move_status
 
     def restore_backup(self, position):
         """ Charge une carte issue d'une sauvegarde """
