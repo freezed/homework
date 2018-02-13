@@ -19,6 +19,7 @@ class Map:
     :Example:
     >>> EasyMap = Map("cartes/facile.txt")
     >>> TestMap = Map("cartes/test.txt")
+    >>> MiniMap = Map("cartes/mini.txt")
     >>> PrisonMap = Map("cartes/prison.txt")
     >>> EmptyMap = Map("cartes/vide.txt")
     >>> TooSmallMap = Map("cartes/trop_petite.txt")
@@ -26,51 +27,44 @@ class Map:
 
     >>> print(EmptyMap.status_message)
     #!@?# Oups… carte «cartes/vide.txt», dimensions incorrecte: «0 x 0»
-
     >>> print(TooSmallMap.status_message)
     #!@?# Oups… carte «cartes/trop_petite.txt», dimensions incorrecte: «3 x 2»
-
     >>> print(NoRoboMap.status_message)
     #!@?# Oups… robo est introuvable sur la carte «cartes/sans_robo.txt»!
 
     >>> print("_column_nb: {}".format(TestMap._column_nb))
     _column_nb: 6
-
     >>> print("_line_nb: {}".format(TestMap._line_nb))
     _line_nb: 4
-
     >>> print("_init_robo_position: {}".format(TestMap._init_robo_position))
     _init_robo_position: 20
 
-    >>> TestMap.map_print()
-    01234
-    abcde
-    ABCDE
-    zyXwv
-
     >>> TestMap.move_to("n3")
     4
-
     >>> TestMap.map_print()
     01X34
     abcde
     ABCDE
     zy wv
-
     >>> TestMap.move_to("o2")
     4
-
     >>> TestMap.move_to("s3")
     4
-
     >>> TestMap.move_to("e4")
     4
 
-    >>> TestMap.map_print()
-     1 34
-    abcde
-    ABCDE
-     y wX
+    >>> MiniMap.move_to("o1")
+    1
+    >>> MiniMap.move_to("Z1")
+    0
+    >>> MiniMap.move_to("4")
+    0
+    >>> MiniMap.move_to("e1")
+    2
+    >>> MiniMap.map_print()
+    000
+     XU
+    000
     """
 
     def __init__(self, map_file):
