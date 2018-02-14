@@ -146,15 +146,13 @@ class Map:
         direction = move[0]
         goal = int(move[1:])
         steps = 0
-        move_status = 4
-
         # direction non conforme
         if direction not in DIRECTIONS:
             move_status = 0
 
         else:
             # pour chaque pas on recupere la position suivante
-            while steps < goal or move_status not in range(MOVE_STATUS.index('ok')):
+            while steps < goal:
                 steps += 1
                 if direction == DIRECTIONS[0]:      # nord
                     next_position = self._robo_position - self._column_nb
@@ -172,21 +170,26 @@ class Map:
                     raise NotImplementedError(ERR_)
 
                 # verifie quelle est la case du prochain pas
-                # import pdb; pdb.set_trace()
+# import pdb; pdb.set_trace()
                 next_char = self._data_text[next_position]
                 if next_char == MAZE_ELEMENTS['wall']:
                     move_status = 1
+                    steps = goal
 
                 elif next_char == MAZE_ELEMENTS['exit']:
                     self._robo_position = next_position
                     move_status = 2
+                    steps = goal
+
 
                 elif next_char == MAZE_ELEMENTS['door']:
                     self._robo_position = next_position
                     move_status = 3
+                    steps = goal
 
                 else:
                     self._robo_position = next_position
+                    move_status = 4
 
             # supprime le robo de son emplacement precedent
             self._data_text = self._data_text.replace(
