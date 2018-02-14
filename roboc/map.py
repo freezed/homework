@@ -62,7 +62,7 @@ class Map:
     >>> MiniMap.move_to("n")
     0
     >>> MiniMap.move_to("e1")
-    4
+    2
     >>> MiniMap.map_print()
     OOO
     O X
@@ -177,7 +177,7 @@ class Map:
                     raise NotImplementedError(ERR_)
 
                 # verifie quelle est la case du prochain pas
-# import pdb; pdb.set_trace()
+                # import pdb; pdb.set_trace()
                 next_char = self._data_text[next_position]
                 if next_char == MAZE_ELEMENTS['wall']:
                     move_status = 1
