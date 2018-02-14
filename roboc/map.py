@@ -60,12 +60,13 @@ class Map:
     >>> MiniMap.move_to("4")
     0
     >>> MiniMap.move_to("e1")
-    2
+    4
     >>> MiniMap.map_print()
-    000
-     XU
-    000
+    OOO
+    O X
+    OOO
     """
+
 
     def __init__(self, map_file):
         """
@@ -152,9 +153,8 @@ class Map:
             move_status = 0
 
         else:
-            # import pdb; pdb.set_trace()
             # pour chaque pas on recupere la position suivante
-            while steps < goal or move_status != 4:
+            while steps < goal or move_status not in range(MOVE_STATUS.index('ok')):
                 steps += 1
                 if direction == DIRECTIONS[0]:      # nord
                     next_position = self._robo_position - self._column_nb
@@ -172,6 +172,7 @@ class Map:
                     raise NotImplementedError(ERR_)
 
                 # verifie quelle est la case du prochain pas
+                # import pdb; pdb.set_trace()
                 next_char = self._data_text[next_position]
                 if next_char == MAZE_ELEMENTS['wall']:
                     move_status = 1

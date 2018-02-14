@@ -19,6 +19,7 @@ MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
                  'exit': 'U',
                  'robo': 'X',
                  'trace': ' '}
+# Issue possible d'un mouvement, garder le OK toujours en fin de liste
 MOVE_STATUS = ['bad', 'wall', 'exit', 'door', 'ok']
 
 ERR_ = "#!@?# Oups… "
