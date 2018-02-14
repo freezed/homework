@@ -145,7 +145,12 @@ class Map:
         :return: key in MOVE_STATUS
         """
         # decompose le mouvement
-        direction = move[0]
+        try:
+            direction = move[0]
+        except IndexError as except_detail:
+            # print("IndexError: «{}»".format(except_detail))
+            return 0
+
         try:
             goal = int(move[1:])
         except ValueError as except_detail:

@@ -85,24 +85,45 @@ map_file = MAP_DIRECTORY + \
 current_map = Map(map_file)
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
-# TODO : clear screen
 
 # Affichage de la carte et de la position de jeu
-if current_map.status:
+while current_map.status:
+    # TODO : clear screen
     current_map.map_print()
 
     # choix du deplacement
     user_select_move = input(MSG_CHOOSE_MOVE)
 
     # traitement du deplacement
-    current_map.move_to(user_select_move)
+    move_status_id = current_map.move_to(user_select_move)
 
-else:
+    if MOVE_STATUS[move_status_id] == 'ok':
+        print('MSG_OK')
+
+    elif MOVE_STATUS[move_status_id] == 'bad':
+        print('MSG_BAD')
+
+    elif MOVE_STATUS[move_status_id] == 'wall':
+        print('MSG_WALL')
+
+    elif MOVE_STATUS[move_status_id] == 'door':
+        print('MSG_DOOR')
+
+    elif MOVE_STATUS[move_status_id] == 'exit':
+        current_map.status = False
+        current_map.status_message = MSG_EXIT
+
+    else :  # juste au cas ou…
+        print(ERR_UNKNOW)
+
+if current_map.status is False:
     print(current_map.status_message)
     # fin de la boucle de tour
 
 
 # Fin de partie
+print(MSG_END_GAME)
+
 
 if __name__ == "__main__":
     """ Starting doctests """
