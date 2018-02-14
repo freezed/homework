@@ -59,6 +59,8 @@ class Map:
     0
     >>> MiniMap.move_to("4")
     0
+    >>> MiniMap.move_to("n")
+    0
     >>> MiniMap.move_to("e1")
     4
     >>> MiniMap.map_print()
@@ -144,7 +146,12 @@ class Map:
         """
         # decompose le mouvement
         direction = move[0]
-        goal = int(move[1:])
+        try:
+            goal = int(move[1:])
+        except ValueError as except_detail:
+            # print("ValueError: «{}»".format(except_detail))
+            return 0
+
         steps = 0
         # direction non conforme
         if direction not in DIRECTIONS:
