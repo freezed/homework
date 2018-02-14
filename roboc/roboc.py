@@ -13,20 +13,13 @@ Jeu permettant de controler un robot dans un labyrinthe
 C'est un labyrinthe forme d'obstacles: des murs, des portes et au moins
 une sortie. Arrive sur ce point, la partie est terminee.
 
-:Example:
->>> a = 10
->>> a + 5
-15
-
+Source: https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180
 """
 
 import os
 from map import Map
 from configuration import *
 # import pickle
-
-# FONCTIONS
-
 
 # DEBUT DU JEU
 
@@ -43,13 +36,13 @@ else:
         if map_file[filename_len:] == MAP_EXTENTION:
             maps_name_list.append(map_file[:filename_len])
 
-# Chercher si une sauvegarde existe
-# TODO
+# TODO06 Chercher si une sauvegarde existe
 
 # Affichage du debut de partie
-i = 0
+cls()   # clear screen
 print(MSG_DISCLAMER)
 print(MSG_AVAIBLE_MAP)
+i = 0
 for maps_name in maps_name_list:
     print("\t[{}] - {}".format(i, maps_name))
     i += 1
@@ -72,7 +65,6 @@ while user_select_map_id > len(maps_name_list) or user_select_map_id < 0:
        user_select_map_id < 0:
         print(ERR_PLAGE)
 
-# TODO : clear screen
 print(MSG_SELECTED_MAP.format(user_select_map_id,
       maps_name_list[user_select_map_id]))
 
@@ -81,22 +73,26 @@ map_file = MAP_DIRECTORY + \
            maps_name_list[user_select_map_id] + \
            MAP_EXTENTION
 
-# instentiation de la carte choisie
+# instenciation de la carte choisie
 current_map = Map(map_file)
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
 
 # Affichage de la carte et de la position de jeu
 while current_map.status:
-    # TODO : clear screen
+    cls()   # clear screen
     current_map.map_print()
 
+    # TODO07 Utiliser les commandes en capitale
     # choix du deplacement
-    user_select_move = input(MSG_CHOOSE_MOVE)
+    user_select_move = input(MSG_CHOOSE_MOVE).lower
+
+    # TODO08 quitter et sauvegarder
 
     # traitement du deplacement
     move_status_id = current_map.move_to(user_select_move)
 
+    # TODO09 ranger les status dans un dict('ok': MSG_OK, …)
     if MOVE_STATUS[move_status_id] == 'ok':
         print('MSG_OK')
 
@@ -113,9 +109,10 @@ while current_map.status:
         current_map.status = False
         current_map.status_message = MSG_EXIT
 
-    else :  # juste au cas ou…
-        print(ERR_UNKNOW)
+    else:  # juste au cas ou…
+        raise NotImplementedError(ERR_UNKNOW)
 
+# TODO10 rester dans la boucle si la carte n'est pas conforme
 if current_map.status is False:
     print(current_map.status_message)
     # fin de la boucle de tour

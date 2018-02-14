@@ -47,3 +47,11 @@ DEBUG = False
 
 maps_name_list = list()     # liste des maps proposees a l'utilisateur
 user_select_map_id = -1     # carte choisie par l'utilisateur
+
+
+# FUNCTIONS
+def cls():
+    """ Efface l'historique de la console """
+    import os
+    os.system('clear')
+    return

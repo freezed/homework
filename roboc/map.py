@@ -10,7 +10,7 @@ Ce fichier fait partie du projet `roboc`
 import os
 from configuration import *
 
-
+# TODO01 sortir les doctests
 class Map:
     """
     Classe gerant les cartes disponibles et la carte utilisee en cours
@@ -69,7 +69,6 @@ class Map:
     OOO
     """
 
-
     def __init__(self, map_file):
         """
         Initialisation de la carte utilise
@@ -85,11 +84,11 @@ class Map:
                 # contenu de la carte ligne a ligne
                 map_data_list = self._data_text.splitlines()
 
-            # nbre de colonne de la carte (1ere ligne)
+            # nbre de colonne de la 1ere ligne de la carte
             try:
-               self._column_nb = len(map_data_list[0]) +1
+                self._column_nb = len(map_data_list[0]) + 1
             except IndexError:
-               self._column_nb = 0
+                self._column_nb = 0
 
             # nbre de ligne de la carte
             try:
@@ -97,27 +96,30 @@ class Map:
             except IndexError:
                 self._line_nb = 0
 
-            # positior du robot
-            self._robo_position = self._data_text.find(MAZE_ELEMENTS['robo'])
+            # position du robot
+            self._robo_position = self._data_text.find(
+                MAZE_ELEMENTS['robo']
+            )
 
             # Quelques controle sur la carte:
-            # - a t elle des dimensions mini?
-            if self._column_nb < MIN_MAP_SIDE or self._line_nb < MIN_MAP_SIDE:
+            # dimensions assez grande pour deplacer un robo?
+            if self._column_nb < MIN_MAP_SIDE or \
+                    self._line_nb < MIN_MAP_SIDE:
                 self.status = False
                 self.status_message = ERR_MAP_SIZE.format(
                     map_file, self._column_nb, self._line_nb
                 )
 
-            # - a t elle un robo ( TODO : hors mur)?
+            # y a t il un robo?
             elif self._robo_position == -1:
                 self.status = False
                 self.status_message = ERR_MAP_ROBO.format(map_file)
 
-            # - a t elle une sortie (dans mur) TODO?
-            # - a t elle du mur tout autour TODO?
+            # on peu ajouter d'autres controles ici
+
             else:
-                # TODO est-ce utile de concerver la pos initiale?
-                self._init_robo_position = self._robo_position
+                # TODO02 est-ce utile de concerver la pos initiale?
+                # self._init_robo_position = self._robo_position
                 self.status = True
 
         # Erreur de chargement du fichier
@@ -125,7 +127,7 @@ class Map:
             self.status = False
             self.status_message = ERR_MAP_FILE.format(map_file)
 
-    # TODO est-ce utile de conserver cette methode?
+    # TODO03 est-ce utile de conserver cette methode?
     def __getattr__(self, name):
         """
         Si un attribut manque a l'appel (_robo_position ou
@@ -139,10 +141,10 @@ class Map:
 
     def move_to(self, move):
         """
-        Deplace le «robo» sur la carte
+        Deplace le robo sur la carte
 
         :param move: mouvement souhaite
-        :return: key in MOVE_STATUS
+        :return: une cle de la constante MOVE_STATUS
         """
         # decompose le mouvement
         try:
@@ -151,6 +153,7 @@ class Map:
             # print("IndexError: «{}»".format(except_detail))
             return 0
 
+        # TODO04 si pas de chiffre, on avance d'une unite
         try:
             goal = int(move[1:])
         except ValueError as except_detail:
@@ -179,10 +182,9 @@ class Map:
                     next_position = self._robo_position - 1
 
                 else:   # juste au cas ou
-                    raise NotImplementedError(ERR_)
+                    raise NotImplementedError(ERR_UNKNOW)
 
-                # verifie quelle est la case du prochain pas
-                # import pdb; pdb.set_trace()
+                # Traitement en fonction de la case du prochain pas
                 next_char = self._data_text[next_position]
                 if next_char == MAZE_ELEMENTS['wall']:
                     move_status = 1
@@ -193,11 +195,11 @@ class Map:
                     move_status = 2
                     steps = goal
 
-
                 elif next_char == MAZE_ELEMENTS['door']:
                     self._robo_position = next_position
                     move_status = 3
                     steps = goal
+                    # TODO05 replacer la porte ensuite
 
                 else:
                     self._robo_position = next_position
@@ -211,7 +213,7 @@ class Map:
             # place le robo sur sa nouvelle position
             self._data_text = self._data_text[:self._robo_position] + \
                 MAZE_ELEMENTS['robo'] + \
-                self._data_text[self._robo_position +1:]
+                self._data_text[self._robo_position + 1:]
 
         return move_status
 
