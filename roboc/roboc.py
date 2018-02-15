@@ -65,6 +65,7 @@ while user_select_map_id > len(maps_name_list) or user_select_map_id < 0:
        user_select_map_id < 0:
         print(ERR_PLAGE)
 
+cls()   # clear screen
 print(MSG_SELECTED_MAP.format(user_select_map_id,
       maps_name_list[user_select_map_id]))
 
@@ -80,17 +81,16 @@ current_map = Map(map_file)
 
 # Affichage de la carte et de la position de jeu
 while current_map.status:
-    cls()   # clear screen
     current_map.map_print()
 
-    # TODO07 Utiliser les commandes en capitale
     # choix du deplacement
-    user_select_move = input(MSG_CHOOSE_MOVE).lower
+    user_select_move = input(MSG_CHOOSE_MOVE).upper()
 
     # TODO08 quitter et sauvegarder
 
     # traitement du deplacement
     move_status_id = current_map.move_to(user_select_move)
+    cls()   # clear screen
 
     # TODO09 ranger les status dans un dict('ok': MSG_OK, …)
     if MOVE_STATUS[move_status_id] == 'ok':
@@ -120,6 +120,7 @@ if current_map.status is False:
 
 # Fin de partie
 print(MSG_END_GAME)
+current_map.map_print()
 
 
 if __name__ == "__main__":

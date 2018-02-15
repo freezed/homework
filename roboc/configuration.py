@@ -13,7 +13,7 @@ Ce fichier fait partie du projet `roboc`
 MAP_DIRECTORY = 'cartes/'           # repertoire des fichiers carte
 MAP_EXTENTION = '.txt'              # extention des fichiers carte
 SAVED_GAME_FILENAME = '.backup'     # fichier de sauvegarde
-DIRECTIONS = ['n', 's', 'e', 'o']   # commandes de deplacement
+DIRECTIONS = ['N', 'S', 'E', 'O']   # commandes de deplacement
 MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
                  'door': '.',
                  'exit': 'U',

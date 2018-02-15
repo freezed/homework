@@ -152,6 +152,9 @@ class Map:
         except IndexError as except_detail:
             # print("IndexError: «{}»".format(except_detail))
             return 0
+        except TypeError as except_detail:
+            print("TypeError: «{}»-«{}»".format(except_detail, move))
+            # return 0
 
         # TODO04 si pas de chiffre, on avance d'une unite
         try:
@@ -185,6 +188,7 @@ class Map:
                     raise NotImplementedError(ERR_UNKNOW)
 
                 # Traitement en fonction de la case du prochain pas
+                # TODO next_char = self._data_text[next_position] : IndexError: string index out of range
                 next_char = self._data_text[next_position]
                 if next_char == MAZE_ELEMENTS['wall']:
                     move_status = 1
