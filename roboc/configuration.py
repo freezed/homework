@@ -16,11 +16,13 @@ BACKUP_FILE = '.backup'             # fichier de sauvegarde
 MSG_NO_YES = ['non', 'oui']
 COMMANDS = {'quit': 'Q',            # commandes d'interuption
             'help':  'H'}
-# TODO14 reproduire la maniere de stocker:
+# TODO standardiser la maniere de stocker:
 # - DIRECTIONS & DIRECTIONS_LABEL
 # - MOVE_STATUS & MOVE_STATUS_MSG
 # - COMMANDS
-# pour mettre en fonction la generation de liste du TODO15
+# Meilleure sera la comprehension de la conf et ca permettra de faire
+# une fonction affiche_liste(VAR) commune pour la liste des fichiers de
+# carte et celle de l'aide.
 DIRECTIONS = ['N', 'S', 'E', 'O']   # commandes clavier de deplacement
 DIRECTIONS_LABEL = ['nord',         # etiquette des commandes clavier
                     'sud',          # des de deplacements pour

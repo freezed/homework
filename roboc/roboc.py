@@ -70,6 +70,10 @@ else:
 # Affichage de la carte et de la position de jeu
 while current_map.status:
     current_map.map_print()
+    # BUG Lancement d'une carte: pas de message par defaut a la
+    # creation de l'objet Map:
+    # print(current_map.status_message) \
+    # AttributeError: 'Map' object has no attribute 'status_message'
     print(current_map.status_message)
 
     # choix du deplacement
@@ -79,14 +83,21 @@ while current_map.status:
     cls()   # clear screen
 
     if user_select_move == COMMANDS['quit']:    # quitter et sauvegarder
-        # TODO16 vider le message avant sauvegarde
+        # TODO vider le message avant sauvegarde, il reapparait hors
+        # contexte a la remontee de la sauvegarde
         with open(BACKUP_FILE, 'wb') as backup_file:
             pickle.Pickler(backup_file).dump(current_map)
 
         current_map.status = False
         current_map.status_message = MSG_BACKUP_DONE
 
-    # TODO15 unifier la generation de liste (cartes et aide)
+    # TODO standardiser la maniere de stocker:
+    # - DIRECTIONS & DIRECTIONS_LABEL
+    # - MOVE_STATUS & MOVE_STATUS_MSG
+    # - COMMANDS
+    # Meilleure sera la comprehension de la conf et ca permettra de faire
+    # une fonction affiche_liste(VAR) commune pour la liste des fichiers de
+    # carte et celle de l'aide.
     elif user_select_move == COMMANDS['help']:  # Affiche l'aide
 
         current_map.status_message = MSG_HELP
@@ -112,7 +123,7 @@ while current_map.status:
         if MOVE_STATUS[move_status_id] == 'exit':
             current_map.status = False
 
-# TODO10 rester dans la boucle si la carte n'est pas conforme
+# TODO rester dans la boucle de la partie si la carte n'est pas conforme
 if current_map.status is False:
     print(current_map.status_message)
     # fin de la boucle de tour

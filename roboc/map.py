@@ -6,7 +6,7 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 Ce fichier fait partie du projet `roboc`
 
 """
-# TODO01 sortir les doctests
+# TODO sortir les doctests
 import os
 from configuration import DIRECTIONS, ERR_MAP_FILE, ERR_MAP_ROBO, \
     MIN_MAP_SIDE, ERR_MAP_SIZE, ERR_UNKNOW, MAZE_ELEMENTS
@@ -158,7 +158,7 @@ class Map:
 
         steps = 0
         # direction non conforme
-        # TODO13 UnboundLocalError: local variable 'direction' \
+        # FIXME: UnboundLocalError: local variable 'direction' \
         # referenced before assignment
         if direction not in DIRECTIONS:
             move_status = 0
@@ -192,7 +192,7 @@ class Map:
                 self._element_under_robo = MAZE_ELEMENTS['void']
 
                 # Traitement en fonction de la case du prochain pas
-                # TODO11 next_char = self._data_text[next_position] : \
+                # FIXME: next_char = self._data_text[next_position] : \
                 # IndexError: string index out of range
                 next_char = self._data_text[next_position]
                 if next_char == MAZE_ELEMENTS['wall']:
