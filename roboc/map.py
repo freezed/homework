@@ -98,10 +98,10 @@ class Map:
                 MAZE_ELEMENTS['robo']
             )
 
-            # Element sous le robo
+            # element «sous» le robo, au depart
             self._element_under_robo = MAZE_ELEMENTS['void']
 
-            # Quelques controle sur la carte:
+            # Quelques controle sur la carte chargee:
             # dimensions assez grande pour deplacer un robo?
             if self._column_nb < MIN_MAP_SIDE or \
                     self._line_nb < MIN_MAP_SIDE:
@@ -115,8 +115,9 @@ class Map:
                 self.status = False
                 self.status_message = ERR_MAP_ROBO.format(map_file)
 
-            # on peu ajouter d'autres controles ici
+            # on peu ajouter plein d'autres controles ici
 
+            # carte consideree utilisable
             else:
                 self.status = True
 

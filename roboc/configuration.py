@@ -73,8 +73,15 @@ def cls():
 
 
 def choose_maps_menu():
-    """    Affiche le menu de selection des cartes    """
+    """
+    Affiche le menu de selection des cartes
+
+    Recupere les cartes dans un repertoire, demande a l'utilisateur,
+    de choisir et effectue quelques tests sur la carte jouee avant de
+    creer
+    """
     from map import Map
+
     # VARIABLES
     user_select_map_id = -1     # choix utilisateur: une carte
 

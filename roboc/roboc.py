@@ -55,6 +55,7 @@ if os.path.isfile(BACKUP_FILE) is True:
                                 MSG_AVAIBLE_BACKUP.format(*MSG_NO_YES)
                              ).lower()
 
+    # utilisateur veut la sauvegarde
     if user_select_backup == MSG_NO_YES[1]:
         current_map = backup_map
     else:
