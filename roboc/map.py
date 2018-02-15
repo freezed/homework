@@ -36,8 +36,6 @@ class Map:
     _column_nb: 6
     >>> print("_line_nb: {}".format(TestMap._line_nb))
     _line_nb: 4
-    >>> print("_init_robo_position: {}".format(TestMap._init_robo_position))
-    _init_robo_position: 20
 
     >>> TestMap.move_to("N3")
     4
@@ -118,8 +116,6 @@ class Map:
             # on peu ajouter d'autres controles ici
 
             else:
-                # TODO02 est-ce utile de concerver la pos initiale?
-                # self._init_robo_position = self._robo_position
                 self.status = True
 
         # Erreur de chargement du fichier
@@ -206,16 +202,26 @@ class Map:
                 MAZE_ELEMENTS['robo'],
                 MAZE_ELEMENTS['trace']
             )
+
             # place le robo sur sa nouvelle position
-            self._data_text = self._data_text[:self._robo_position] + \
-                MAZE_ELEMENTS['robo'] + \
-                self._data_text[self._robo_position + 1:]
+            self.place_element(MAZE_ELEMENTS['robo'])
 
         return move_status
 
-    # def restore_backup(self, position):
-        # """ Charge une carte issue d'une sauvegarde """
+    def place_element(self, element):
+        """
+        Place l'element sur la carte.
 
+        La position est celle de l'attribut self._robo_position au
+        moment de l'appel.
+
+        Utilise pour place le robot et remettre les portes.
+
+        :param element: element a placer sur la carte
+        """
+        pos = self._robo_position
+        txt = self._data_text
+        self._data_text = txt[:pos] + element + txt[pos + 1:]
 
 if __name__ == "__main__":
     """ Starting doctests """
