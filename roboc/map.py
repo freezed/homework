@@ -97,6 +97,9 @@ class Map:
                 MAZE_ELEMENTS['robo']
             )
 
+            # Element sous le robo
+            self._element_under_robo = MAZE_ELEMENTS['void']
+
             # Quelques controle sur la carte:
             # dimensions assez grande pour deplacer un robo?
             if self._column_nb < MIN_MAP_SIDE or \
@@ -153,10 +156,18 @@ class Map:
 
         steps = 0
         # direction non conforme
+        # TODO13 UnboundLocalError: local variable 'direction' referenced before assignment
         if direction not in DIRECTIONS:
             move_status = 0
 
         else:
+
+            # supprime le robo de son emplacement actuel
+            self._data_text = self._data_text.replace(
+                MAZE_ELEMENTS['robo'],
+                self._element_under_robo
+            )
+
             # pour chaque pas on recupere la position suivante
             while steps < goal:
                 steps += 1
@@ -175,6 +186,8 @@ class Map:
                 else:   # juste au cas ou
                     raise NotImplementedError(ERR_UNKNOW)
 
+                self._element_under_robo = MAZE_ELEMENTS['void']
+
                 # Traitement en fonction de la case du prochain pas
                 # TODO11 next_char = self._data_text[next_position] : IndexError: string index out of range
                 next_char = self._data_text[next_position]
@@ -189,19 +202,13 @@ class Map:
 
                 elif next_char == MAZE_ELEMENTS['door']:
                     self._robo_position = next_position
+                    self._element_under_robo = MAZE_ELEMENTS['door']
                     move_status = 3
                     steps = goal
-                    # TODO05 replacer la porte ensuite
 
                 else:
                     self._robo_position = next_position
                     move_status = 4
-
-            # supprime le robo de son emplacement precedent
-            self._data_text = self._data_text.replace(
-                MAZE_ELEMENTS['robo'],
-                MAZE_ELEMENTS['trace']
-            )
 
             # place le robo sur sa nouvelle position
             self.place_element(MAZE_ELEMENTS['robo'])
