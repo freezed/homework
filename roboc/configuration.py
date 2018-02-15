@@ -13,11 +13,20 @@ Ce fichier fait partie du projet `roboc`
 MAP_DIRECTORY = 'cartes/'           # repertoire des fichiers carte
 MAP_EXTENTION = '.txt'              # extention des fichiers carte
 BACKUP_FILE = '.backup'             # fichier de sauvegarde
-DIRECTIONS = ['N', 'S', 'E', 'O']   # commandes de deplacement
 MSG_NO_YES = ['non', 'oui']
 COMMANDS = {'quit': 'Q',            # commandes d'interuption
             'help':  'H'}
-MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
+# TODO14 reproduire la maniere de stocker:
+# - DIRECTIONS & DIRECTIONS_LABEL
+# - MOVE_STATUS & MOVE_STATUS_MSG
+# - COMMANDS
+# pour mettre en fonction la generation de liste du TODO15
+DIRECTIONS = ['N', 'S', 'E', 'O']   # commandes clavier de deplacement
+DIRECTIONS_LABEL = ['nord',         # etiquette des commandes clavier
+                    'sud',          # des de deplacements pour
+                    'est',          # l'affichage de l'aide.
+                    'ouest']        # Garder la correspondance
+MAZE_ELEMENTS = {'wall': 'O',       # Elements dispo dans le labyrinthe
                  'door': '.',
                  'exit': 'U',
                  'robo': 'X',
@@ -47,10 +56,13 @@ MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_BACKUP_DONE = "La partie a été sauvegardée."
 MSG_BACKUP_GAME = "Partie sauvegardé"
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
-MSG_CHOOSE_MOVE = "Votre deplacement: "
+MSG_CHOOSE_MOVE = "Votre deplacement ({} pour l'aide): "
 MSG_DOOR = "Vous passez une porte"
+MSG_HELP = "Voici les commandes disponibles:\n"
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
 MSG_END_GAME = "Fin de la partie."
+
+TEMPLATE_HELP_LIST = "\t- «{}»: {}\n"   # Modele de la liste d'aide
 
 DEBUG = False
 

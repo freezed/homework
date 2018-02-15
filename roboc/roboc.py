@@ -21,9 +21,10 @@ import os
 import pickle
 # from map import Map
 from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, \
-    ERR_UNKNOW, MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, MOVE_STATUS, \
-    MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_CHOOSE_MOVE, \
-    MSG_DISCLAMER, MSG_END_GAME, MSG_NO_YES, user_select_backup
+    DIRECTIONS, DIRECTIONS_LABEL, ERR_UNKNOW, MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, \
+    MOVE_STATUS, MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, \
+    MSG_CHOOSE_MOVE, MSG_DISCLAMER, MSG_END_GAME, MSG_HELP, MSG_NO_YES, \
+    TEMPLATE_HELP_LIST, user_select_backup
 
 # DEBUT DU JEU
 
@@ -69,33 +70,46 @@ else:
 # Affichage de la carte et de la position de jeu
 while current_map.status:
     current_map.map_print()
+    print(current_map.status_message)
 
     # choix du deplacement
-    user_select_move = input(MSG_CHOOSE_MOVE).upper()
+    user_select_move = input(MSG_CHOOSE_MOVE.format(
+        COMMANDS['help'])
+    ).upper()
     cls()   # clear screen
 
     if user_select_move == COMMANDS['quit']:    # quitter et sauvegarder
+        # TODO16 vider le message avant sauvegarde
         with open(BACKUP_FILE, 'wb') as backup_file:
             pickle.Pickler(backup_file).dump(current_map)
 
-    # TODO12 afficher un recap des commandes dispo
-    # elif user_select_move == COMMANDS['help']:  # Affiche les commandes
-        # print(COMMANDS, DIRECTIONS)
-
         current_map.status = False
         current_map.status_message = MSG_BACKUP_DONE
+
+    # TODO15 unifier la generation de liste (cartes et aide)
+    elif user_select_move == COMMANDS['help']:  # Affiche l'aide
+
+        current_map.status_message = MSG_HELP
+
+        # liste les directions
+        for direction_id, direction in enumerate(DIRECTIONS):
+            current_map.status_message += TEMPLATE_HELP_LIST.format(
+                direction,
+                DIRECTIONS_LABEL[direction_id])
+
+        # liste les commandes
+        for command, command_label in COMMANDS.items():
+            current_map.status_message += TEMPLATE_HELP_LIST.format(
+                command,
+                command_label)
 
     else:   # traitement du deplacement
         move_status_id = current_map.move_to(user_select_move)
         current_map.status_message = \
             MOVE_STATUS_MSG[MOVE_STATUS[move_status_id]].format(user_select_move)
 
-        # La sortie n'est pas atteinte, la boucle continue
-        if MOVE_STATUS[move_status_id] != 'exit':
-            print(current_map.status_message)
-
         # La sortie est atteinte, fin de la boucle
-        else:
+        if MOVE_STATUS[move_status_id] == 'exit':
             current_map.status = False
 
 # TODO10 rester dans la boucle si la carte n'est pas conforme
