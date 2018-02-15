@@ -13,13 +13,17 @@ Jeu permettant de controler un robot dans un labyrinthe
 C'est un labyrinthe forme d'obstacles: des murs, des portes et au moins
 une sortie. Arrive sur ce point, la partie est terminee.
 
-Source: https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180
+Source:
+https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180
 """
 
 import os
 import pickle
-from map import Map
-from configuration import *
+# from map import Map
+from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, \
+    ERR_UNKNOW, MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, MOVE_STATUS, \
+    MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_CHOOSE_MOVE, MSG_DISCLAMER, \
+    MSG_END_GAME, MSG_EXIT, MSG_NO_YES, user_select_backup
 
 # DEBUT DU JEU
 
@@ -34,7 +38,7 @@ else:
 
         # garde les fichiers avec la bonne extention
         if map_file[filename_len:] == MAP_EXTENTION:
-            maps_name_list.append(map_file[:filename_len])
+            maps_name_list.append(map_file[: filename_len])
 
 cls()   # clear screen
 # Affichage du debut de partie
@@ -47,7 +51,9 @@ if os.path.isfile(BACKUP_FILE) is True:
 
     # On demande si l'utilisateur veut charger la sauvegarde
     while user_select_backup not in MSG_NO_YES:
-        user_select_backup = input(MSG_AVAIBLE_BACKUP.format(*MSG_NO_YES)).lower()
+        user_select_backup = input(
+                                MSG_AVAIBLE_BACKUP.format(*MSG_NO_YES)
+                             ).lower()
 
     if user_select_backup == MSG_NO_YES[1]:
         current_map = backup_map

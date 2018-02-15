@@ -35,7 +35,7 @@ ERR_UNKNOW = ERR_ + "personne n'est censé arriver ici…"
 
 MIN_MAP_SIDE = 3
 MSG_DISCLAMER = "Bienvenue dans Roboc."
-MSG_AVAIBLE_BACKUP = "Une sauvegarde est dispo, voulez-vous la charger? ({}/{}) "
+MSG_AVAIBLE_BACKUP = "Sauvegarde dispo, voulez-vous la charger? ({}/{}) "
 MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_BACKUP_DONE = "La partie a été sauvegardée."
 MSG_BACKUP_GAME = "Partie sauvegardé"
@@ -51,15 +51,20 @@ DEBUG = False
 
 # VARIABLES
 
+
 maps_name_list = list()     # liste des maps proposees a l'utilisateur
 user_select_backup = str()  # choix utilisateur: la sauvegarde
 
+
 # FUNCTIONS
+
+
 def cls():
     """ Efface l'historique de la console """
     import os
     os.system('clear')
     return
+
 
 def choose_maps_menu():
     """    Affiche le menu de selection des cartes    """
@@ -92,13 +97,15 @@ def choose_maps_menu():
             print(ERR_PLAGE)
 
     cls()   # clear screen
-    print(MSG_SELECTED_MAP.format(user_select_map_id,
-          maps_name_list[user_select_map_id]))
+    print(MSG_SELECTED_MAP.format(
+        user_select_map_id,
+        maps_name_list[user_select_map_id]
+        ))
 
     # Fichier carte a recuperer
     map_file = MAP_DIRECTORY + \
-               maps_name_list[user_select_map_id] + \
-               MAP_EXTENTION
+        maps_name_list[user_select_map_id] + \
+        MAP_EXTENTION
 
     # instenciation de la carte choisie
     return Map(map_file)
