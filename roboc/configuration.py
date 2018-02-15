@@ -12,8 +12,10 @@ Ce fichier fait partie du projet `roboc`
 
 MAP_DIRECTORY = 'cartes/'           # repertoire des fichiers carte
 MAP_EXTENTION = '.txt'              # extention des fichiers carte
-SAVED_GAME_FILENAME = '.backup'     # fichier de sauvegarde
+BACKUP_FILE = '.backup'             # fichier de sauvegarde
 DIRECTIONS = ['N', 'S', 'E', 'O']   # commandes de deplacement
+COMMANDS = {'quit': 'Q',            # commandes d'interuption
+            'help':  'H'}
 MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
                  'door': '.',
                  'exit': 'U',
@@ -32,6 +34,7 @@ ERR_UNKNOW = ERR_ + "personne n'est censé arriver ici…"
 
 MIN_MAP_SIDE = 3
 MSG_DISCLAMER = "Bienvenue dans Roboc."
+MSG_BACKUP = "Partie sauvegardée."
 MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
 MSG_CHOOSE_MOVE = "Votre deplacement: "

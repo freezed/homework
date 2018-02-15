@@ -17,9 +17,9 @@ Source: https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exerc
 """
 
 import os
+import pickle
 from map import Map
 from configuration import *
-# import pickle
 
 # DEBUT DU JEU
 
@@ -85,32 +85,41 @@ while current_map.status:
 
     # choix du deplacement
     user_select_move = input(MSG_CHOOSE_MOVE).upper()
-
-    # TODO08 quitter et sauvegarder
-
-    # traitement du deplacement
-    move_status_id = current_map.move_to(user_select_move)
     cls()   # clear screen
 
-    # TODO09 ranger les status dans un dict('ok': MSG_OK, …)
-    if MOVE_STATUS[move_status_id] == 'ok':
-        print('MSG_OK')
+    if user_select_move == COMMANDS['quit']:    # quitter et sauvegarder
+        with open(BACKUP_FILE, 'wb') as backup_file:
+            pickle.Pickler(backup_file).dump(current_map)
 
-    elif MOVE_STATUS[move_status_id] == 'bad':
-        print('MSG_BAD')
+    # TODO12 afficher un recap des commandes dispo
+    # elif user_select_move == COMMANDS['help']:  # Affiche les commandes
+        # print(COMMANDS, DIRECTIONS)
 
-    elif MOVE_STATUS[move_status_id] == 'wall':
-        print('MSG_WALL')
-
-    elif MOVE_STATUS[move_status_id] == 'door':
-        print('MSG_DOOR')
-
-    elif MOVE_STATUS[move_status_id] == 'exit':
         current_map.status = False
-        current_map.status_message = MSG_EXIT
+        current_map.status_message = MSG_BACKUP
 
-    else:  # juste au cas ou…
-        raise NotImplementedError(ERR_UNKNOW)
+    else:   # traitement du deplacement
+        move_status_id = current_map.move_to(user_select_move)
+
+        # TODO09 ranger les status dans un dict('ok': MSG_OK, …)
+        if MOVE_STATUS[move_status_id] == 'ok':
+            print('MSG_OK')
+
+        elif MOVE_STATUS[move_status_id] == 'bad':
+            print('MSG_BAD')
+
+        elif MOVE_STATUS[move_status_id] == 'wall':
+            print('MSG_WALL')
+
+        elif MOVE_STATUS[move_status_id] == 'door':
+            print('MSG_DOOR')
+
+        elif MOVE_STATUS[move_status_id] == 'exit':
+            current_map.status = False
+            current_map.status_message = MSG_EXIT
+
+        else:  # juste au cas ou…
+            raise NotImplementedError(ERR_UNKNOW)
 
 # TODO10 rester dans la boucle si la carte n'est pas conforme
 if current_map.status is False:

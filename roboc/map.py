@@ -127,14 +127,6 @@ class Map:
             self.status = False
             self.status_message = ERR_MAP_FILE.format(map_file)
 
-    # TODO03 est-ce utile de conserver cette methode?
-    def __getattr__(self, name):
-        """
-        Si un attribut manque a l'appel (_robo_position ou
-         _init_robo_position)
-        """
-        return None
-
     def map_print(self):
         """ Affiche la carte avec la position de jeu courante """
         print(self._data_text)
