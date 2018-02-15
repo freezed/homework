@@ -24,6 +24,12 @@ MAZE_ELEMENTS = {'wall': 'O',       # elements dispo dans le labyrinthe
                  'void': ' '}
 # Issue possible d'un mouvement, garder le OK toujours en fin de liste
 MOVE_STATUS = ['bad', 'wall', 'exit', 'door', 'ok']
+MOVE_STATUS_MSG = {'bad': "Le déplacement «{}» n'est pas autorisé.",
+    'wall': "Le déplacement est stoppé par un mur.",
+    'exit': "Vous êtes sortit du labyrinte",
+    'door': "Vous passez une porte",
+    'ok': "Jusqu'ici, tout va bien…"
+}
 
 ERR_ = "#!@?# Oups… "
 ERR_MAP_FILE = ERR_ + "carte «{}» inaccessible!"
@@ -34,6 +40,7 @@ ERR_SAISIE = ERR_ + "saisir un nombre! "
 ERR_UNKNOW = ERR_ + "personne n'est censé arriver ici…"
 
 MIN_MAP_SIDE = 3
+
 MSG_DISCLAMER = "Bienvenue dans Roboc."
 MSG_AVAIBLE_BACKUP = "Sauvegarde dispo, voulez-vous la charger? ({}/{}) "
 MSG_AVAIBLE_MAP = "Cartes disponible: "
@@ -44,7 +51,6 @@ MSG_CHOOSE_MOVE = "Votre deplacement: "
 MSG_DOOR = "Vous passez une porte"
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
 MSG_END_GAME = "Fin de la partie."
-MSG_EXIT = "Vous avez atteint la sortie!"
 
 DEBUG = False
 

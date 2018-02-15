@@ -22,8 +22,8 @@ import pickle
 # from map import Map
 from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, \
     ERR_UNKNOW, MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, MOVE_STATUS, \
-    MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_CHOOSE_MOVE, MSG_DISCLAMER, \
-    MSG_END_GAME, MSG_EXIT, MSG_NO_YES, user_select_backup
+    MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_CHOOSE_MOVE, \
+    MSG_DISCLAMER, MSG_END_GAME, MSG_NO_YES, user_select_backup
 
 # DEBUT DU JEU
 
@@ -86,26 +86,16 @@ while current_map.status:
 
     else:   # traitement du deplacement
         move_status_id = current_map.move_to(user_select_move)
+        current_map.status_message = \
+            MOVE_STATUS_MSG[MOVE_STATUS[move_status_id]].format(user_select_move)
 
-        # TODO09 ranger les status dans un dict('ok': MSG_OK, …)
-        if MOVE_STATUS[move_status_id] == 'ok':
-            print('MSG_OK')
+        # La sortie n'est pas atteinte, la boucle continue
+        if MOVE_STATUS[move_status_id] != 'exit':
+            print(current_map.status_message)
 
-        elif MOVE_STATUS[move_status_id] == 'bad':
-            print('MSG_BAD')
-
-        elif MOVE_STATUS[move_status_id] == 'wall':
-            print('MSG_WALL')
-
-        elif MOVE_STATUS[move_status_id] == 'door':
-            print('MSG_DOOR')
-
-        elif MOVE_STATUS[move_status_id] == 'exit':
+        # La sortie est atteinte, fin de la boucle
+        else:
             current_map.status = False
-            current_map.status_message = MSG_EXIT
-
-        else:  # juste au cas ou…
-            raise NotImplementedError(ERR_UNKNOW)
 
 # TODO10 rester dans la boucle si la carte n'est pas conforme
 if current_map.status is False:
