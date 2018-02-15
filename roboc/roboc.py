@@ -36,46 +36,26 @@ else:
         if map_file[filename_len:] == MAP_EXTENTION:
             maps_name_list.append(map_file[:filename_len])
 
-# TODO06 Chercher si une sauvegarde existe
-
+cls()   # clear screen
 # Affichage du debut de partie
-cls()   # clear screen
 print(MSG_DISCLAMER)
-print(MSG_AVAIBLE_MAP)
-i = 0
-for maps_name in maps_name_list:
-    print("\t[{}] - {}".format(i, maps_name))
-    i += 1
 
-# Choix de la carte par l'utilisateur
-while user_select_map_id > len(maps_name_list) or user_select_map_id < 0:
-    user_select_map_id = input(MSG_CHOOSE_MAP)
-    try:
-        user_select_map_id = int(user_select_map_id)
-        # ? if user_select_map_id is int(): ?
-    except ValueError as except_detail:
-        if DEBUG:
-            print("ValueError: «{}»".format(except_detail))
-        else:
-            print(ERR_SAISIE)
-        user_select_map_id = -1
-        continue
+# Verif si un fichier de sauvegarde est dispo
+if os.path.isfile(BACKUP_FILE) is True:
+    with open(BACKUP_FILE, 'rb') as backup_file:
+        backup_map = pickle.Unpickler(backup_file).load()
 
-    if user_select_map_id > len(maps_name_list) or \
-       user_select_map_id < 0:
-        print(ERR_PLAGE)
+    # On demande si l'utilisateur veut charger la sauvegarde
+    while user_select_backup not in MSG_NO_YES:
+        user_select_backup = input(MSG_AVAIBLE_BACKUP.format(*MSG_NO_YES)).lower()
 
-cls()   # clear screen
-print(MSG_SELECTED_MAP.format(user_select_map_id,
-      maps_name_list[user_select_map_id]))
+    if user_select_backup == MSG_NO_YES[1]:
+        current_map = backup_map
+    else:
+        current_map = choose_maps_menu()
+else:
+    current_map = choose_maps_menu()
 
-# Fichier carte a recuperer
-map_file = MAP_DIRECTORY + \
-           maps_name_list[user_select_map_id] + \
-           MAP_EXTENTION
-
-# instenciation de la carte choisie
-current_map = Map(map_file)
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
 
@@ -96,7 +76,7 @@ while current_map.status:
         # print(COMMANDS, DIRECTIONS)
 
         current_map.status = False
-        current_map.status_message = MSG_BACKUP
+        current_map.status_message = MSG_BACKUP_DONE
 
     else:   # traitement du deplacement
         move_status_id = current_map.move_to(user_select_move)
