@@ -51,13 +51,11 @@ class Map:
     >>> TestMap.move_to("E4")
     4
 
-    >>> MiniMap.move_to("O1")
+    >>> MiniMap.move_to("O")
     1
     >>> MiniMap.move_to("Z1")
     0
     >>> MiniMap.move_to("4")
-    0
-    >>> MiniMap.move_to("N")
     0
     >>> MiniMap.move_to("E1")
     2
@@ -135,21 +133,23 @@ class Map:
         :return: une cle de la constante MOVE_STATUS
         """
         # decompose le mouvement
-        try:
+        try:    # on recupere le 1er caractere (la direction)
             direction = move[0]
         except IndexError as except_detail:
-            # print("IndexError: «{}»".format(except_detail))
-            return 0
+            print("IndexError: «{}»".format(except_detail))
+            # return 0
         except TypeError as except_detail:
             print("TypeError: «{}»-«{}»".format(except_detail, move))
             # return 0
 
-        # TODO04 si pas de chiffre, on avance d'une unite
-        try:
-            goal = int(move[1:])
-        except ValueError as except_detail:
-            # print("ValueError: «{}»".format(except_detail))
-            return 0
+        if len(move[1:]) > 0:  # on recupere les caractere suivants (dist)
+            try:
+                goal = int(move[1:])
+            except ValueError as except_detail:
+                # print("ValueError: «{}»".format(except_detail))
+                return 0
+        else:   # si pas de chiffre, on avance d'une seule unite
+            goal = 1
 
         steps = 0
         # direction non conforme
