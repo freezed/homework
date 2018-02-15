@@ -70,10 +70,6 @@ else:
 # Affichage de la carte et de la position de jeu
 while current_map.status:
     current_map.map_print()
-    # BUG Lancement d'une carte: pas de message par defaut a la
-    # creation de l'objet Map:
-    # print(current_map.status_message) \
-    # AttributeError: 'Map' object has no attribute 'status_message'
     print(current_map.status_message)
 
     # choix du deplacement

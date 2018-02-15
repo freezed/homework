@@ -9,7 +9,7 @@ Ce fichier fait partie du projet `roboc`
 # TODO sortir les doctests
 import os
 from configuration import DIRECTIONS, ERR_MAP_FILE, ERR_MAP_ROBO, \
-    MIN_MAP_SIDE, ERR_MAP_SIZE, ERR_UNKNOW, MAZE_ELEMENTS
+    MIN_MAP_SIDE, ERR_MAP_SIZE, ERR_UNKNOW, MAZE_ELEMENTS, MSG_START_GAME
 
 
 class Map:
@@ -120,6 +120,7 @@ class Map:
             # carte consideree utilisable
             else:
                 self.status = True
+                self.status_message = MSG_START_GAME
 
         # Erreur de chargement du fichier
         else:
