@@ -188,7 +188,7 @@ class Map:
                     raise NotImplementedError(ERR_UNKNOW)
 
                 # Traitement en fonction de la case du prochain pas
-                # TODO next_char = self._data_text[next_position] : IndexError: string index out of range
+                # TODO11 next_char = self._data_text[next_position] : IndexError: string index out of range
                 next_char = self._data_text[next_position]
                 if next_char == MAZE_ELEMENTS['wall']:
                     move_status = 1
