@@ -39,29 +39,29 @@ class Map:
     >>> print("_init_robo_position: {}".format(TestMap._init_robo_position))
     _init_robo_position: 20
 
-    >>> TestMap.move_to("n3")
+    >>> TestMap.move_to("N3")
     4
     >>> TestMap.map_print()
     01X34
     abcde
     ABCDE
     zy wv
-    >>> TestMap.move_to("o2")
+    >>> TestMap.move_to("O2")
     4
-    >>> TestMap.move_to("s3")
+    >>> TestMap.move_to("S3")
     4
-    >>> TestMap.move_to("e4")
+    >>> TestMap.move_to("E4")
     4
 
-    >>> MiniMap.move_to("o1")
+    >>> MiniMap.move_to("O1")
     1
     >>> MiniMap.move_to("Z1")
     0
     >>> MiniMap.move_to("4")
     0
-    >>> MiniMap.move_to("n")
+    >>> MiniMap.move_to("N")
     0
-    >>> MiniMap.move_to("e1")
+    >>> MiniMap.move_to("E1")
     2
     >>> MiniMap.map_print()
     OOO
