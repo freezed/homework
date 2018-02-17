@@ -141,12 +141,10 @@ class Map:
         # decompose le mouvement
         try:    # on recupere le 1er caractere (la direction)
             direction = move[0]
-        except IndexError as except_detail:
-            print("IndexError: «{}»".format(except_detail))
-            # return 0
-        except TypeError as except_detail:
-            print("TypeError: «{}»-«{}»".format(except_detail, move))
-            # return 0
+        except IndexError:
+            return 0
+        except TypeError:
+            return 0
 
         if len(move[1:]) > 0:  # on recupere les caractere suivants (dist)
             try:
@@ -159,8 +157,6 @@ class Map:
 
         steps = 0
         # direction non conforme
-        # FIXME: UnboundLocalError: local variable 'direction' \
-        # referenced before assignment
         if direction not in DIRECTIONS:
             move_status = 0
 
