@@ -22,7 +22,7 @@ import pickle
 # from map import Map
 from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, \
     DIRECTIONS, DIRECTIONS_LABEL, ERR_UNKNOW, MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, \
-    MOVE_STATUS, MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, \
+    MOVE_STATUS, MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_BACKUP_GAME, \
     MSG_CHOOSE_MOVE, MSG_DISCLAMER, MSG_END_GAME, MSG_HELP, MSG_NO_YES, \
     TEMPLATE_HELP_LIST, user_select_backup
 
@@ -79,8 +79,7 @@ while current_map.status:
     cls()   # clear screen
 
     if user_select_move == COMMANDS['quit']:    # quitter et sauvegarder
-        # TODO vider le message avant sauvegarde, il reapparait hors
-        # contexte a la remontee de la sauvegarde
+        current_map.status_message = MSG_BACKUP_GAME
         with open(BACKUP_FILE, 'wb') as backup_file:
             pickle.Pickler(backup_file).dump(current_map)
 
