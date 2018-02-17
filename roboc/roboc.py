@@ -79,10 +79,6 @@ while current_map.status:
     cls()   # clear screen
 
     if user_select_move == COMMANDS['quit']:    # quitter et sauvegarder
-        current_map.status_message = MSG_BACKUP_GAME
-        with open(BACKUP_FILE, 'wb') as backup_file:
-            pickle.Pickler(backup_file).dump(current_map)
-
         current_map.status = False
         current_map.status_message = MSG_BACKUP_DONE
 
@@ -117,6 +113,11 @@ while current_map.status:
         # La sortie est atteinte, fin de la boucle
         if MOVE_STATUS[move_status_id] == 'exit':
             current_map.status = False
+
+        else:       # sinon on sauvegarde avant de boucler
+            current_map.status_message = MSG_BACKUP_GAME
+            with open(BACKUP_FILE, 'wb') as backup_file:
+                pickle.Pickler(backup_file).dump(current_map)
 
 # TODO rester dans la boucle de la partie si la carte n'est pas conforme
 if current_map.status is False:
