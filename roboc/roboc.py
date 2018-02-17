@@ -20,11 +20,11 @@ https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180
 import os
 import pickle
 # from map import Map
-from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, \
-    DIRECTIONS, DIRECTIONS_LABEL, ERR_UNKNOW, MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, \
+from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, COMMANDS_LABEL, \
+    DIRECTIONS, DIRECTIONS_LABEL, ERR_UNKNOW, get_msg_list, MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, \
     MOVE_STATUS, MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_BACKUP_GAME, \
     MSG_CHOOSE_MOVE, MSG_DISCLAMER, MSG_END_GAME, MSG_HELP, MSG_NO_YES, \
-    TEMPLATE_HELP_LIST, user_select_backup
+    user_select_backup
 
 # DEBUT DU JEU
 
@@ -74,36 +74,20 @@ while current_map.status:
 
     # choix du deplacement
     user_select_move = input(MSG_CHOOSE_MOVE.format(
-        COMMANDS['help'])
+        COMMANDS[1], COMMANDS_LABEL[1])
     ).upper()
     cls()   # clear screen
 
-    if user_select_move == COMMANDS['quit']:    # quitter et sauvegarder
+    if user_select_move == COMMANDS[0]:    # sauvegarder & quitter
         current_map.status = False
         current_map.status_message = MSG_BACKUP_DONE
 
-    # TODO standardiser la maniere de stocker:
-    # - DIRECTIONS & DIRECTIONS_LABEL
-    # - MOVE_STATUS & MOVE_STATUS_MSG
-    # - COMMANDS
-    # Meilleure sera la comprehension de la conf et ca permettra de faire
-    # une fonction affiche_liste(VAR) commune pour la liste des fichiers de
-    # carte et celle de l'aide.
-    elif user_select_move == COMMANDS['help']:  # Affiche l'aide
-
+    elif user_select_move == COMMANDS[1]:  # Affiche l'aide
         current_map.status_message = MSG_HELP
-
         # liste les directions
-        for direction_id, direction in enumerate(DIRECTIONS):
-            current_map.status_message += TEMPLATE_HELP_LIST.format(
-                direction,
-                DIRECTIONS_LABEL[direction_id])
-
+        current_map.status_message += get_msg_list(DIRECTIONS, DIRECTIONS_LABEL)
         # liste les commandes
-        for command, command_label in COMMANDS.items():
-            current_map.status_message += TEMPLATE_HELP_LIST.format(
-                command,
-                command_label)
+        current_map.status_message += get_msg_list(COMMANDS, COMMANDS_LABEL)
 
     else:   # traitement du deplacement
         move_status_id = current_map.move_to(user_select_move)
@@ -115,6 +99,7 @@ while current_map.status:
             current_map.status = False
 
         else:       # sinon on sauvegarde avant de boucler
+            # FIXME le message tour a tour est perdu apres la sauvegarde
             current_map.status_message = MSG_BACKUP_GAME
             with open(BACKUP_FILE, 'wb') as backup_file:
                 pickle.Pickler(backup_file).dump(current_map)

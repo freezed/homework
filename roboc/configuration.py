@@ -14,8 +14,6 @@ MAP_DIRECTORY = 'cartes/'           # repertoire des fichiers carte
 MAP_EXTENTION = '.txt'              # extention des fichiers carte
 BACKUP_FILE = '.backup'             # fichier de sauvegarde
 MSG_NO_YES = ['non', 'oui']
-COMMANDS = {'quit': 'Q',            # commandes d'interuption
-            'help':  'H'}
 # TODO standardiser la maniere de stocker:
 # - DIRECTIONS & DIRECTIONS_LABEL
 # - MOVE_STATUS & MOVE_STATUS_MSG
@@ -23,6 +21,16 @@ COMMANDS = {'quit': 'Q',            # commandes d'interuption
 # Meilleure sera la comprehension de la conf et ca permettra de faire
 # une fonction affiche_liste(VAR) commune pour la liste des fichiers de
 # carte et celle de l'aide.
+
+# COMMANDES D'INTERUPTION:
+# le code utilise l'index des listes `COMMANDS` & `COMMANDS_LABEL`
+# pour faire le lien entre les 2.
+# Ici vous pouvez ajouter de nouvelles commandes de jeu, elle seront
+# ajoutees a l'aide automatiquement. Mais il faudra ajouter le code
+# leur correspondant dans la condition de traitement du mouvement.
+COMMANDS = ['Q', 'H']
+# Libelle des commandes d'interuption, conserver l'ordre
+COMMANDS_LABEL = ['Sauvegarder & quitter', 'Aide']
 DIRECTIONS = ['N', 'S', 'E', 'O']   # commandes clavier de deplacement
 DIRECTIONS_LABEL = ['nord',         # etiquette des commandes clavier
                     'sud',          # des de deplacements pour
@@ -58,14 +66,12 @@ MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_BACKUP_DONE = "La partie a été sauvegardée."
 MSG_BACKUP_GAME = "Partie sauvegardé chargée"
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
-MSG_CHOOSE_MOVE = "Votre deplacement ({} pour l'aide): "
+MSG_CHOOSE_MOVE = "Votre deplacement ({}:{}): "
 MSG_DOOR = "Vous passez une porte"
 MSG_START_GAME = "Votre partie commence"
 MSG_HELP = "Voici les commandes disponibles:\n"
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
 MSG_END_GAME = "Fin de la partie."
-
-TEMPLATE_HELP_LIST = "\t- «{}»: {}\n"   # Modele de la liste d'aide
 
 DEBUG = False
 
@@ -137,3 +143,27 @@ def choose_maps_menu():
 
     # instenciation de la carte choisie
     return Map(map_file)
+
+
+def get_msg_list(command, label):
+    """
+    Formate une chaine pour afficher les commandes et leurs descriptifs
+
+    :type key: lst()
+    :param key: liste de commande
+    :type label: lst()
+    :param label: Texte descriptif des commande associee
+    :rtype: str()
+    :return: Chaine formatee assemblant les elements en parametres
+    """
+
+    # Modele de mise en forme de la liste de chaque element
+    TEMPLATE = "\t- «{}»: {}\n"
+
+    # Variable de setour
+    result = str()
+
+    for key, value in enumerate(command):
+        result += TEMPLATE.format(value ,label[key])
+
+    return result
