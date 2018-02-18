@@ -91,18 +91,20 @@ while current_map.status:
 
     else:   # traitement du deplacement
         move_status_id = current_map.move_to(user_select_move)
-        current_map.status_message = \
-            MOVE_STATUS_MSG[MOVE_STATUS[move_status_id]].format(user_select_move)
+        message = MOVE_STATUS_MSG[MOVE_STATUS[move_status_id]].format(user_select_move)
 
         # La sortie est atteinte, fin de la boucle
         if MOVE_STATUS[move_status_id] == 'exit':
             current_map.status = False
+            current_map.status_message = message
 
         else:       # sinon on sauvegarde avant de boucler
-            # FIXME le message tour a tour est perdu apres la sauvegarde
             current_map.status_message = MSG_BACKUP_GAME
             with open(BACKUP_FILE, 'wb') as backup_file:
                 pickle.Pickler(backup_file).dump(current_map)
+
+            current_map.status_message = message
+
 
 # TODO rester dans la boucle de la partie si la carte n'est pas conforme
 if current_map.status is False:
