@@ -156,10 +156,8 @@ class Map:
         """
         Deplace le robo sur la carte
 
-        :param move: mouvement souhaite
-        :rtype move: str()
-        :return: une cle de la constante MOVE_STATUS
-        :rtype: int()
+        :param str move: mouvement souhaite
+        :return int: une cle de la constante MOVE_STATUS
         """
         # decompose le mouvement
         try:    # on recupere le 1er caractere (la direction)
@@ -173,19 +171,19 @@ class Map:
             try:
                 goal = int(move[1:])
             except ValueError as except_detail:
-                # print("ValueError: «{}»".format(except_detail))
                 return 0
         else:   # si pas de chiffre, on avance d'une seule unite
             goal = 1
 
         steps = 0
+
         # direction non conforme
         if direction not in DIRECTIONS:
             move_status = 0
 
+        # supprime le robo de son emplacement actuel et on replace
+        # l'elements «dessous»
         else:
-
-            # supprime le robo de son emplacement actuel
             self._data_text = self._data_text.replace(
                 MAZE_ELEMENTS['robo'],
                 self._element_under_robo
@@ -212,8 +210,6 @@ class Map:
                 self._element_under_robo = MAZE_ELEMENTS['void']
 
                 # Traitement en fonction de la case du prochain pas
-                # FIXME: next_char = self._data_text[next_position] : \
-                # IndexError: string index out of range
                 next_char = self._data_text[next_position]
                 if next_char == MAZE_ELEMENTS['wall']:
                     move_status = 1
@@ -248,7 +244,7 @@ class Map:
 
         Utilise pour place le robot et remettre les portes.
 
-        :param element: element a placer sur la carte
+        :param str element: element a placer sur la carte
         """
         pos = self._robo_position
         txt = self._data_text
