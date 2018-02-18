@@ -9,17 +9,13 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 roboc
 =====
 
-Jeu permettant de controler un robot dans un labyrinthe
-C'est un labyrinthe forme d'obstacles: des murs, des portes et au moins
-une sortie. Arrive sur ce point, la partie est terminee.
+Jeu permettant de controler un robot dans un labyrinthe.
 
-Source:
-https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180
+Voir readme.md
 """
 
 import os
 import pickle
-# from map import Map
 from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, \
     COMMANDS_LABEL, DIRECTIONS, DIRECTIONS_LABEL, get_msg_list, \
     MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, MOVE_STATUS, \
@@ -42,8 +38,8 @@ else:
         if map_file[filename_len:] == MAP_EXTENTION:
             maps_name_list.append(map_file[: filename_len])
 
-cls()   # clear screen
 # Affichage du debut de partie
+cls()   # vide l'ecran de la console
 print(MSG_DISCLAMER)
 
 # Verif si un fichier de sauvegarde est dispo
@@ -68,57 +64,53 @@ else:
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
 
-# Affichage de la carte et de la position de jeu
+# Affichage de la carte tant que status == True
 while current_map.status:
+    # Affiche la carte et le message
     current_map.map_print()
     print(current_map.status_message)
 
-    # choix du deplacement
-    user_select_move = input(MSG_CHOOSE_MOVE.format(
+    # Demande a l'utilisateur son choix du deplacement
+    user_move = input(MSG_CHOOSE_MOVE.format(
         COMMANDS[1], COMMANDS_LABEL[1])
     ).upper()
-    cls()   # clear screen
+    cls()   # vide l'ecran de la console
 
-    if user_select_move == COMMANDS[0]:    # sauvegarder & quitter
+    # Traitement de la commande utilisateur
+    if user_move == COMMANDS[0]:    # sauvegarder & quitter
         current_map.status = False
         current_map.status_message = MSG_BACKUP_DONE
 
-    elif user_select_move == COMMANDS[1]:  # Affiche l'aide
+    elif user_move == COMMANDS[1]:  # Affiche l'aide
         current_map.status_message = MSG_HELP
         # liste les directions
-        current_map.status_message += get_msg_list(DIRECTIONS, DIRECTIONS_LABEL)
+        current_map.status_message += get_msg_list(
+            DIRECTIONS, DIRECTIONS_LABEL
+        )
         # liste les commandes
         current_map.status_message += get_msg_list(COMMANDS, COMMANDS_LABEL)
 
-    else:   # traitement du deplacement
-        move_status_id = current_map.move_to(user_select_move)
-        message = MOVE_STATUS_MSG[MOVE_STATUS[move_status_id]].format(user_select_move)
+    else:   # Traitement du deplacement
+        status = current_map.move_to(user_move)
+        message = MOVE_STATUS_MSG[MOVE_STATUS[status]].format(user_move)
 
         # La sortie est atteinte, fin de la boucle
-        if MOVE_STATUS[move_status_id] == 'exit':
+        if MOVE_STATUS[status] == 'exit':
             current_map.status = False
             current_map.status_message = message
 
-        else:       # sinon on sauvegarde avant de boucler
+        else:   # sinon on sauvegarde la partie avant de refaire un tour
             current_map.status_message = MSG_BACKUP_GAME
             with open(BACKUP_FILE, 'wb') as backup_file:
                 pickle.Pickler(backup_file).dump(current_map)
 
             current_map.status_message = message
 
+# fin de la boucle de tour
 
-# TODO rester dans la boucle de la partie si la carte n'est pas conforme
 if current_map.status is False:
     print(current_map.status_message)
-    # fin de la boucle de tour
-
 
 # Fin de partie
 print(MSG_END_GAME)
 current_map.map_print()
-
-
-if __name__ == "__main__":
-    """ Starting doctests """
-    import doctest
-    doctest.testmod()

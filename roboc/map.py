@@ -4,9 +4,7 @@ Version: 0.1
 Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 
 Ce fichier fait partie du projet `roboc`
-
 """
-# TODO sortir les doctests
 import os
 from configuration import DIRECTIONS, ERR_MAP_FILE, ERR_MAP_ROBO, \
     MIN_MAP_SIDE, ERR_MAP_SIZE, ERR_UNKNOW, MAZE_ELEMENTS, MSG_START_GAME
@@ -14,8 +12,18 @@ from configuration import DIRECTIONS, ERR_MAP_FILE, ERR_MAP_ROBO, \
 
 class Map:
     """
-    Classe gerant les cartes disponibles et la carte utilisee en cours
-    de partie.
+    Fourni les moyens necessaire a l'utilisation d'un fichier carte.
+
+    Controle de coherance sur la carte choise, deplace le robo en
+    fonction des commandes du joueur jusqu'en fin de partie.
+
+    Cette docstring contient des
+    [DocTests](http://sametmax.com/les-docstrings/), ça ne fait pas
+    partie du cours, mais c'est un outils facile de test/debug que
+    j'utilise et qui reste transparent.
+
+    Doctests
+    ========
 
     :Example:
     >>> EasyMap = Map("cartes/facile.txt")
@@ -69,7 +77,20 @@ class Map:
     def __init__(self, map_file):
         """
         Initialisation de la carte utilise
-        :param map_file:
+
+        Instancie un objet Map avec les attributs suivant:
+
+        :var int status: Etat de l'objet apres le deplacement
+        :var str status_message: Message relatif au deplacement
+        :var int _column_nb: Nbre de colonne du labyrinte (1ere ligne)
+        :var str _data_text: Contenu du labyrinte
+        :var str _element_under_robo: Element sous le robot
+        :var int _line_nb: Nbre de ligne du labyrinte
+        :var int _robo_position: position du robo dans _data_text
+
+        :param map_file: fichier «carte» avec chemin relatif
+        :rtype map: str()
+        :return: None
         """
         # Chargement du fichier carte choisi
         if os.path.isfile(map_file) is True:
@@ -136,7 +157,9 @@ class Map:
         Deplace le robo sur la carte
 
         :param move: mouvement souhaite
+        :rtype move: str()
         :return: une cle de la constante MOVE_STATUS
+        :rtype: int()
         """
         # decompose le mouvement
         try:    # on recupere le 1er caractere (la direction)
