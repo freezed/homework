@@ -20,9 +20,10 @@ https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180
 import os
 import pickle
 # from map import Map
-from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, COMMANDS_LABEL, \
-    DIRECTIONS, DIRECTIONS_LABEL, ERR_UNKNOW, get_msg_list, MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, \
-    MOVE_STATUS, MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_BACKUP_GAME, \
+from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, \
+    COMMANDS_LABEL, DIRECTIONS, DIRECTIONS_LABEL, get_msg_list, \
+    MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, MOVE_STATUS, \
+    MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_BACKUP_GAME, \
     MSG_CHOOSE_MOVE, MSG_DISCLAMER, MSG_END_GAME, MSG_HELP, MSG_NO_YES, \
     user_select_backup
 
