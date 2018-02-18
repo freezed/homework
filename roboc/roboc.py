@@ -21,7 +21,7 @@ from configuration import BACKUP_FILE, choose_maps_menu, cls, COMMANDS, \
     MAP_DIRECTORY, MAP_EXTENTION, maps_name_list, MOVE_STATUS, \
     MOVE_STATUS_MSG, MSG_AVAIBLE_BACKUP, MSG_BACKUP_DONE, MSG_BACKUP_GAME, \
     MSG_CHOOSE_MOVE, MSG_DISCLAMER, MSG_END_GAME, MSG_HELP, MSG_NO_YES, \
-    user_select_backup
+    MSG_START_GAME, user_select_backup
 
 # DEBUT DU JEU
 
@@ -77,9 +77,15 @@ while current_map.status:
     cls()   # vide l'ecran de la console
 
     # Traitement de la commande utilisateur
-    if user_move == COMMANDS[0]:    # sauvegarder & quitter
+    if user_move == COMMANDS[0]:    # quitter
         current_map.status = False
-        current_map.status_message = MSG_BACKUP_DONE
+
+        # Le premier tour n'a pas ete joue, pas de sauvegarde faite
+        if current_map.status_message != MSG_START_GAME:
+            current_map.status_message = MSG_BACKUP_DONE
+
+        else:
+            current_map.status_message = ""
 
     elif user_move == COMMANDS[1]:  # Affiche l'aide
         current_map.status_message = MSG_HELP
