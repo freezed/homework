@@ -27,7 +27,6 @@ class Map:
 
     :Example:
     >>> EasyMap = Map("cartes/facile.txt")
-    >>> TestMap = Map("cartes/test.txt")
     >>> MiniMap = Map("cartes/mini.txt")
     >>> PrisonMap = Map("cartes/prison.txt")
     >>> EmptyMap = Map("cartes/vide.txt")
@@ -41,24 +40,10 @@ class Map:
     >>> print(NoRoboMap.status_message)
     #!@?# Oups… robo est introuvable sur la carte «cartes/sans_robo.txt»!
 
-    >>> print("_column_nb: {}".format(TestMap._column_nb))
-    _column_nb: 6
-    >>> print("_line_nb: {}".format(TestMap._line_nb))
-    _line_nb: 4
-
-    >>> TestMap.move_to("N3")
-    4
-    >>> TestMap.map_print()
-    01X34
-    abcde
-    ABCDE
-    zy wv
-    >>> TestMap.move_to("O2")
-    4
-    >>> TestMap.move_to("S3")
-    4
-    >>> TestMap.move_to("E4")
-    4
+    >>> print("_column_nb: {}".format(EasyMap._column_nb))
+    _column_nb: 11
+    >>> print("_line_nb: {}".format(EasyMap._line_nb))
+    _line_nb: 11
 
     >>> MiniMap.move_to("O")
     1
