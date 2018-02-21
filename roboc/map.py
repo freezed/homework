@@ -155,7 +155,7 @@ class Map:
         if len(move[1:]) > 0:  # on recupere les caractere suivants (dist)
             try:
                 goal = int(move[1:])
-            except ValueError as except_detail:
+            except ValueError:
                 return 0
         else:   # si pas de chiffre, on avance d'une seule unite
             goal = 1
@@ -237,7 +237,5 @@ class Map:
 
 
 if __name__ == "__main__":
-    """ Starting doctests """
-
     import doctest
     doctest.testmod()

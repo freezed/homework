@@ -75,9 +75,8 @@ MSG_END_GAME = "Fin du jeu."
 MSG_HELP = "Voici les commandes disponibles:\n"
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
 
-# VARIABLES
-maps_name_list = list()     # liste des maps proposees a l'utilisateur
-user_select_backup = str()  # choix utilisateur: la sauvegarde
+MAPS_NAME_LIST = list()     # liste des maps proposees a l'utilisateur
+USER_SELECT_BACKUP = str()  # choix utilisateur: la sauvegarde
 
 # FONCTIONS
 
@@ -104,12 +103,12 @@ def choose_maps_menu():
 
     print(MSG_AVAIBLE_MAP)
     i = 0
-    for maps_name in maps_name_list:
+    for maps_name in MAPS_NAME_LIST:
         print("\t[{}] - {}".format(i, maps_name))
         i += 1
 
     # Choix de la carte par l'utilisateur
-    while user_select_map_id > len(maps_name_list) or user_select_map_id < 0:
+    while user_select_map_id > len(MAPS_NAME_LIST) or user_select_map_id < 0:
         user_select_map_id = input(MSG_CHOOSE_MAP)
         try:
             user_select_map_id = int(user_select_map_id)
@@ -118,19 +117,19 @@ def choose_maps_menu():
             user_select_map_id = -1
             continue
 
-        if user_select_map_id > len(maps_name_list) or \
+        if user_select_map_id > len(MAPS_NAME_LIST) or \
            user_select_map_id < 0:
             print(ERR_PLAGE)
 
     cls()   # vide l'ecran de la console
     print(MSG_SELECTED_MAP.format(
         user_select_map_id,
-        maps_name_list[user_select_map_id]
+        MAPS_NAME_LIST[user_select_map_id]
         ))
 
     # Fichier carte a recuperer
     map_file = MAP_DIRECTORY + \
-        maps_name_list[user_select_map_id] + \
+        MAPS_NAME_LIST[user_select_map_id] + \
         MAP_EXTENTION
 
     # instenciation de la carte choisie
