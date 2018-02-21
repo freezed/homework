@@ -3,8 +3,6 @@
 Piste d'amelioration du code après avoir vu le corrigé-type et fait la
 correction des autres élèves.
 
- - Quand la partie est gagnée, on supprime la sauvegarde
- - simplification de gestion de fichier avec endswith(), os.path.join()
  - creer un objet pour traiter la rencontre d'un element, avec des
  attributs et methodes qui permettront d'ajouter des obstacles simplement
  dans la conf et sur la carte, plutot que de rajouter une condition dans
@@ -12,8 +10,3 @@ correction des autres élèves.
  carte _à la main_
  - definir dans sa classe les caracteristique d'une carte valide plutôt
  que dans le script
- - permettre a un element de ralentir/accelerer la progression du robot
- - proposer la suppression d'une carte invalide
- - limiter un mouvement a la dimension max de la carte sur l'axe concerné
- - Utiliser des cartes aux lignes de longueur variable
- -
