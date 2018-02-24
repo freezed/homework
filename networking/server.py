@@ -14,11 +14,16 @@ PORT = 12800
 
 MSG_NEW_CLIENT = "Nouveau client: {}"
 MSG_CLIENT_ID = "Client[{}] {}"
+MSG_CLIENT_DISCONNECTED = "Le client {} c'est deconnecté"
+MSG_SERVER_STOP = "Arrêt du serveur"
+MSG_START_SERVER = "Le serveur écoute à présent sur le PORT {}"
+
+STOP_COMMAND = "fin"
 
 MAIN_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 MAIN_CONNECTION.bind((HOST, PORT))
 MAIN_CONNECTION.listen(5)
-print("Le serveur écoute à présent sur le PORT {}".format(PORT))
+print(MSG_START_SERVER.format(PORT))
 
 server_on = True
 connected_clients = []
@@ -68,10 +73,11 @@ while server_on:
 
             print(MSG_CLIENT_ID.format(client.fileno(), msg_recu))
 
-            if msg_recu == "fin":
+            if msg_recu == STOP_COMMAND:
+                client.send(bytes(MSG_SERVER_STOP, 'utf8'))
                 server_on = False
 
-print("Fermeture des connexions")
+print(MSG_SERVER_STOP)
 for client in connected_clients:
     client.close()
 
