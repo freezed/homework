@@ -6,10 +6,17 @@ client.py
 
 Networking test, client-server talking script
 """
-import socket
+import socket, sys
 
-HOST = "localhost"
-PORT = 12800
+MSG_ARG_ERROR = "Usage: client.py hostname port"
+
+if len(sys.argv) < 3:
+    print(MSG_ARG_ERROR)
+    sys.exit(1)
+
+HOST = sys.argv[1]
+PORT = int(sys.argv[2])
+
 RECV_BUFFER = 1024
 
 MSG_SERVER_CONNECTED = "Serveur connecté @{}:{}"
