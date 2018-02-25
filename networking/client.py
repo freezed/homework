@@ -17,7 +17,7 @@ if len(sys.argv) < 3:
 HOST = sys.argv[1]
 PORT = int(sys.argv[2])
 
-RECV_BUFFER = 1024
+BUFFER = 1024
 
 MSG_SERVER_CONNECTED = "Serveur connecté @{}:{}"
 MSG_CLOSE_CONNECTION = "Connexion vers [{}:{}] fermée"
@@ -35,7 +35,7 @@ while msg_a_envoyer != bytes(STOP_COMMAND, 'utf8'):
     msg_a_envoyer = msg_a_envoyer.encode()
     # On envoie le message
     SERVER_CONNECTION.send(msg_a_envoyer)
-    msg_recu = SERVER_CONNECTION.recv(RECV_BUFFER)
+    msg_recu = SERVER_CONNECTION.recv(BUFFER)
     print(msg_recu.decode()) # Là encore, peut planter s'il y a des accents
 
 SERVER_CONNECTION.close()

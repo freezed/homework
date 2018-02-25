@@ -11,6 +11,7 @@ import select
 
 HOST = ''
 PORT = 12800
+BUFFER = 1024
 
 MSG_NEW_CLIENT = "Nouveau client: {}"
 MSG_CLIENT_ID = "Client[{}] {}"
@@ -65,7 +66,7 @@ while server_on:
         for client in read_client_list:
 
             # Client est de type socket
-            msg_recu = client.recv(1024)
+            msg_recu = client.recv(BUFFER)
 
             # Peut planter si le message contient des caractères spéciaux
             msg_recu = msg_recu.decode()
