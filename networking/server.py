@@ -38,14 +38,12 @@ while server_on:
         )
 
     for connexion in requested_connections:
-        client_connection, infos_connexion = connexion.accept()
+        socket_object, connection_addr = connexion.accept()
 
         # On ajoute le socket connecté à la liste des clients
-        connected_clients.append(client_connection)
+        connected_clients.append(socket_object)
 
-        # id client
-        fileno = client_connection.fileno()
-        print(MSG_NEW_CLIENT.format(fileno))
+        print(MSG_NEW_CLIENT.format(connection_addr))
 
     # Maintenant, on écoute la liste des clients connectés
     # Les clients renvoyés par select sont ceux devant être lus (recv)
@@ -72,7 +70,7 @@ while server_on:
             msg_recu = msg_recu.decode()
             client.send(b"-ok-")
 
-            print(MSG_CLIENT_ID.format(client.fileno(), msg_recu))
+            print(MSG_CLIENT_ID.format(client.getpeername(), msg_recu))
 
             if msg_recu == STOP_COMMAND:
                 client.send(bytes(MSG_SERVER_STOP, 'utf8'))
