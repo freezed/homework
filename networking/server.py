@@ -21,63 +21,42 @@ MSG_START_SERVER = "Le serveur écoute à présent sur le PORT {}"
 
 STOP_COMMAND = "fin"
 
+connections_list = []
+
+# Creation de la connection
 MAIN_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 MAIN_CONNECTION.bind((HOST, PORT))
 MAIN_CONNECTION.listen(5)
-print(MSG_START_SERVER.format(PORT))
 
 server_on = True
-connected_clients = []
+connections_list.append(MAIN_CONNECTION)
+print(MSG_START_SERVER.format(PORT))
+
 while server_on:
-    # On va vérifier que de nouveaux clients ne demandent pas à se connecter
-    # Pour cela, on écoute la MAIN_CONNECTION en lecture
-    # On attend maximum 50ms
-    requested_connections, wlist, xlist = select.select(
-        [MAIN_CONNECTION],
-        [], [], 0.05
-        )
+    # get the list of sockets which are ready to be read through select
+    # timeout 50ms
+    rlist, wlist, xlist = select.select(connections_list, [], [], 0.05)
 
-    for connexion in requested_connections:
-        socket_object, connection_addr = connexion.accept()
+    for socket in rlist:
+        # Listen for new client connection
+        if socket == MAIN_CONNECTION:
+            socket_object, socket_addr = socket.accept()
+            connections_list.append(socket_object)
+            print(MSG_NEW_CLIENT.format(socket_addr))
 
-        # On ajoute le socket connecté à la liste des clients
-        connected_clients.append(socket_object)
+        else:  # receiving data
+            print(socket)
+            try:
+                data = socket.recv(BUFFER)
+            except :
+                print(MSG_CLIENT_DISCONNECTED.format(socket_addr))
+                socket.close()
+                connections_list.remove(socket)
+                continue
 
-        print(MSG_NEW_CLIENT.format(connection_addr))
-
-    # Maintenant, on écoute la liste des clients connectés
-    # Les clients renvoyés par select sont ceux devant être lus (recv)
-    # On attend là encore 50ms maximum
-    # On enferme l'appel à select.select dans un bloc try
-    # En effet, si la liste de clients connectés est vide, une exception
-    # Peut être levée
-    read_client_list = []
-    try:
-        read_client_list, wlist, xlist = select.select(
-            connected_clients,
-            [], [], 0.05
-            )
-    except select.error:
-        pass
-    else:
-        # On parcourt la liste des clients à lire
-        for client in read_client_list:
-
-            # Client est de type socket
-            msg_recu = client.recv(BUFFER)
-
-            # Peut planter si le message contient des caractères spéciaux
-            msg_recu = msg_recu.decode()
-            client.send(b"-ok-")
-
-            print(MSG_CLIENT_ID.format(client.getpeername(), msg_recu))
-
-            if msg_recu == STOP_COMMAND:
-                client.send(bytes(MSG_SERVER_STOP, 'utf8'))
-                server_on = False
+            msg = data.decode()
+            socket.send(b"-ok-")
+            print(MSG_CLIENT_ID.format(socket.getpeername(), msg))
 
 print(MSG_SERVER_STOP)
-for client in connected_clients:
-    client.close()
-
 MAIN_CONNECTION.close()
