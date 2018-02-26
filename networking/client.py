@@ -6,7 +6,13 @@ client.py
 
 Networking test, client-server talking script
 """
-import socket, sys
+import socket, sys, select
+
+
+def prompt():
+	sys.stdout.write('[me] ')
+	sys.stdout.flush()
+
 
 MSG_ARG_ERROR = "Usage: client.py hostname port"
 
@@ -25,17 +31,35 @@ MSG_CLOSE_CONNECTION = "Connexion vers [{}:{}] fermée"
 STOP_COMMAND = "fin"
 
 SERVER_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-SERVER_CONNECTION.connect((HOST, PORT))
-print(MSG_SERVER_CONNECTED.format(HOST, PORT))
+try:
+    SERVER_CONNECTION.connect((HOST, PORT))
+except ConnectionRefusedError as except_detail:
+    print("ConnectionRefusedError: «{}». Unable to connect".format(except_detail))
+    sys.exit()
 
-msg_a_envoyer = b""
-while msg_a_envoyer != bytes(STOP_COMMAND, 'utf8'):
-    msg_a_envoyer = input("> ")
-    # Peut planter si vous tapez des caractères spéciaux
-    msg_a_envoyer = msg_a_envoyer.encode()
-    # On envoie le message
-    SERVER_CONNECTION.send(msg_a_envoyer)
-    msg_recu = SERVER_CONNECTION.recv(BUFFER)
-    print(msg_recu.decode()) # Là encore, peut planter s'il y a des accents
+print(MSG_SERVER_CONNECTED.format(HOST, PORT))
+prompt()
+
+while 1:
+    sockets_list = [sys.stdin, SERVER_CONNECTION]
+    rlist, wlist, elist = select.select(sockets_list, [], [])
+
+    for socket in sockets_list:
+        if socket == SERVER_CONNECTION:
+            data = socket.recv(BUFFER)
+            if not data:
+                print('\nDisconnected from the chat server')
+                sys.exit()
+            else:
+                #print data
+                msg = data.decode()
+                sys.stdout.write(msg)
+
+        #user entered a message
+        else:
+            msg = sys.stdin.readline()
+            msg_a_envoyer = msg.encode()
+            SERVER_CONNECTION.send(msg_a_envoyer)
+            prompt()
 
 SERVER_CONNECTION.close()
