@@ -6,7 +6,7 @@ server.py
 
 Networking test, client-server talking script
 """
-import select, socket
+import select, signal, socket, sys
 
 HOST = ''
 PORT = 5555
@@ -17,10 +17,24 @@ MSG_CLIENT_ID = "Client[{}] {}"
 MSG_CLIENT_DISCONNECTED = "Le client {} c'est deconnecté"
 MSG_CLOSE_CLIENT = "Fermeture socket client {}"
 MSG_SERVER_STOP = "Arrêt du serveur"
-MSG_START_SERVER = "Le serveur écoute à présent sur le PORT {}"
+MSG_START_SERVER = "Serveur écoute sur le port {}. <ctrl+c> pour stopper le serveur."
 MSG_WELCOME = "MSG_WELCOME".encode()
 
 inputs = []
+
+def handler(signum, frame):
+    """ Catch <ctrl+c> signal for clean stop"""
+    print()
+    inputs.remove(MAIN_CONNECTION)
+    for socket in inputs:
+        print(MSG_CLOSE_CLIENT.format(socket.getpeername()))
+        socket.close()
+    inputs.clear()
+    print(MSG_SERVER_STOP)
+    MAIN_CONNECTION.close()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, handler)
 
 # Creation de la connection
 MAIN_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -44,7 +58,13 @@ while 1:
         else:  # receiving data
             try:
                 data = socket.recv(BUFFER).decode().strip()
-                if data:
+                if data.upper() == "QUIT":
+                    print(MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
+                    inputs.remove(socket)
+                    socket.close()
+                    continue
+
+                elif data:
                     print(MSG_CLIENT_ID.format(socket.getpeername(), data))
                     socket.send(MSG_WELCOME)
             except Exception as except_detail:
@@ -55,5 +75,4 @@ while 1:
                 socket.close()
                 continue
 
-print(MSG_SERVER_STOP)
 MAIN_CONNECTION.close()
