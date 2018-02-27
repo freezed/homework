@@ -28,8 +28,6 @@ BUFFER = 1024
 MSG_SERVER_CONNECTED = "Serveur connecté @{}:{}"
 MSG_CLOSE_CONNECTION = "Connexion vers [{}:{}] fermée"
 
-STOP_COMMAND = "fin"
-
 SERVER_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     SERVER_CONNECTION.connect((HOST, PORT))
@@ -38,28 +36,25 @@ except ConnectionRefusedError as except_detail:
     sys.exit()
 
 print(MSG_SERVER_CONNECTED.format(HOST, PORT))
-prompt()
 
 while 1:
     sockets_list = [sys.stdin, SERVER_CONNECTION]
     rlist, wlist, elist = select.select(sockets_list, [], [])
 
     for socket in sockets_list:
-        if socket == SERVER_CONNECTION:
-            data = socket.recv(BUFFER)
+        if socket == SERVER_CONNECTION:  # incomming message
+            data = socket.recv(BUFFER).decode()
             if not data:
-                print('\nDisconnected from the chat server')
+                print(MSG_CLOSE_CONNECTION.format(HOST, PORT))
                 sys.exit()
             else:
                 #print data
-                msg = data.decode()
-                sys.stdout.write(msg)
+                sys.stdout.write(data)
 
-        #user entered a message
-        else:
-            msg = sys.stdin.readline()
-            msg_a_envoyer = msg.encode()
-            SERVER_CONNECTION.send(msg_a_envoyer)
             prompt()
+
+        else:  # sending message
+            msg = sys.stdin.readline().encode()
+            SERVER_CONNECTION.send(msg)
 
 SERVER_CONNECTION.close()
