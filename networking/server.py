@@ -42,13 +42,18 @@ while 1:
             print(MSG_NEW_CLIENT.format(socket_addr))
 
         else:  # receiving data
-            data = socket.recv(BUFFER).decode().strip()
-            socket.send(MSG_WELCOME)
-            print(MSG_CLIENT_ID.format(socket.getpeername(), data))
-
-print(MSG_CLOSE_CLIENT.format(socket.getpeername()))
-socket.close()
-inputs.remove(socket)
+            try:
+                data = socket.recv(BUFFER).decode().strip()
+                if data:
+                    print(MSG_CLIENT_ID.format(socket.getpeername(), data))
+                    socket.send(MSG_WELCOME)
+            except Exception as except_detail:
+                print("Exception: «{}»".format(except_detail))
+                print(MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
+                import pdb; pdb.set_trace()
+                inputs.remove(socket)
+                socket.close()
+                continue
 
 print(MSG_SERVER_STOP)
 MAIN_CONNECTION.close()
