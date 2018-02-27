@@ -6,13 +6,7 @@ client.py
 
 Networking test, client-server talking script
 """
-import socket, sys, select
-
-
-def prompt():
-	sys.stdout.write('[me] ')
-	sys.stdout.flush()
-
+import socket, signal, select, sys
 
 MSG_ARG_ERROR = "Usage: client.py hostname port"
 
@@ -26,7 +20,18 @@ PORT = int(sys.argv[2])
 BUFFER = 1024
 
 MSG_SERVER_CONNECTED = "Serveur connecté @{}:{}"
-MSG_CLOSE_CONNECTION = "Connexion vers [{}:{}] fermée"
+MSG_CLOSE_CONNECTION = "\nConnexion vers [{}:{}] fermée"
+
+def prompt():
+	sys.stdout.write('[me] ')
+	sys.stdout.flush()
+
+def handler(signum, frame):
+    """ Catch <ctrl+c> signal for clean stop"""
+    print(MSG_CLOSE_CONNECTION.format(HOST, PORT))
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, handler)
 
 SERVER_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
