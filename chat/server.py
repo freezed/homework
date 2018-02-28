@@ -49,6 +49,7 @@ def broadcast(sender, message):
 
 # Creation de la connection
 MAIN_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+MAIN_CONNECTION.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 MAIN_CONNECTION.bind((HOST, PORT))
 MAIN_CONNECTION.listen(5)
 inputs.append(MAIN_CONNECTION)
