@@ -20,7 +20,7 @@ PORT = int(sys.argv[2])
 BUFFER = 1024
 
 MSG_SERVER_CONNECTED = "Serveur connecté @{}:{}"
-MSG_CLOSE_CONNECTION = "\nConnexion vers [{}:{}] fermée"
+MSG_CLOSE_CONNECTION = "Connexion vers [{}:{}] fermée"
 
 def prompt():
 	sys.stdout.write('\n[me]:')
@@ -28,7 +28,10 @@ def prompt():
 
 def handler(signum, frame):
     """ Catch <ctrl+c> signal for clean stop"""
-    print(MSG_CLOSE_CONNECTION.format(HOST, PORT))
+    print()
+    print(MSG_CLOSE_CONNECTION.format(*(SERVER_CONNECTION.getpeername())))
+    SERVER_CONNECTION.send(b"QUIT")
+    SERVER_CONNECTION.close()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, handler)
