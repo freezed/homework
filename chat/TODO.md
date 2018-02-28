@@ -6,7 +6,7 @@
 - [x] ~~broadcasting messages to all client connected~~
 - [x] ~~show message on server when client use <ctrl+c>~~
 - [x] ~~crash after 2 <ctrl+c> in client~~
-- [ ] sending welcome message only at 1st client connection
+- [x] ~~sending welcome message only at 1st client connection FIX #20~~
 - [ ] asking/using client-nickname
 - [ ] client freeze when sending empty string or spaces
 - [ ] clean the prompt and std.out a bit messy since broadcasting
