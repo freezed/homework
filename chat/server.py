@@ -36,6 +36,17 @@ def handler(signum, frame):
 
 signal.signal(signal.SIGINT, handler)
 
+def broadcast(sender, message):
+    # send message to all clients, except the sender
+    for socket in inputs:
+        if socket != MAIN_CONNECTION and socket != sender:
+            try:
+                message = "\n" + message
+                socket.send(message.encode())
+            except :
+                socket.close()
+                inputs.remove(socket)
+
 # Creation de la connection
 MAIN_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 MAIN_CONNECTION.bind((HOST, PORT))
@@ -54,18 +65,22 @@ while 1:
             socket_object, socket_addr = socket.accept()
             inputs.append(socket_object)
             print(MSG_NEW_CLIENT.format(socket_addr))
+            broadcast(socket, MSG_NEW_CLIENT.format(socket_addr))
 
         else:  # receiving data
             try:
                 data = socket.recv(BUFFER).decode().strip()
                 if data.upper() == "QUIT":
                     print(MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
+                    broadcast(socket,
+                        MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
                     inputs.remove(socket)
                     socket.close()
                     continue
 
                 elif data:
                     print(MSG_CLIENT_ID.format(socket.getpeername(), data))
+                    broadcast(socket, data)
                     socket.send(MSG_WELCOME)
             except Exception as except_detail:
                 print("Exception: «{}»".format(except_detail))

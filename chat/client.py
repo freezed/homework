@@ -23,7 +23,7 @@ MSG_SERVER_CONNECTED = "Serveur connecté @{}:{}"
 MSG_CLOSE_CONNECTION = "\nConnexion vers [{}:{}] fermée"
 
 def prompt():
-	sys.stdout.write('[me] ')
+	sys.stdout.write('\n[me]:')
 	sys.stdout.flush()
 
 def handler(signum, frame):
@@ -43,10 +43,10 @@ except ConnectionRefusedError as except_detail:
 print(MSG_SERVER_CONNECTED.format(HOST, PORT))
 
 while 1:
-    sockets_list = [sys.stdin, SERVER_CONNECTION]
-    rlist, wlist, elist = select.select(sockets_list, [], [])
+    inputs = [sys.stdin, SERVER_CONNECTION]
+    rlist, wlist, elist = select.select(inputs, [], [])
 
-    for socket in sockets_list:
+    for socket in rlist:
         if socket == SERVER_CONNECTION:  # incomming message
             data = socket.recv(BUFFER).decode()
             if not data:
