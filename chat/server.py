@@ -65,7 +65,8 @@ while 1:
             socket_object, socket_addr = socket.accept()
             inputs.append(socket_object)
             print(MSG_NEW_CLIENT.format(socket_addr))
-            broadcast(socket, MSG_NEW_CLIENT.format(socket_addr))
+            broadcast(socket_object, MSG_NEW_CLIENT.format(socket_addr))
+            socket_object.send(MSG_WELCOME)
 
         else:  # receiving data
             try:
@@ -81,7 +82,6 @@ while 1:
                 elif data:
                     print(MSG_CLIENT_ID.format(socket.getpeername(), data))
                     broadcast(socket, data)
-                    socket.send(MSG_WELCOME)
             except Exception as except_detail:
                 print("Exception: «{}»".format(except_detail))
                 print(MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
