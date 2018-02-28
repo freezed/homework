@@ -10,4 +10,5 @@
 - [ ] asking/using client-nickname
 - [ ] client freeze when sending empty string or spaces
 - [ ] clean the prompt and std.out a bit messy since broadcasting
+- [ ] move closing connection at the script's end
 - [ ] …
