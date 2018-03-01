@@ -71,24 +71,13 @@ while 1:
             socket_object.send(MSG_WELCOME)
 
         else:  # receiving data
-            try:
-                data = socket.recv(BUFFER).decode().strip()
-                if data.upper() == "QUIT":
-                    print(MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
-                    broadcast(socket, MSG_DISCONNECTED)
-                    inputs.remove(socket)
-                    socket.close()
-                    continue
-
-                elif data:
-                    print(MSG_CLIENT_ID.format(socket.getpeername(), data))
-                    broadcast(socket, data)
-            except Exception as except_detail:
-                print("Exception: «{}»".format(except_detail))
+            data = socket.recv(BUFFER).decode().strip()
+            if data.upper() == "QUIT":
                 print(MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
-                import pdb; pdb.set_trace()
+                broadcast(socket, MSG_DISCONNECTED)
                 inputs.remove(socket)
                 socket.close()
-                continue
 
-MAIN_CONNECTION.close()
+            elif data:
+                print(MSG_CLIENT_ID.format(socket.getpeername(), data))
+                broadcast(socket, data)
