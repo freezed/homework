@@ -15,6 +15,7 @@ BUFFER = 1024
 MSG_NEW_CLIENT = "Nouveau client: {}"
 MSG_CLIENT_ID = "Client[{}] {}"
 MSG_CLIENT_DISCONNECTED = "Le client {} c'est deconnecté"
+MSG_DISCONNECTED = "<À quitté le chat>"
 MSG_CLOSE_CLIENT = "Fermeture socket client {}"
 MSG_SERVER_STOP = "Arrêt du serveur"
 MSG_START_SERVER = "Serveur écoute sur le port {}. <ctrl+c> pour stopper le serveur."
@@ -38,10 +39,10 @@ signal.signal(signal.SIGINT, handler)
 
 def broadcast(sender, message):
     # send message to all clients, except the sender
+    message = "\n~{}:{}~ {msg}".format(*sender.getpeername(), msg=message)
     for socket in inputs:
         if socket != MAIN_CONNECTION and socket != sender:
             try:
-                message = "\n" + message
                 socket.send(message.encode())
             except :
                 socket.close()
@@ -74,8 +75,7 @@ while 1:
                 data = socket.recv(BUFFER).decode().strip()
                 if data.upper() == "QUIT":
                     print(MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
-                    broadcast(socket,
-                        MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
+                    broadcast(socket, MSG_DISCONNECTED)
                     inputs.remove(socket)
                     socket.close()
                     continue
