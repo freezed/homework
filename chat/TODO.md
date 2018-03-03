@@ -9,7 +9,7 @@
 - [x] ~~sending welcome message only at 1st client connection FIX #20~~
 - [x] ~~client freeze when sending empty string or spaces~~
 - [x] ~~move closing connection at the script's end~~
-- [ ] asking/using client-nickname
+- [x] ~~asking/using client-nickname~~
 - [ ] clean the prompt and std.out a bit messy since broadcasting
 - [ ] using wlist with select.select for hardening the script
 - [ ] …
