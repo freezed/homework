@@ -12,15 +12,12 @@ HOST = ''
 PORT = 5555
 BUFFER = 1024
 
-MSG_NEW_CLIENT = "Nouveau client: {}"
-MSG_CLIENT_ID = "Client[{}:{} @{name}] {msg}"
-MSG_CLIENT_DISCONNECTED = "Le client {} c'est deconnecté"
-MSG_DISCONNECTED = "<À quitté le chat>"
-MSG_CLOSE_CLIENT = "Fermeture socket client {}"
-MSG_SERVER_STOP = "Arrêt du serveur"
-MSG_START_SERVER = "Serveur écoute sur le port {}. <ctrl+c> pour stopper le serveur."
+SERVER_LOG = "{}:{}|{name}|{msg}"
+MSG_DISCONNECTED = "<gone away to infinity, and beyond>"
+MSG_SERVER_STOP = "Server stop"
+MSG_START_SERVER = "Server is running, listening on port {}.\n\tPress <ctrl+c> to stop"
 MSG_USER_IN = "<entered the chatroom>"
-MSG_WELCOME = "Welcome. First do something usefull, type your name: ".encode()
+MSG_WELCOME = "Welcome. First do something usefull and type your name: ".encode()
 
 inputs = []
 user_name = []
@@ -29,9 +26,11 @@ def handler(signum, frame):
     """ Catch <ctrl+c> signal for clean stop"""
     print()
     inputs.remove(MAIN_CONNECTION)
+    i = 1
     for socket in inputs:
-        print(MSG_CLOSE_CLIENT.format(socket.getpeername()))
+        print(SERVER_LOG.format(*socket.getpeername(), name=user_name[i], msg="closed client socket"))
         socket.close()
+        i += 1
     inputs.clear()
     print(MSG_SERVER_STOP)
     MAIN_CONNECTION.close()
@@ -70,7 +69,7 @@ while 1:
             socket_object, socket_addr = socket.accept()
             inputs.append(socket_object)
             user_name.append(False)
-            print(MSG_NEW_CLIENT.format(socket_addr))
+            print(SERVER_LOG.format(*socket_addr, name="unknow", msg="connected"))
             socket_object.send(MSG_WELCOME)
 
         else:  # receiving data
@@ -80,7 +79,7 @@ while 1:
             uname = user_name[s_idx]
 
             if data.upper() == "QUIT":
-                print(MSG_CLIENT_DISCONNECTED.format(socket.getpeername()))
+                print(SERVER_LOG.format(*peername, name=uname, msg="disconnected"))
                 broadcast(socket, uname, MSG_DISCONNECTED)
                 inputs.remove(socket)
                 user_name.pop(s_idx)
@@ -90,11 +89,11 @@ while 1:
                 # insert username naming rule here
                 user_name[s_idx] = data
                 socket.send("Hi, {}".format(user_name[s_idx]).encode())
-                print(MSG_CLIENT_ID.format(*peername, name=data, msg=""))
+                print(SERVER_LOG.format(*peername, name=data, msg="set user name"))
                 broadcast(socket, user_name[s_idx], MSG_USER_IN)
 
             elif data:
-                print(MSG_CLIENT_ID.format(*peername, name=uname, msg=data))
+                print(SERVER_LOG.format(*peername, name=uname, msg=data))
                 broadcast(socket, uname, data)
 
             else:
