@@ -12,4 +12,8 @@
 - [x] ~~asking/using client-nickname~~
 - [x] ~~clean the prompt and std.out a bit messy since broadcasting~~
 - [ ] using wlist with select.select for hardening the script
+- [ ] convert logic to oreiented object
+- [ ] server crash witn opened connection with <ctrl+Z>
+- [ ] add some commands: help, list user, disconnect user, etc.
+- [ ] add time logging
 - [ ] …
