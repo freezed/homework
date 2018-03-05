@@ -10,6 +10,6 @@
 - [x] ~~client freeze when sending empty string or spaces~~
 - [x] ~~move closing connection at the script's end~~
 - [x] ~~asking/using client-nickname~~
-- [ ] clean the prompt and std.out a bit messy since broadcasting
+- [x] ~~clean the prompt and std.out a bit messy since broadcasting~~
 - [ ] using wlist with select.select for hardening the script
 - [ ] …
