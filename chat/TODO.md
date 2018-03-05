@@ -16,4 +16,5 @@
 - [ ] server crash witn opened connection with <ctrl+Z>
 - [ ] add some commands: help, list user, disconnect user, etc.
 - [ ] add time logging
+- [ ] server crash if a client is killed
 - [ ] …
