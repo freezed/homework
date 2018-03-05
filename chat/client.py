@@ -23,7 +23,7 @@ MSG_SERVER_CONNECTED = "Serveur connecté @{}:{}"
 MSG_CLOSE_CONNECTION = "Connexion vers [{}:{}] fermée"
 
 def prompt():
-	sys.stdout.write('\n[me]:')
+	sys.stdout.write('~')
 	sys.stdout.flush()
 
 def handler(signum, frame):
@@ -64,5 +64,6 @@ while 1:
         else:  # sending message
             msg = sys.stdin.readline().encode()
             SERVER_CONNECTION.send(msg)
+            prompt()
 
 SERVER_CONNECTION.close()

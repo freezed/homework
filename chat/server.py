@@ -18,6 +18,7 @@ MSG_SERVER_STOP = "Server stop"
 MSG_START_SERVER = "Server is running, listening on port {}.\n\tPress <ctrl+c> to stop"
 MSG_USER_IN = "<entered the chatroom>"
 MSG_WELCOME = "Welcome. First do something usefull and type your name: ".encode()
+MSG_SALUTE = "Hi, {}, everyone is listening to you:\n"
 
 inputs = []
 user_name = []
@@ -40,7 +41,7 @@ signal.signal(signal.SIGINT, handler)
 
 def broadcast(sender, name, message):
     # send message to all clients, except the sender
-    message = "\n~{}~ {}".format(name, message)
+    message = "{}~ {}\n".format(name, message)
     for socket in inputs:
         if socket != MAIN_CONNECTION and socket != sender:
             try:
@@ -88,7 +89,7 @@ while 1:
             elif user_name[s_idx] is False:  # setting username
                 # insert username naming rule here
                 user_name[s_idx] = data
-                socket.send("Hi, {}".format(user_name[s_idx]).encode())
+                socket.send(MSG_SALUTE.format(user_name[s_idx]).encode())
                 print(SERVER_LOG.format(*peername, name=data, msg="set user name"))
                 broadcast(socket, user_name[s_idx], MSG_USER_IN)
 
@@ -97,5 +98,6 @@ while 1:
                 broadcast(socket, uname, data)
 
             else:
-                print("Server encountered an unknown case")
-                import pdb; pdb.set_trace()
+                msg = "uncommon transmission:«{}»".format(data)
+                print(SERVER_LOG.format(*peername, name=uname, msg=msg))
+                socket.send(("server do not transmit: {}\n".format(msg)).encode())
