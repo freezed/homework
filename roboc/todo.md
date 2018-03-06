@@ -2,8 +2,8 @@
 
 ## Roadmap to v0.2 [exercice 4](https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/181)
 
-- [] remove the backup feature TODO01
-- [] conversion to client/server mode: server creation TODO02
+- [x] ~~remove the backup feature TODO01~~
+- [x] ~~conversion to client/server mode: server creation TODO02~~
 - [] conversion to client/server mode: client creation TODO03
 - [] multiplayer turn-by-turn TODO04
 - [] each player has a differant robot TODO05

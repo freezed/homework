@@ -8,11 +8,6 @@ Ce fichier fait partie du projet `roboc`
 """
 
 # CONFIGURATION
-# fichier de sauvegarde
-BACKUP_FILE = '.backup'
-# Commandes de refus/acceptation
-MSG_NO_YES = ['non', 'oui']
-
 # Commandes
 # Le code utilise l'index des listes `COMMANDS` & `COMMANDS_LABEL`
 #   pour faire le lien entre les 2.
@@ -21,7 +16,7 @@ MSG_NO_YES = ['non', 'oui']
 #   leur correspondant dans la condition de traitement du mouvement.
 COMMANDS = ['Q', 'H']
 # Libelle des commandes d'interuption, conserver l'ordre
-COMMANDS_LABEL = ['Sauvegarder & quitter', 'Aide']
+COMMANDS_LABEL = ['Quitter', 'Aide']
 # Commandes clavier de deplacement
 DIRECTIONS = ['N', 'S', 'E', 'O']
 # Étiquette des commandes clavier des de deplacements pour l'affichage
@@ -63,20 +58,17 @@ ERR_UNKNOW = ERR_ + "personne n'est censé arriver ici…"
 MIN_MAP_SIDE = 3
 
 MSG_DISCLAMER = "Bienvenue dans Roboc."
-MSG_AVAIBLE_BACKUP = "Sauvegarde dispo, voulez-vous la charger? ({}/{}) "
 MSG_AVAIBLE_MAP = "Cartes disponible: "
-MSG_BACKUP_DONE = "La partie a été sauvegardée."
-MSG_BACKUP_GAME = "Partie sauvegardé chargée"
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
 MSG_CHOOSE_MOVE = "Votre deplacement ({}:{}): "
 MSG_START_GAME = "Votre partie commence"
 MSG_END_GAME = "Fin du jeu."
+MSG_QUIT_GAME = "Vous quittez la partie"
 # Recapitulatif des commandes
 MSG_HELP = "Voici les commandes disponibles:\n"
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
 
 MAPS_NAME_LIST = list()     # liste des maps proposees a l'utilisateur
-USER_SELECT_BACKUP = str()  # choix utilisateur: la sauvegarde
 
 # FONCTIONS
 
