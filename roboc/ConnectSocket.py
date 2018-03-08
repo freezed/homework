@@ -9,6 +9,7 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 This file is part or roboc project. View `readme.md`
 """
 import socket
+import select
 
 
 class ConnectSocket:
@@ -64,6 +65,21 @@ class ConnectSocket:
             self._user_name = []
             self._user_name.append("CONNECTION")
 
+    def broadcast(self, sender, name, message):
+        """
+        Send message to all clients, except the sender
+
+        In progress
+        """
+        message = "{}~ {}\n".format(name, message)
+        for sckt in self._inputs:
+            if sckt != self._CONNECTION and sckt != sender:
+                try:
+                    sckt.send(message.encode())
+                except:
+                    sckt.close()
+                    self._inputs.remove(sckt)
+
     def close(self):
         """ Cleanly closes each socket (clients) of the network """
         self._CONNECTION = self._inputs.pop(0)
@@ -96,6 +112,79 @@ class ConnectSocket:
     def count_clients(self):
         """ Count connected clients"""
         return len(self._inputs) - 1
+
+    def listen(self):
+        """
+        Listen sockets activity
+
+        Get the list of sockets which are ready to be read and apply:
+        - connect a new client
+        - return data sended by client
+
+        :return str, str: user_name, data
+        """
+        rlist, [], [] = select.select(self._inputs, [], [], 0.05)
+
+        for sckt in rlist:
+            # Listen for new client connection
+            if sckt == self._CONNECTION:
+                sckt_object, sckt_addr = sckt.accept()
+                self._inputs.append(sckt_object)
+                self._user_name.append(False)
+                print(self._SERVER_LOG.format(
+                    *sckt_addr,
+                    name="unknow",
+                    msg="connected")
+                     )
+                sckt_object.send(self._MSG_WELCOME.encode())
+
+            else:  # receiving data
+                data = sckt.recv(self._BUFFER).decode().strip()
+                peername = sckt.getpeername()
+                s_idx = self._inputs.index(sckt)
+                uname = self._user_name[s_idx]
+
+                if self._user_name[s_idx] is False:  # setting username
+                    # insert username naming rule here
+                    # verify if name is already used TODO17
+                    self._user_name[s_idx] = data
+                    sckt.send(self._MSG_SALUTE.format(
+                        self._user_name[s_idx]).encode()
+                             )
+                    print(self._SERVER_LOG.format(
+                        *peername,
+                        name=data,
+                        msg="set user name")
+                         )
+                    self.broadcast(
+                        sckt, self._user_name[s_idx], self._MSG_USER_IN
+                                  )
+
+                elif data.upper() == "QUIT":  # client quit network
+                    print(self._SERVER_LOG.format(
+                        *peername,
+                        name=uname,
+                        msg="disconnected")
+                         )
+                    self.broadcast(sckt, uname, self._MSG_DISCONNECTED)
+                    self._inputs.remove(sckt)
+                    self._user_name.pop(s_idx)
+                    sckt.close()
+
+                elif data:
+                    print(self._SERVER_LOG.format(
+                        *peername, name=uname, msg=data)
+                         )
+                    return uname, data
+
+                else:
+                    msg = "uncommon transmission:«{}»".format(data)
+                    print(self._SERVER_LOG.format(
+                        *peername, name=uname, msg=msg)
+                         )
+                    sckt.send(("server do not transmit: {}\n".format(
+                        msg
+                    )).encode())
 
 
 if __name__ == "__main__":
