@@ -109,8 +109,15 @@ class ConnectSocket:
         print(self._MSG_SERVER_STOP)
 
     def count_clients(self):
-        """ Count connected clients"""
-        return len(self._inputs) - 1
+        """
+        Count connected and named clients
+
+        (to avoid playing with a unamed player)
+        """
+        connect = 1  # the 1st entry is the main connection
+        unnamed = self._user_name.count(False)  # unnamed clients
+        total = len(self._user_name)  # All sockets
+        return total - unnamed - connect
 
     def list_sockets(self, print_it=True):
         """ List connected sckts """
