@@ -56,18 +56,19 @@ ERR_SAISIE = ERR_ + "saisir un nombre! "
 ERR_UNKNOW = ERR_ + "personne n'est censé arriver ici…"
 
 MIN_MAP_SIDE = 3
+MIN_CLIENT_NB = 2
 
 MSG_DISCLAMER = "Bienvenue dans Roboc."
 MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
 MSG_CHOOSE_MOVE = "Votre deplacement ({}:{}): "
-MSG_START_GAME = "Votre partie commence"
+MSG_START_GAME = "{} démarre la partie"
 MSG_END_GAME = "Fin du jeu."
 MSG_QUIT_GAME = "Vous quittez la partie"
 # Recapitulatif des commandes
 MSG_HELP = "Voici les commandes disponibles:\n"
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
-
+MSG_WAITING_CLIENT = "Nombre de client connecté: \nNombre de client minimum: {}"
 MAPS_NAME_LIST = list()     # liste des maps proposees a l'utilisateur
 
 # FONCTIONS
@@ -87,6 +88,8 @@ def choose_maps_menu():
     Recupere les cartes dans un repertoire, demande a l'utilisateur,
     de choisir et effectue quelques tests sur la carte jouee avant de
     creer
+
+    :return: Map object
     """
     from map import Map
 

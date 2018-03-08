@@ -17,9 +17,13 @@ This is the server script, see readme.md for more details
 import os
 from configuration import choose_maps_menu, cls, COMMANDS, \
     COMMANDS_LABEL, DIRECTIONS, DIRECTIONS_LABEL, get_msg_list, \
-    MAP_DIRECTORY, MAP_EXTENTION, MAPS_NAME_LIST, MOVE_STATUS, \
+    MAP_DIRECTORY, MAP_EXTENTION, MAPS_NAME_LIST, MIN_CLIENT_NB, MOVE_STATUS, \
     MOVE_STATUS_MSG, MSG_CHOOSE_MOVE, MSG_DISCLAMER, MSG_END_GAME, \
-    MSG_HELP, MSG_QUIT_GAME
+    MSG_HELP, MSG_QUIT_GAME, MSG_START_GAME, MSG_WAITING_CLIENT
+from ConnectSocket import ConnectSocket
+
+wait_for_clients = True
+old_count_clients = int(0)
 
 # DEBUT DU JEU
 
@@ -40,8 +44,34 @@ else:
 cls()   # vide l'ecran de la console
 print(MSG_DISCLAMER)
 
+# Affiche le menu de selection de la carte
 CURRENT_MAP = choose_maps_menu()
 
+# Démarre le réseau
+GAME_NETWORK = ConnectSocket()
+
+# Attend les connections clients et la commande de départ du jeu
+while wait_for_clients:
+    client_data = GAME_NETWORK.listen()
+    count_clients = GAME_NETWORK.count_clients()
+
+    if old_count_clients != count_clients:
+
+        if count_clients > MIN_CLIENT_NB:
+
+            # attend le go d'un des clients
+            if client_data[1] == "PLAY":
+                wait_for_clients = True
+                print(MSG_START_GAME.format(client_data[0]))
+
+            else:
+                old_count_clients = GAME_NETWORK.count_clients()
+                # envoie le nbre de client aux clients
+                # message = MSG_WAITING_CLIENT.format(count_clients, MIN_CLIENT_NB)
+                # message += GAME_NETWORK.list_sockets()
+                # GAME_NETWORK.broadcast(sender="server", name="server", msg=message)
+
+import pdb; pdb.set_trace()
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
 
