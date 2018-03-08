@@ -37,17 +37,19 @@ class ConnectSocket:
     >>> c0.list_sockets()
 
     """
-
+    # default connection parameters
     _HOST = 'localhost'
     _PORT = 5555
     _BUFFER = 1024
-    _SERVER_LOG = "{}:{}|{name}|{msg}"
+
+    # Template messages
     _MSG_DISCONNECTED = "<gone away to infinity, and beyond>"
+    _MSG_SALUTE = "Hi, {}, wait for other players\n"
     _MSG_SERVER_STOP = "Server stop"
     _MSG_START_SERVER = "Server is running, listening on port {}"
-    _MSG_USER_IN = "<entered the chatroom>"
-    _MSG_WELCOME = "Welcome"
-    _MSG_SALUTE = "Hi, {}, everyone is listening to you:"
+    _MSG_USER_IN = "<entered the network>"
+    _MSG_WELCOME = "Welcome. First do something usefull and type your name: "
+    _SERVER_LOG = "{}:{}|{name}|{msg}"
 
     def __init__(self, named=False, host=_HOST, port=_PORT):
         """ Set up the connection """
@@ -96,6 +98,10 @@ class ConnectSocket:
         self._CONNECTION.close()
         print(self._MSG_SERVER_STOP)
 
+    def count_clients(self):
+        """ Count connected clients"""
+        return len(self._inputs) - 1
+
     def list_sockets(self, print_it=True):
         """ List connected sckts """
         if print_it:
@@ -108,10 +114,6 @@ class ConnectSocket:
                     print("{}: {}".format(idx, sckt))
         else:
             return self._inputs
-
-    def count_clients(self):
-        """ Count connected clients"""
-        return len(self._inputs) - 1
 
     def listen(self):
         """
