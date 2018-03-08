@@ -4,7 +4,7 @@
 
 - [x] ~~remove the backup feature TODO01~~
 - [x] ~~conversion to client/server mode: server creation TODO02~~
-- [] conversion to client/server mode: client creation TODO03
+- [x] ~~conversion to client/server mode: client creation TODO03~~
 - [] multiplayer turn-by-turn TODO04
 - [] each player has a differant robot TODO05
 - [] starting position has to be random TODO06
