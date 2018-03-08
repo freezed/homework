@@ -51,21 +51,31 @@ class ConnectSocket:
     _MSG_WELCOME = "Welcome. First do something usefull and type your name: "
     _SERVER_LOG = "{}:{}|{name}|{msg}"
 
-    def __init__(self, named=False, host=_HOST, port=_PORT):
-        """ Set up the connection """
-        self._inputs = []
+    def __init__(self, host=_HOST, port=_PORT):
+        """
+        Set up the server connection using a socket object
 
-        # Creation de la connection
+        :param str _HOST: domain or IPV4 address
+        :param int _PORT: port number
+        :return obj: socket
+        """
+
+        # Setting up the connection
         self._CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._CONNECTION.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self._CONNECTION.bind((host, port))
         self._CONNECTION.listen(5)
-        self._inputs.append(self._CONNECTION)
-        print(self._MSG_START_SERVER.format(port))
 
-        if named:
-            self._user_name = []
-            self._user_name.append("CONNECTION")
+        # Init connection list
+        self._inputs = []
+        self._inputs.append(self._CONNECTION)
+
+        # Init username list
+        self._user_name = []
+        self._user_name.append("CONNECTION")
+
+        # Print server's activity on console
+        print(self._MSG_START_SERVER.format(port))
 
     def broadcast(self, sender, name, message):
         """
