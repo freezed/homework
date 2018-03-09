@@ -91,10 +91,8 @@ def choose_maps_menu():
     de choisir et effectue quelques tests sur la carte jouee avant de
     creer
 
-    :return: Map object
+    :return str: nom de fichier de la carte choisi
     """
-    from map import Map
-
     # VARIABLES
     user_select_map_id = -1     # choix utilisateur: une carte
 
@@ -129,8 +127,7 @@ def choose_maps_menu():
         MAPS_NAME_LIST[user_select_map_id] + \
         MAP_EXTENTION
 
-    # instenciation de la carte choisie
-    return Map(map_file)
+    return map_file
 
 
 def get_msg_list(command, label):

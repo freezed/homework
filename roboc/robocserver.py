@@ -45,7 +45,10 @@ cls()   # vide l'ecran de la console
 print(MSG_DISCLAMER)
 
 # Affiche le menu de selection de la carte
-CURRENT_MAP = choose_maps_menu()
+MAP_FILENAME = choose_maps_menu()
+
+# Genere la carte
+CURRENT_MAP = (MAP_FILENAME)
 
 # Démarre le réseau
 GAME_NETWORK = ConnectSocket()
