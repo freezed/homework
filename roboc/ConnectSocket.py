@@ -20,22 +20,20 @@ class ConnectSocket:
     Provide network connection and management methods
 
     :Example:
-    >>> c0 = ConnectSocket(False)
+    >>> c0 = ConnectSocket()
     Server is running, listening on port 5555
 
-    >>> c0.list_sockets(False)
+    >>> c0.list_sockets(False, False)
+    [<socket.socket fd=3, family=AddressFamily.AF_INET, type=SocketType.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5555)>]
 
     >>> c0.list_sockets()
-    0: (localhost-5555)
+    0: MAIN-CONNECT
 
     >>> c0.count_clients()
     0
 
     >>> c0.close()
     Server stop
-
-    >>> c0.list_sockets()
-
     """
     # default connection parameters
     _HOST = 'localhost'
@@ -71,9 +69,9 @@ class ConnectSocket:
         self._inputs = []
         self._inputs.append(self._CONNECTION)
 
-        # Init username list
+        # Init username list, to keep match between inputs & name lists
         self._user_name = []
-        self._user_name.append("CONNECTION")
+        self._user_name.append("MAIN-CONNECT")
 
         # Print server's activity on console
         print(self._MSG_START_SERVER.format(port))
@@ -122,18 +120,22 @@ class ConnectSocket:
         total = len(self._user_name)  # All sockets
         return total - unnamed - connect
 
-    def list_sockets(self, print_it=True):
-        """ List connected sckts """
-        if print_it:
-            for idx, sckt in enumerate(self._inputs):
-                if idx == 0:
-                    print("{}: ({}-{})".format(
-                        idx, self._HOST, self._PORT)
-                         )
-                else:
-                    print("{}: {}".format(idx, sckt))
+    def list_sockets(self, print_string=True, user_name=True):
+        """
+        List connected sockets
+
+        :param bool print_string: return txt formated socket list
+        :param bool user_name: return user_name
+        """
+        if user_name:
+            client_list = self._user_name
         else:
-            return self._inputs
+            client_list = self._inputs
+
+        if print_string:
+            client_list = ", ".join(client_list)
+
+        return client_list
 
     def listen(self):
         """
