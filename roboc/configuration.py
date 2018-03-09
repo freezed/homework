@@ -62,13 +62,15 @@ MSG_DISCLAMER = "Bienvenue dans Roboc."
 MSG_AVAIBLE_MAP = "Cartes disponible: "
 MSG_CHOOSE_MAP = "Choississez un numéro de carte: "
 MSG_CHOOSE_MOVE = "Votre deplacement ({}:{}): "
-MSG_START_GAME = "{} démarre la partie"
+MSG_START_GAME = "Votre partie commence"
+MSG_REQUEST_START = "Entrez «PLAY» pour démarrer la partie: "
 MSG_END_GAME = "Fin du jeu."
 MSG_QUIT_GAME = "Vous quittez la partie"
 # Recapitulatif des commandes
 MSG_HELP = "Voici les commandes disponibles:\n"
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
-MSG_WAITING_CLIENT = "Nombre de client connecté: \nNombre de client minimum: {}"
+MSG_CONNECTED_CLIENT = "Nb client connecté: {}"
+MSG_MINIMUM_CLIENT = "Nb client minimum: {}"
 MAPS_NAME_LIST = list()     # liste des maps proposees a l'utilisateur
 
 # FONCTIONS

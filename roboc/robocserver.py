@@ -18,11 +18,11 @@ import os
 from configuration import choose_maps_menu, cls, COMMANDS, \
     COMMANDS_LABEL, DIRECTIONS, DIRECTIONS_LABEL, get_msg_list, \
     MAP_DIRECTORY, MAP_EXTENTION, MAPS_NAME_LIST, MIN_CLIENT_NB, MOVE_STATUS, \
-    MOVE_STATUS_MSG, MSG_CHOOSE_MOVE, MSG_DISCLAMER, MSG_END_GAME, \
-    MSG_HELP, MSG_QUIT_GAME, MSG_START_GAME, MSG_WAITING_CLIENT
+    MOVE_STATUS_MSG, MSG_CHOOSE_MOVE, MSG_CONNECTED_CLIENT, MSG_DISCLAMER, MSG_END_GAME, \
+    MSG_HELP, MSG_MINIMUM_CLIENT, MSG_QUIT_GAME, MSG_REQUEST_START, MSG_START_GAME
 from ConnectSocket import ConnectSocket
 
-wait_for_clients = True
+enough_clients = False
 old_count_clients = int(0)
 
 # DEBUT DU JEU
@@ -51,27 +51,38 @@ CURRENT_MAP = choose_maps_menu()
 GAME_NETWORK = ConnectSocket()
 
 # Attend les connections clients et la commande de départ du jeu
-while wait_for_clients:
-    client_data = GAME_NETWORK.listen()
+while 1:
+    GAME_NETWORK.listen()
     count_clients = GAME_NETWORK.count_clients()
 
+    # attend le nombre mini de client
     if old_count_clients != count_clients:
 
         if count_clients > MIN_CLIENT_NB:
+            broadcast_msg = [MSG_REQUEST_START]
+            enough_clients = True
 
-            # attend le go d'un des clients
-            if client_data[1] == "PLAY":
-                wait_for_clients = True
-                print(MSG_START_GAME.format(client_data[0]))
+        else:
+            sckt = GAME_NETWORK.list_sockets(False, False)[0]
 
-            else:
-                old_count_clients = GAME_NETWORK.count_clients()
-                # envoie le nbre de client aux clients
-                # message = MSG_WAITING_CLIENT.format(count_clients, MIN_CLIENT_NB)
-                # message += GAME_NETWORK.list_sockets()
-                # GAME_NETWORK.broadcast(sender="server", name="server", msg=message)
+            # envoie le nbre de client aux clients
+            broadcast_msg = [
+                MSG_MINIMUM_CLIENT.format(MIN_CLIENT_NB),
+                MSG_CONNECTED_CLIENT.format(count_clients),
+                GAME_NETWORK.list_sockets()
+            ]
 
-import pdb; pdb.set_trace()
+        # envoi les messages
+        for msg in broadcast_msg:
+            GAME_NETWORK.broadcast(sckt, "server", msg)
+
+    # attend le go d'un des clients
+    if GAME_NETWORK.message.upper() == "PLAY" and enough_clients:
+        broadcast_msg = [MSG_START_GAME.format(GAME_NETWORK.u_name)]
+        break
+
+    old_count_clients = count_clients
+
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
 
