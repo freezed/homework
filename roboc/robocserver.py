@@ -48,7 +48,7 @@ print(MSG_DISCLAMER)
 MAP_FILENAME = choose_maps_menu()
 
 # Genere la carte
-CURRENT_MAP = (MAP_FILENAME)
+GAME_MAP = (MAP_FILENAME)
 
 # Démarre le réseau
 GAME_NETWORK = ConnectSocket()
@@ -90,10 +90,10 @@ while 1:
 # DEBUT DE BOUCLE DE TOUR DE JEU
 
 # Affichage de la carte tant que status == True
-while CURRENT_MAP.status:
+while GAME_MAP.status:
     # Affiche la carte et le message
-    CURRENT_MAP.map_print()
-    print(CURRENT_MAP.status_message)
+    GAME_MAP.map_print()
+    print(GAME_MAP.status_message)
 
     # Demande a l'utilisateur son choix du deplacement
     user_move = input(MSG_CHOOSE_MOVE.format(
@@ -103,32 +103,32 @@ while CURRENT_MAP.status:
 
     # Traitement de la commande utilisateur
     if user_move == COMMANDS[0]:    # quitter
-        CURRENT_MAP.status = False
-        CURRENT_MAP.status_message = MSG_QUIT_GAME
+        GAME_MAP.status = False
+        GAME_MAP.status_message = MSG_QUIT_GAME
 
     elif user_move == COMMANDS[1]:  # Affiche l'aide
-        CURRENT_MAP.status_message = MSG_HELP
+        GAME_MAP.status_message = MSG_HELP
         # liste les directions
-        CURRENT_MAP.status_message += get_msg_list(
+        GAME_MAP.status_message += get_msg_list(
             DIRECTIONS, DIRECTIONS_LABEL
         )
         # liste les commandes
-        CURRENT_MAP.status_message += get_msg_list(COMMANDS, COMMANDS_LABEL)
+        GAME_MAP.status_message += get_msg_list(COMMANDS, COMMANDS_LABEL)
 
     else:   # Traitement du deplacement
-        status = CURRENT_MAP.move_to(user_move)
+        status = GAME_MAP.move_to(user_move)
         message = MOVE_STATUS_MSG[MOVE_STATUS[status]].format(user_move)
-        CURRENT_MAP.status_message = message
+        GAME_MAP.status_message = message
 
         # La sortie est atteinte, fin de la boucle
         if MOVE_STATUS[status] == 'exit':
-            CURRENT_MAP.status = False
+            GAME_MAP.status = False
 
 # fin de la boucle de tour
 
-if CURRENT_MAP.status is False:
-    print(CURRENT_MAP.status_message)
+if GAME_MAP.status is False:
+    print(GAME_MAP.status_message)
 
 # Fin de partie
 print(MSG_END_GAME)
-CURRENT_MAP.map_print()
+GAME_MAP.map_print()
