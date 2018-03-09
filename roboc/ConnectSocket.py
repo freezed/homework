@@ -143,10 +143,17 @@ class ConnectSocket:
         - connect a new client
         - return data sended by client
 
+        This object only processes data specific to network connections,
+        other data (username and message sent) are stored in `u_name` &
+        `message` attributes to be used by parent script
+
         :return str, str: user_name, data
         """
-        rlist, [], [] = select.select(self._inputs, [], [], 0.05)
+        self.u_name = ""
+        self.message = ""
 
+        # listennig…
+        rlist, [], [] = select.select(self._inputs, [], [], 0.05)
         for sckt in rlist:
             # Listen for new client connection
             if sckt == self._CONNECTION:
@@ -197,7 +204,7 @@ class ConnectSocket:
                     print(self._SERVER_LOG.format(
                         *peername, name=uname, msg=data)
                          )
-                    return uname, data
+                    self.u_name, self.message = uname, data
 
                 else:
                     msg = "uncommon transmission:«{}»".format(data)
