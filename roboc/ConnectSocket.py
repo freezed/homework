@@ -43,6 +43,7 @@ class ConnectSocket:
     _BUFFER = 1024
 
     # Template messages
+    _BROADCAST_MSG = "{}~ {}\n"
     _MSG_DISCONNECTED = "<gone away to infinity, and beyond>"
     _MSG_SALUTE = "Hi, {}, wait for other players\n"
     _MSG_SERVER_STOP = "Server stop"
@@ -79,11 +80,13 @@ class ConnectSocket:
 
     def broadcast(self, sender, name, message):
         """
-        Send message to all clients, except the sender
+        Send a message to all clients but the sender
 
-        In progress
+        :param obj sender: socket_object of tne sender
+        :param str name: name of tne sender
+        :param str message: message to send
         """
-        message = "{}~ {}\n".format(name, message)
+        message = self._BROADCAST_MSG.format(name, message)
         for sckt in self._inputs:
             if sckt != self._CONNECTION and sckt != sender:
                 try:
