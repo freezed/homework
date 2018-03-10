@@ -20,6 +20,7 @@
 - [ ] chat commands: chating with other players TODO16
 - [ ] verify if user name is already used TODO17
 - [ ] rename ConnectSocket._user_name to ConnectSocket._user_name TODO18
+- [ ] add max player number TODO19
 - [ ] … TODO
 
 Ideas after correcting [exercice 3](https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180):
