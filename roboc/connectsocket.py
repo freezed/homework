@@ -24,10 +24,10 @@ class ConnectSocket:
     Server is running, listening on port 5555
 
     >>> c0.list_sockets(False, False)
-    [<socket.socket fd=3, family=AddressFamily.AF_INET, type=SocketType.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5555)>]
+    []
 
     >>> c0.list_sockets()
-    0: MAIN-CONNECT
+    ''
 
     >>> c0.count_clients()
     0
@@ -39,6 +39,7 @@ class ConnectSocket:
     _HOST = 'localhost'
     _PORT = 5555
     _BUFFER = 1024
+    _MAIN_CONNECT = "MAIN_CONNECT"
 
     # Template messages
     _BROADCAST_MSG = "{}~ {}\n"
@@ -65,13 +66,13 @@ class ConnectSocket:
         self._CONNECTION.bind((host, port))
         self._CONNECTION.listen(5)
 
-        # Init connection list
+        # Init connection list
         self._inputs = []
         self._inputs.append(self._CONNECTION)
 
         # Init username list, to keep match between inputs & name lists
         self._user_name = []
-        self._user_name.append("MAIN-CONNECT")
+        self._user_name.append(self._MAIN_CONNECT)
 
         # Print server's activity on console
         print(self._MSG_START_SERVER.format(port))
@@ -115,10 +116,7 @@ class ConnectSocket:
 
         (to avoid playing with a unamed player)
         """
-        connect = 1  # the 1st entry is the main connection
-        unnamed = self._user_name.count(False)  # unnamed clients
-        total = len(self._user_name)  # All sockets
-        return total - unnamed - connect
+        return len(self.list_sockets(False, False))
 
     def list_sockets(self, print_string=True, user_name=True):
         """
@@ -128,11 +126,24 @@ class ConnectSocket:
         :param bool user_name: return user_name
         """
         if user_name:
-            client_list = self._user_name
+            client_list = [
+                name for name in self._user_name
+                if name != self._MAIN_CONNECT and name is not False
+            ]
         else:
-            client_list = self._inputs
+            client_list = [
+                sckt for (idx, sckt) in enumerate(self._inputs)
+                if sckt != self._CONNECTION
+                and self._user_name[idx] is not False
+            ]
 
-        if print_string:
+        # FIXME maybe there is a better way for the next condition: when
+        # client connects it has not yet his name filled in the
+        # _user_name attribut, then this method returns only clients
+        # with a filled name
+        if print_string and len(client_list) == 0:
+            client_list = ""
+        elif print_string:
             client_list = ", ".join(client_list)
 
         return client_list
