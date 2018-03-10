@@ -20,7 +20,8 @@ from configuration import choose_maps_menu, cls, COMMANDS, \
     MAP_DIRECTORY, MAP_EXTENTION, MAPS_NAME_LIST, MIN_CLIENT_NB, MOVE_STATUS, \
     MOVE_STATUS_MSG, MSG_CHOOSE_MOVE, MSG_CONNECTED_CLIENT, MSG_DISCLAMER, MSG_END_GAME, \
     MSG_HELP, MSG_MINIMUM_CLIENT, MSG_QUIT_GAME, MSG_REQUEST_START, MSG_START_GAME
-from ConnectSocket import ConnectSocket
+from connectsocket import ConnectSocket
+from map import Map
 
 enough_clients = False
 old_count_clients = int(0)
@@ -48,7 +49,7 @@ print(MSG_DISCLAMER)
 MAP_FILENAME = choose_maps_menu()
 
 # Genere la carte
-GAME_MAP = (MAP_FILENAME)
+GAME_MAP = Map(MAP_FILENAME)
 
 # Démarre le réseau
 GAME_NETWORK = ConnectSocket()
