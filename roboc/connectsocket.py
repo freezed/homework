@@ -77,17 +77,27 @@ class ConnectSocket:
         # Print server's activity on console
         print(self._MSG_START_SERVER.format(port))
 
-    def broadcast(self, sender, name, message):
+    def broadcast(self, sender, message):
         """
-        Send a message to all clients but the sender
+        Send a message to all named-clients but the sender
 
-        :param obj sender: socket_object of tne sender
-        :param str name: name of tne sender
+        TODO should replace sckt.send() too
+
+        :param obj sender: sender socket (or 'server' str() for server)
         :param str message: message to send
         """
+        # Define senders name
+        if sender == 'server':
+            name = 'server'.upper()
+        else:
+            idx = self._inputs.index(sender)
+            name = self._user_name[idx].upper()
+
         message = self._BROADCAST_MSG.format(name, message)
-        for sckt in self._inputs:
-            if sckt != self._CONNECTION and sckt != sender:
+        recipients = self.list_sockets(False, False)
+
+        for sckt in recipients:
+            if sckt != sender:
                 try:
                     sckt.send(message.encode())
                 except:
@@ -198,9 +208,7 @@ class ConnectSocket:
                         name=data,
                         msg="set user name")
                          )
-                    self.broadcast(
-                        sckt, self._user_name[s_idx], self._MSG_USER_IN
-                                  )
+                    self.broadcast(sckt, self._MSG_USER_IN)
 
                 elif data.upper() == "QUIT":  # client quit network
                     print(self._SERVER_LOG.format(
@@ -208,7 +216,7 @@ class ConnectSocket:
                         name=uname,
                         msg="disconnected")
                          )
-                    self.broadcast(sckt, uname, self._MSG_DISCONNECTED)
+                    self.broadcast(sckt, self._MSG_DISCONNECTED)
                     self._inputs.remove(sckt)
                     self._user_name.pop(s_idx)
                     sckt.close()

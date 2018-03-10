@@ -67,8 +67,6 @@ while 1:
             enough_clients = True
 
         else:
-            sckt = GAME_NETWORK.list_sockets(False, False)[0]
-
             # envoie le nbre de client aux clients
             broadcast_msg = [
                 MSG_MINIMUM_CLIENT.format(MIN_CLIENT_NB),
@@ -78,7 +76,7 @@ while 1:
 
         # envoi les messages
         for msg in broadcast_msg:
-            GAME_NETWORK.broadcast(sckt, "server", msg)
+            GAME_NETWORK.broadcast("server", msg)
 
     # attend le go d'un des clients
     if GAME_NETWORK.message.upper() == "PLAY" and enough_clients:
