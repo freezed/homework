@@ -51,6 +51,9 @@ class ConnectSocket:
     _MSG_WELCOME = "Welcome. First do something usefull and type your name: "
     _SERVER_LOG = "{}:{}|{name}|{msg}"
 
+    # Others const
+    _MAX_CLIENT_NAME_LEN = 8
+
     def __init__(self, host=_HOST, port=_PORT):
         """
         Set up the server connection using a socket object
@@ -198,7 +201,11 @@ class ConnectSocket:
 
                 if self._user_name[s_idx] is False:  # setting username
                     # insert username naming rule here
-                    # verify if name is already used TODO17
+                    data = data[0:self._MAX_CLIENT_NAME_LEN]
+                    # name is already used
+                    if data in self._user_name:
+                        data += str(s_idx)
+
                     self._user_name[s_idx] = data
                     sckt.send(self._MSG_SALUTE.format(
                         self._user_name[s_idx]).encode()
