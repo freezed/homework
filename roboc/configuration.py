@@ -69,7 +69,7 @@ MSG_QUIT_GAME = "Vous quittez la partie"
 # Recapitulatif des commandes
 MSG_HELP = "Voici les commandes disponibles:\n"
 MSG_SELECTED_MAP = "Vous avez fait le choix #{}, la carte «{}»."
-MSG_CONNECTED_CLIENT = "Nb client connecté: {}"
+MSG_CONNECTED_CLIENT = "Nb client connecté: {}: {}"
 MSG_MINIMUM_CLIENT = "Nb client minimum: {}"
 MAPS_NAME_LIST = list()     # liste des maps proposees a l'utilisateur
 

@@ -63,16 +63,25 @@ while 1:
     if old_count_clients != count_clients:
 
         if count_clients > MIN_CLIENT_NB:
-            broadcast_msg = [MSG_REQUEST_START]
+            broadcast_msg = [
+                MSG_CONNECTED_CLIENT.format(
+                    count_clients,
+                    GAME_NETWORK.list_sockets()
+                ),
+                MSG_REQUEST_START,
+            ]
             enough_clients = True
 
         else:
             # envoie le nbre de client aux clients
             broadcast_msg = [
                 MSG_MINIMUM_CLIENT.format(MIN_CLIENT_NB),
-                MSG_CONNECTED_CLIENT.format(count_clients),
-                GAME_NETWORK.list_sockets()
+                MSG_CONNECTED_CLIENT.format(
+                    count_clients,
+                    GAME_NETWORK.list_sockets()
+                )
             ]
+            enough_clients = False
 
         # envoi les messages
         for msg in broadcast_msg:
