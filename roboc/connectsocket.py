@@ -49,10 +49,12 @@ class ConnectSocket:
     _MSG_START_SERVER = "Server is running, listening on port {}"
     _MSG_USER_IN = "<entered the network>"
     _MSG_WELCOME = "Welcome. First do something usefull and type your name: "
+    _MSG_UNWELCOME = "Sorry, no more place here.\n"
     _SERVER_LOG = "{}:{}|{name}|{msg}"
 
     # Others const
     _MAX_CLIENT_NAME_LEN = 8
+    _MAX_CLIENT_NB = 5
 
     def __init__(self, host=_HOST, port=_PORT):
         """
@@ -183,15 +185,29 @@ class ConnectSocket:
         for sckt in rlist:
             # Listen for new client connection
             if sckt == self._CONNECTION:
-                sckt_object, sckt_addr = sckt.accept()
-                self._inputs.append(sckt_object)
-                self._user_name.append(False)
-                print(self._SERVER_LOG.format(
-                    *sckt_addr,
-                    name="unknow",
-                    msg="connected")
-                     )
-                sckt_object.send(self._MSG_WELCOME.encode())
+                if len(self._inputs) <= self._MAX_CLIENT_NB:
+                    sckt_object, sckt_addr = sckt.accept()
+                    sckt_object.send(self._MSG_WELCOME.encode())
+
+                    self._inputs.append(sckt_object)
+                    self._user_name.append(False)
+
+                    print(self._SERVER_LOG.format(
+                        *sckt_addr,
+                        name="unknow",
+                        msg="connected")
+                         )
+
+                else:
+                    sckt_object, sckt_addr = sckt.accept()
+                    sckt_object.send(self._MSG_UNWELCOME.encode())
+                    print(self._SERVER_LOG.format(
+                        *sckt_addr,
+                        name="unknow",
+                        msg="rejected")
+                         )
+                    sckt_object.close()
+                    break
 
             else:  # receiving data
                 data = sckt.recv(self._BUFFER).decode().strip()

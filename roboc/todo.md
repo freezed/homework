@@ -6,6 +6,7 @@
 - [x] ~~conversion to client/server mode: server creation TODO02~~
 - [x] ~~conversion to client/server mode: client creation TODO03~~
 - [x] ~~verify if user name is already used TODO17~~
+- [x] ~~add max player number TODO19~~
 - [ ] multiplayer turn-by-turn TODO04
 - [ ] each player has a differant robot TODO05
 - [ ] starting position has to be random TODO06
@@ -20,7 +21,6 @@
 - [ ] chat commands: listing players TODO15
 - [ ] chat commands: chating with other players TODO16
 - [ ] rename ConnectSocket._user_name to ConnectSocket._user_name TODO18
-- [ ] add max player number TODO19
 - [ ] … TODO
 
 Ideas after correcting [exercice 3](https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180):
