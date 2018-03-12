@@ -55,6 +55,7 @@ class ConnectSocket:
 
     # Others const
     _MAX_CLIENT_NAME_LEN = 8
+    _MIN_CLIENT_NAME_LEN = 3
     _MAX_CLIENT_NB = 5
 
     def __init__(self, host=_HOST, port=_PORT):
@@ -133,6 +134,39 @@ class ConnectSocket:
         (to avoid playing with a unamed player)
         """
         return len(self.list_sockets(False, False))
+
+    def data_filter(self, data, s_idx):
+        """
+        Filters the data basically:
+
+        - Alphanumeric char only
+        - non-alphanum char replaced by 'x'
+        - 'xxx' for string < MIN
+        - Troncated after the MAX char
+        - trailed with index number if same name exists
+        """
+        # alphanumeric
+        if str(data).isalnum() is False:
+            f_data = ''
+            for char in data:
+                if char.isalnum():
+                    f_data += char
+                else:
+                    f_data += 'x'
+            data = f_data
+
+        # minimum length
+        if len(data) < self._MIN_CLIENT_NAME_LEN:
+            data += 'xxx'
+
+        # maximum length
+        data = data[0:self._MAX_CLIENT_NAME_LEN]
+
+        # name already used
+        if data in self._user_name:
+            data += str(s_idx)
+
+        return data
 
     def list_sockets(self, print_string=True, user_name=True):
         """
@@ -223,25 +257,19 @@ class ConnectSocket:
 
                 if self._user_name[s_idx] is False:  # setting username
 
-                    # insert username naming rule here
-                    data = data[0:self._MAX_CLIENT_NAME_LEN]
-
-                    # name is already used
-                    if data in self._user_name:
-                        data += str(s_idx)
-
-                    self._user_name[s_idx] = data
+                    # saving name
+                    self._user_name[s_idx] = self.data_filter(data, s_idx)
 
                     # LBS params override
                     log_msg = self._SERVER_LOG.format(
                         *sckt.getpeername(),
-                        name=data,
+                        name=self._user_name[s_idx],
                         msg="set user name"
                     )
 
                     bdcst_msg = self._MSG_USER_IN
 
-                    send_msg = self._MSG_SALUTE.format(data)
+                    send_msg = self._MSG_SALUTE.format(self._user_name[s_idx])
 
                 elif data.upper() == "QUIT":  # client quit network
 
