@@ -22,6 +22,7 @@
 - [ ] chat commands: chating with other players TODO16
 - [ ] rename ConnectSocket._user_name to ConnectSocket._user_name TODO18
 - [ ] writes server logs in a file TODO19
+- [ ] adds a timestamp to server logs TODO20
 - [ ] … TODO
 
 Ideas after correcting [exercice 3](https://openclassrooms.com/courses/apprenez-a-programmer-en-python/exercises/180):
