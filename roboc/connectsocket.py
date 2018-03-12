@@ -50,7 +50,8 @@ class ConnectSocket:
     _MSG_USER_IN = "<entered the network>"
     _MSG_WELCOME = "Welcome. First do something usefull and type your name: "
     _MSG_UNWELCOME = "Sorry, no more place here.\n"
-    _SERVER_LOG = "{}:{}|{name}|{msg}"
+    _MSG_UNSUPPORTED = "Unsupported data:«{}»"
+    _SERVER_LOG = "{}:{}|{}|{}"
 
     # Others const
     _MAX_CLIENT_NAME_LEN = 8
@@ -114,11 +115,8 @@ class ConnectSocket:
         self._CONNECTION = self._inputs.pop(0)
         i = 1
         for sckt in self._inputs:
-            print(self._SERVER_LOG.format(
-                *sckt.getpeername(),
-                name=self._user_name[i],
+            self.server_log(*sckt.getpeername(), name=self._user_name[i],
                 msg="closed client sckt")
-                 )
             sckt.close()
             i += 1
         self._inputs.clear()
@@ -183,81 +181,110 @@ class ConnectSocket:
         # listennig…
         rlist, [], [] = select.select(self._inputs, [], [], 0.05)
         for sckt in rlist:
+
+            # logging, broadcasting & sending (LBS) params
+            logging = True
+            broadcasting = True
+            sending = True
+
             # Listen for new client connection
             if sckt == self._CONNECTION:
-                if len(self._inputs) <= self._MAX_CLIENT_NB:
-                    sckt_object, sckt_addr = sckt.accept()
-                    sckt_object.send(self._MSG_WELCOME.encode())
+                sckt_object, sckt_addr = sckt.accept()
 
+                # Maximum connection number is not reached: accepting
+                if len(self._inputs) <= self._MAX_CLIENT_NB:
                     self._inputs.append(sckt_object)
                     self._user_name.append(False)
 
-                    print(self._SERVER_LOG.format(
-                        *sckt_addr,
-                        name="unknow",
-                        msg="connected")
-                         )
+                    # LBS params override
+                    log_addr, log_port = sckt_addr
+                    log_name = "unknown"
+                    log_msg = "connected"
 
+                    sckt_object.send(self._MSG_WELCOME.encode())
+                    broadcasting = False
+                    sending = False
+
+                # Refusing
                 else:
-                    sckt_object, sckt_addr = sckt.accept()
                     sckt_object.send(self._MSG_UNWELCOME.encode())
-                    print(self._SERVER_LOG.format(
-                        *sckt_addr,
-                        name="unknow",
-                        msg="rejected")
-                         )
+                    self.server_log(*sckt_addr, name="unknow", msg="rejected")
                     sckt_object.close()
                     break
 
             else:  # receiving data
                 data = sckt.recv(self._BUFFER).decode().strip()
-                peername = sckt.getpeername()
                 s_idx = self._inputs.index(sckt)
-                uname = self._user_name[s_idx]
+
+                # LBS params override
+                log_addr, log_port = sckt.getpeername()
+                log_name = self._user_name[s_idx]
 
                 if self._user_name[s_idx] is False:  # setting username
+
                     # insert username naming rule here
                     data = data[0:self._MAX_CLIENT_NAME_LEN]
+
                     # name is already used
                     if data in self._user_name:
                         data += str(s_idx)
 
                     self._user_name[s_idx] = data
-                    sckt.send(self._MSG_SALUTE.format(
-                        self._user_name[s_idx]).encode()
-                             )
-                    print(self._SERVER_LOG.format(
-                        *peername,
-                        name=data,
-                        msg="set user name")
-                         )
-                    self.broadcast(sckt, self._MSG_USER_IN)
+
+                    # LBS params override
+                    log_name = data
+                    log_msg = "set user name"
+
+                    bdcst_msg = self._MSG_USER_IN
+
+                    send_msg = self._MSG_SALUTE.format(data)
 
                 elif data.upper() == "QUIT":  # client quit network
-                    print(self._SERVER_LOG.format(
-                        *peername,
-                        name=uname,
-                        msg="disconnected")
-                         )
-                    self.broadcast(sckt, self._MSG_DISCONNECTED)
+
+                    # LBS params override
+                    log_msg = "disconnected"
+
+                    # broadcasting params
+                    bdcst_msg = self._MSG_DISCONNECTED
+                    self.broadcast(sckt, bdcst_msg)
+
+                    broadcasting = False
+                    sending = False
+
                     self._inputs.remove(sckt)
                     self._user_name.pop(s_idx)
                     sckt.close()
 
                 elif data:
-                    print(self._SERVER_LOG.format(
-                        *peername, name=uname, msg=data)
-                         )
-                    self.u_name, self.message = uname, data
+                    self.u_name, self.message = log_name, data
+
+                    # LBS params override
+                    log_msg = data
+                    broadcasting = False
+                    sending = False
 
                 else:
-                    msg = "uncommon transmission:«{}»".format(data)
-                    print(self._SERVER_LOG.format(
-                        *peername, name=uname, msg=msg)
-                         )
-                    sckt.send(("server do not transmit: {}\n".format(
-                        msg
-                    )).encode())
+
+                    # LBS params override
+                    log_msg = self._MSG_UNSUPPORTED.format(data)
+
+                    send_msg = self._MSG_UNSUPPORTED+"\n".format(data)
+
+                    broadcasting = False
+
+            if logging:
+                self.server_log(log_addr, log_port, log_name, log_msg)
+
+            if broadcasting:
+                self.broadcast(sckt, bdcst_msg)
+
+            if sending:
+                sckt.send(send_msg.encode())
+
+    def server_log(self, addr, port, name, msg):
+        """ Log activity on server-side"""
+        print(self._SERVER_LOG.format(addr, port, name, msg))
+        # writes in a logfile here TODO19
 
 
 if __name__ == "__main__":
