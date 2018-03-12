@@ -50,7 +50,7 @@ class ConnectSocket:
     _MSG_USER_IN = "<entered the network>"
     _MSG_WELCOME = "Welcome. First do something usefull and type your name: "
     _MSG_UNWELCOME = "Sorry, no more place here.\n"
-    _MSG_UNSUPPORTED = "Unsupported data:«{}»"
+    _MSG_UNSUPPORTED = "Unsupported data:«{}»{}"
     _SERVER_LOG = "{}:{}|{name}|{msg}"
 
     # Others const
@@ -67,14 +67,14 @@ class ConnectSocket:
         """
 
         # Setting up the connection
-        self._CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._CONNECTION.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self._CONNECTION.bind((host, port))
-        self._CONNECTION.listen(5)
+        self._main_sckt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._main_sckt.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self._main_sckt.bind((host, port))
+        self._main_sckt.listen(5)
 
         # Init connection list
         self._inputs = []
-        self._inputs.append(self._CONNECTION)
+        self._inputs.append(self._main_sckt)
 
         # Init username list, to keep match between inputs & name lists
         self._user_name = []
@@ -104,26 +104,26 @@ class ConnectSocket:
 
         for sckt in recipients:
             if sckt != sender:
-                try:
-                    sckt.send(message.encode())
-                except:
-                    sckt.close()
-                    self._inputs.remove(sckt)
+                sckt.send(message.encode())
+                # NOTE I remove a `try/except` here because I do not
+                # encountered any Error, I cannot choose the correct
+                # exception type
+                # sckt.close() \ self._inputs.remove(sckt)
 
     def close(self):
         """ Cleanly closes each socket (clients) of the network """
-        self._CONNECTION = self._inputs.pop(0)
+        self._main_sckt = self._inputs.pop(0)
         i = 1
         for sckt in self._inputs:
             self.server_log(self._SERVER_LOG.format(
                 *sckt.getpeername(),
                 name=self._user_name[i],
                 msg="closed client socket")
-            )
+                           )
             sckt.close()
             i += 1
         self._inputs.clear()
-        self._CONNECTION.close()
+        self._main_sckt.close()
         self.server_log(self._MSG_SERVER_STOP)
 
     def count_clients(self):
@@ -149,11 +149,11 @@ class ConnectSocket:
         else:
             client_list = [
                 sckt for (idx, sckt) in enumerate(self._inputs)
-                if sckt != self._CONNECTION
+                if sckt != self._main_sckt
                 and self._user_name[idx] is not False
             ]
 
-        # FIXME maybe there is a better way for the next condition: when
+        # NOTE maybe there is a better way for the next condition: when
         # client connects it has not yet his name filled in the
         # _user_name attribut, then this method returns only clients
         # with a filled name
@@ -191,7 +191,7 @@ class ConnectSocket:
             sending = True
 
             # Listen for new client connection
-            if sckt == self._CONNECTION:
+            if sckt == self._main_sckt:
                 sckt_object, sckt_addr = sckt.accept()
 
                 # Maximum connection number is not reached: accepting
@@ -284,7 +284,7 @@ class ConnectSocket:
                         msg=self._MSG_UNSUPPORTED.format(data)
                     )
 
-                    send_msg = self._MSG_UNSUPPORTED+"\n".format(data)
+                    send_msg = self._MSG_UNSUPPORTED.format(data, "\n")
 
                     broadcasting = False
 
@@ -297,7 +297,8 @@ class ConnectSocket:
             if sending:
                 sckt.send(send_msg.encode())
 
-    def server_log(self, msg):
+    @staticmethod
+    def server_log(msg):
         """ Log activity on server-side"""
         print(msg)
         # writes in a logfile here TODO19
