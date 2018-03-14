@@ -48,9 +48,6 @@ print(MSG_DISCLAMER)
 # Affiche le menu de selection de la carte
 MAP_FILENAME = choose_maps_menu()
 
-# Genere la carte
-GAME_MAP = Map(MAP_FILENAME)
-
 # Démarre le réseau
 GAME_NETWORK = ConnectSocket()
 
@@ -94,20 +91,16 @@ while 1:
 
     old_count_clients = count_clients
 
+# Genere la carte
+GAME_MAP = Map(MAP_FILENAME, count_clients)
 
 # DEBUT DE BOUCLE DE TOUR DE JEU
 
 # Affichage de la carte tant que status == True
 while GAME_MAP.status:
-    # Affiche la carte et le message
-    GAME_MAP.map_print()
-    print(GAME_MAP.status_message)
 
-    # Demande a l'utilisateur son choix du deplacement
-    user_move = input(MSG_CHOOSE_MOVE.format(
-        COMMANDS[1], COMMANDS_LABEL[1])
-                     ).upper()
-    cls()   # vide l'ecran de la console
+    # Affiche la carte et le message
+    GAME_MAP.map_print(GAME_NETWORK)
 
     # Traitement de la commande utilisateur
     if user_move == COMMANDS[0]:    # quitter

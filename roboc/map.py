@@ -6,8 +6,9 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 Ce fichier fait partie du projet `roboc`
 """
 import os
+import random
 from configuration import DIRECTIONS, ERR_MAP_FILE, ERR_MAP_ROBO, \
-    MIN_MAP_SIDE, ERR_MAP_SIZE, ERR_UNKNOW, MAZE_ELEMENTS, MSG_START_GAME
+    MIN_MAP_SIDE, ERR_MAP_SIZE, ERR_UNKNOW, MAZE_ELEMENTS, MSG_START_GAME, MSG_CHOOSE_MOVE, COMMANDS_LABEL, COMMANDS
 
 
 class Map:
@@ -26,40 +27,24 @@ class Map:
     ========
 
     :Example:
-    >>> EasyMap = Map("cartes/facile.txt")
-    >>> MiniMap = Map("cartes/mini.txt")
-    >>> PrisonMap = Map("cartes/prison.txt")
-    >>> EmptyMap = Map("cartes/vide.txt")
-    >>> TooSmallMap = Map("cartes/trop_petite.txt")
-    >>> NoRoboMap = Map("cartes/sans_robo.txt")
+    >>> EasyMap = Map("cartes/facile.txt", 3)
 
     >>> print(EmptyMap.status_message)
     #!@?# Oups… carte «cartes/vide.txt», dimensions incorrecte: «0 x 0»
     >>> print(TooSmallMap.status_message)
     #!@?# Oups… carte «cartes/trop_petite.txt», dimensions incorrecte: «3 x 2»
-    >>> print(NoRoboMap.status_message)
-    #!@?# Oups… robo est introuvable sur la carte «cartes/sans_robo.txt»!
 
     >>> print("_column_nb: {}".format(EasyMap._column_nb))
     _column_nb: 11
     >>> print("_line_nb: {}".format(EasyMap._line_nb))
     _line_nb: 11
 
-    >>> MiniMap.move_to("O")
+    >>> EasyMap.move_to("O")
     1
-    >>> MiniMap.move_to("Z1")
-    0
-    >>> MiniMap.move_to("4")
-    0
-    >>> MiniMap.move_to("E1")
-    2
-    >>> MiniMap.map_print()
-    OOO
-    O X
-    OOO
+
     """
 
-    def __init__(self, map_file):
+    def __init__(self, map_file, nb_player):
         """
         Initialisation de la carte utilise
 
@@ -73,9 +58,9 @@ class Map:
         :var int _line_nb: Nbre de ligne du labyrinte
         :var int _robo_position: position du robo dans _data_text
 
-        :param map_file: fichier «carte» avec chemin relatif
+        :param str map_file: fichier «carte» avec chemin relatif
+        :param int nb_player: nombre de joueurs (max 9)
         :rtype map: str()
-        :return: None
         """
         # Chargement du fichier carte choisi
         if os.path.isfile(map_file) is True:
@@ -99,27 +84,26 @@ class Map:
             except IndexError:
                 self._line_nb = 0
 
-            # position du robot
-            self._robo_position = self._data_text.find(
-                MAZE_ELEMENTS['robo']
-            )
+            self._robo_position = {}
+            self._element_under_robo = {}
 
-            # element «sous» le robo, au depart
-            self._element_under_robo = MAZE_ELEMENTS['void']
+            for player in range(1, nb_player + 1):
+                # placement des n robots
+                self._robo_position[player] = random.choice([idx for (idx, value) in enumerate(self._data_text) if value == MAZE_ELEMENTS['void']])
+
+                # element «sous» le robo, au depart
+                self._element_under_robo[player] = MAZE_ELEMENTS['void']
+
+                # place le robot sur la carte
+                self.place_element(player, player)
 
             # Quelques controle sur la carte chargee:
             # dimensions assez grande pour deplacer un robo?
-            if self._column_nb < MIN_MAP_SIDE or \
-                    self._line_nb < MIN_MAP_SIDE:
+            if (self._line_nb, self._column_nb) < (MIN_MAP_SIDE, MIN_MAP_SIDE):
                 self.status = False
                 self.status_message = ERR_MAP_SIZE.format(
                     map_file, self._column_nb, self._line_nb
                 )
-
-            # y a t il un robo?
-            elif self._robo_position == -1:
-                self.status = False
-                self.status_message = ERR_MAP_ROBO.format(map_file)
 
             # on peu ajouter plein d'autres controles ici
 
@@ -133,9 +117,17 @@ class Map:
             self.status = False
             self.status_message = ERR_MAP_FILE.format(map_file)
 
-    def map_print(self):
+    def map_print(self, game_network):
         """ Affiche la carte avec la position de jeu courante """
-        print(self._data_text)
+
+        game_network.broadcast(
+            'server',
+            '\n'.join(['',
+                self._data_text,
+                self.status_message,
+                MSG_CHOOSE_MOVE.format(COMMANDS[1],COMMANDS_LABEL[1])]
+                     )
+                              )
 
     def move_to(self, move):
         """
@@ -220,7 +212,7 @@ class Map:
 
         return move_status
 
-    def place_element(self, element):
+    def place_element(self, element, player):
         """
         Place l'element sur la carte.
 
@@ -231,9 +223,9 @@ class Map:
 
         :param str element: element a placer sur la carte
         """
-        pos = self._robo_position
+        pos = self._robo_position[player]
         txt = self._data_text
-        self._data_text = txt[:pos] + element + txt[pos + 1:]
+        self._data_text = txt[:pos] + str(element) + txt[pos + 1:]
 
 
 if __name__ == "__main__":

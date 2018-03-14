@@ -7,9 +7,9 @@
 - [x] ~~conversion to client/server mode: client creation TODO03~~
 - [x] ~~verify if user name is already used TODO17~~
 - [x] ~~add max player number TODO19~~
+- [x] ~~each player has a differant robot TODO05~~
+- [x] ~~starting position has to be random TODO06~~
 - [ ] multiplayer turn-by-turn TODO04
-- [ ] each player has a differant robot TODO05
-- [ ] starting position has to be random TODO06
 - [ ] one movement unit per tour: ex «e3» = 3 turns TODO07
 - [ ] add new game command: 'm' (walling door) TODO11
 - [ ] add new game command: 'p' (drilling door) TODO12
