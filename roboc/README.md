@@ -1,5 +1,8 @@
 # Roboc
 
+_I am pausing the devel here, I have to prioritise another project._
+_I'll be back with Pytest!_
+
 ## Objective of the exercise
 
 Multiplayer maze game over network
@@ -13,9 +16,9 @@ _[Apprenez à programmer en Python](https://openclassrooms.com/courses/apprenez-
 1. [x] run server
 2. [x] choose a map
 3. [x] accept client connection
-4. when number of connected client is reached, any clients can start the
+4. [x] when number of connected client is reached, any clients can start the
 game with the command 'PLAY'
-5. each robot is randomly placed on the map
+5. [x] each robot is randomly placed on the map
 6. play turn by turn
 7. no new client during the game
 
