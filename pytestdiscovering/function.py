@@ -19,50 +19,6 @@ def get_product(code, from_file=False):
     """
     Call Open Food Facts API to get data of a single product
 
-    :Tests ONLINE:
-    # >>> prod_beurre = get_product('3017760000109')
-    # >>> prod_oreo = get_product('8410000810004')
-
-    # >>> prod_false is False
-    # True
-
-    # >>> prod_string is False
-    # True
-
-    :Tests OFFLINE:
-    >>> prod_beurre = get_product('3017760000109', True)
-    >>> prod_oreo = get_product('8410000810004', True)
-    >>> prod_false = get_product('1664', True)
-    File load error : sample/product-1664.json
-
-    >>> prod_string = get_product('string', True)
-    File load error : sample/product-string.json
-
-    >>> print(prod_beurre['product_name'])
-    Le Véritable Petit Beurre
-
-    >>> print(prod_beurre['nutrition_grades'])
-    e
-
-    >>> print(prod_beurre['categories_tags'])
-    ['en:sugary-snacks', 'en:biscuits-and-cakes', \
-'en:biscuits', 'fr:petits-beurres']
-
-    >>> print(prod_oreo['code'])
-    8410000810004
-
-    >>> print(prod_oreo['url'])
-    https://fr.openfoodfacts.org/product/8410000810004/
-
-    >>> print(prod_oreo['product_name'])
-    Biscuit Oreo
-
-    >>> print(prod_oreo['nutrition_grades'])
-    e
-
-    >>> print(prod_oreo['categories_tags'])
-    ['en:sugary-snacks', 'en:biscuits-and-cakes', 'en:biscuits', \
-'en:chocolate-biscuits', 'es:sandwich-cookies']
     """
 
     ERR_FILE = "File load error : {}"
