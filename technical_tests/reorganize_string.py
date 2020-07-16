@@ -21,7 +21,6 @@ def main(string, n, sep):
     'abc|def|ghi|jk'
     """
 
-    answer = ""
     strings = list()
 
     stack = "".join(string.split(" "))
@@ -32,7 +31,7 @@ def main(string, n, sep):
         stack = stack[n:]
         steps -= 1
 
-    return strings
+    return sep.join(strings)
 
 
 if __name__ == "__main__":
