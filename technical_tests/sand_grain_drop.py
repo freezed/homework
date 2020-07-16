@@ -39,9 +39,7 @@ def main(pile, n):
 
     while n != 0:
 
-        if pile[center][center] < 3:
-            pile[center][center] += 1
-
+        pile[center][center] += 1
         n -= 1
 
     return pile
