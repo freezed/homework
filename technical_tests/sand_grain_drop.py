@@ -35,7 +35,9 @@ def main(pile, n):
     [[0, 1, 0, 1, 0], [1, 2, 2, 2, 1], [0, 2, 0, 2, 0], [1, 2, 2, 2, 1], [0, 1, 0, 1, 0]]
     """
 
-    return pile
+    center = int((len(pile) - 1) / 2)
+
+    return center
 
 
 if __name__ == "__main__":
