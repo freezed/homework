@@ -37,7 +37,14 @@ def main(pile, n):
 
     center = int((len(pile) - 1) / 2)
 
-    return center
+    while n != 0:
+
+        if pile[center][center] < 3:
+            pile[center][center] += 1
+
+        n -= 1
+
+    return pile
 
 
 if __name__ == "__main__":
