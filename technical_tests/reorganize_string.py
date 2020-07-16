@@ -17,8 +17,10 @@ def main(string, n, sep):
     :Tests:
     >>> main("ab c de fgh ijk", 2, "|")
     'ab|cd|ef|gh|ij|k'
-    >>> main("ab c de fgh ijk", 3, "|")
-    'abc|def|ghi|jk'
+    >>> main("ab c de fgh ijk", 3, "_")
+    'abc_def_ghi_jk'
+    >>> main("ab c de fgh ijk", 4, "/")
+    'abcd/efgh/ijk'
     """
 
     strings = list()
