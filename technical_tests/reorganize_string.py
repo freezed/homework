@@ -20,9 +20,11 @@ def main(string, n, sep):
     >>> main("ab c de fgh ijk", 3, "|")
     'abc|def|ghi|jk'
     """
-    answer = ""
 
-    return answer
+    answer = ""
+    stack = "".join(string.split(" "))
+
+    return stack
 
 
 if __name__ == "__main__":
