@@ -35,11 +35,21 @@ def main(pile, n):
     [[0, 1, 0, 1, 0], [1, 2, 2, 2, 1], [0, 2, 0, 2, 0], [1, 2, 2, 2, 1], [0, 1, 0, 1, 0]]
     """
 
-    center = int((len(pile) - 1) / 2)
+    size = len(pile)
+    center = int((size - 1) / 2)
 
     while n != 0:
 
         pile[center][center] += 1
+
+        # find cells > 3
+        for x in range(size):
+
+            for y in range(size):
+
+                if pile[x][y] > 3:
+                    pile[x][y] -= 4
+
         n -= 1
 
     return pile
