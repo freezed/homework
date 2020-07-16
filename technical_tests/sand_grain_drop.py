@@ -36,10 +36,10 @@ def main(pile, n):
     """
 
     size = len(pile)
+    x_max, y_max = size - 1, size - 1
     center = int((size - 1) / 2)
 
     while n != 0:
-
         pile[center][center] += 1
 
         # find cells > 3
@@ -49,6 +49,19 @@ def main(pile, n):
 
                 if pile[x][y] > 3:
                     pile[x][y] -= 4
+
+                    # update west neighbor
+                    if x < x_max:
+                        pile[x + 1][y] += 1
+                    # update east neighbor
+                    if x > 0:
+                        pile[x - 1][y] += 1
+                    # update north neighbor
+                    if y < y_max:
+                        pile[x][y + 1] += 1
+                    # update south neighbor
+                    if y > 0:
+                        pile[x][y - 1] += 1
 
         n -= 1
 
