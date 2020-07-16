@@ -36,36 +36,54 @@ def main(pile, n):
     """
 
     size = len(pile)
-    x_max, y_max = size - 1, size - 1
     center = int((size - 1) / 2)
 
     while n != 0:
         pile[center][center] += 1
-
-        # find cells > 3
-        for x in range(size):
-
-            for y in range(size):
-
-                if pile[x][y] > 3:
-                    pile[x][y] -= 4
-
-                    # update west neighbor
-                    if x < x_max:
-                        pile[x + 1][y] += 1
-                    # update east neighbor
-                    if x > 0:
-                        pile[x - 1][y] += 1
-                    # update north neighbor
-                    if y < y_max:
-                        pile[x][y + 1] += 1
-                    # update south neighbor
-                    if y > 0:
-                        pile[x][y - 1] += 1
-
+        do_propagation(pile)
         n -= 1
 
+    # All sand grain are dropped, let's finish propagations
+    while True in [4 in row for row in pile]:
+        do_propagation(pile)
+
     return pile
+
+
+def do_propagation(pile):
+    """
+    Walk through the pile to propagate sand grains
+
+    :tests:
+    >>> test_case = [[0,0,4,0,0],[0,2,0,2,0],[4,0,4,0,4],[0,2,0,2,0],[0,0,4,0,0]]
+    >>> do_propagation(test_case)
+    >>> print(test_case)
+    [[0, 1, 0, 1, 0], [1, 2, 2, 2, 1], [0, 2, 0, 2, 0], [1, 2, 2, 2, 1], [0, 1, 0, 1, 0]]
+    """
+
+    size = len(pile)
+    x_max, y_max = size - 1, size - 1
+
+    # find cells > 3
+    for x in range(size):
+
+        for y in range(size):
+
+            if pile[x][y] > 3:
+                pile[x][y] -= 4
+
+                # update west neighbor
+                if x < x_max:
+                    pile[x + 1][y] += 1
+                # update east neighbor
+                if x > 0:
+                    pile[x - 1][y] += 1
+                # update north neighbor
+                if y < y_max:
+                    pile[x][y + 1] += 1
+                # update south neighbor
+                if y > 0:
+                    pile[x][y - 1] += 1
 
 
 if __name__ == "__main__":
