@@ -22,9 +22,17 @@ def main(string, n, sep):
     """
 
     answer = ""
-    stack = "".join(string.split(" "))
+    strings = list()
 
-    return stack
+    stack = "".join(string.split(" "))
+    steps = round(len(stack) / n)
+
+    while steps != 0:
+        strings.append(stack[:n])
+        stack = stack[n:]
+        steps -= 1
+
+    return strings
 
 
 if __name__ == "__main__":
