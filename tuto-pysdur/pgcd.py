@@ -18,4 +18,17 @@ def pgcd(a,b):
     This function find the Greatest Common Divisor (PGCD in French)
     between a & b
     """
-    pass
+    rest = a - b
+    check = b - rest
+
+    while check != 0:
+        a = max(b, rest)
+        b = min(b, rest)
+        rest = a - b
+        check = max(b, rest) - min(b, rest)
+
+    print(rest)
+
+
+if __name__ == '__main__':
+    pgcd(561, 357)
