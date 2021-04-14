@@ -10,6 +10,10 @@ This is a script following
 https://gitlab.com/forga/process/fr/embarquement/-/issues/6
 
 The goal is to build durable python script using standard library
+
+:Tests:
+>>> pgcd(561, 357)
+51
 """
 
 
@@ -17,6 +21,16 @@ def pgcd(a,b):
     """
     This function find the Greatest Common Divisor (PGCD in French)
     between a & b
+
+    :Tests:
+    >>> pgcd(561, 357)
+    51
+    >>> pgcd(63, 42)
+    21
+    >>> pgcd(21, 15)
+    3
+    >>> pgcd(910, 42)
+    14
     """
     rest = a - b
     check = b - rest
@@ -31,4 +45,5 @@ def pgcd(a,b):
 
 
 if __name__ == '__main__':
-    pgcd(561, 357)
+    import doctest
+    doctest.testmod()
