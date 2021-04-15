@@ -41,7 +41,7 @@ def pgcd(input_a, input_b):
         rest = input_a - input_b
         check = max(input_b, rest) - min(input_b, rest)
 
-    print(rest)
+    return rest
 
 
 if __name__ == "__main__":
@@ -54,6 +54,14 @@ if __name__ == "__main__":
     PARSER = argparse.ArgumentParser()
     PARSER.add_argument("INPUT_A", help="The greater integer", type=int)
     PARSER.add_argument("INPUT_B", help="The lower integer", type=int)
+    PARSER.add_argument(
+        "-v", "--verbose", help="A near mathematics answer", action="store_true"
+    )
     ARGS = PARSER.parse_args()
 
-    pgcd(ARGS.INPUT_A, ARGS.INPUT_B)
+    NEW_PGCD = pgcd(ARGS.INPUT_A, ARGS.INPUT_B)
+
+    if ARGS.verbose:
+        print(f"PGCD({ARGS.INPUT_A};{ARGS.INPUT_B}) = {NEW_PGCD}")
+    else:
+        print(NEW_PGCD)
