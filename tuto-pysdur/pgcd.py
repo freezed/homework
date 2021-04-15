@@ -17,10 +17,10 @@ The goal is to build durable python script using standard library
 """
 
 
-def pgcd(a,b):
+def pgcd(input_a, input_b):
     """
     This function find the Greatest Common Divisor (PGCD in French)
-    between a & b
+    between input_a & input_b
 
     :Tests:
     >>> pgcd(561, 357)
@@ -32,18 +32,19 @@ def pgcd(a,b):
     >>> pgcd(910, 42)
     14
     """
-    rest = a - b
-    check = b - rest
+    rest = input_a - input_b
+    check = input_b - rest
 
     while check != 0:
-        a = max(b, rest)
-        b = min(b, rest)
-        rest = a - b
-        check = max(b, rest) - min(b, rest)
+        input_a = max(input_b, rest)
+        input_b = min(input_b, rest)
+        rest = input_a - input_b
+        check = max(input_b, rest) - min(input_b, rest)
 
     print(rest)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
