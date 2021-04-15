@@ -48,3 +48,12 @@ if __name__ == "__main__":
     import doctest
 
     doctest.testmod()
+
+    import argparse
+
+    PARSER = argparse.ArgumentParser()
+    PARSER.add_argument("INPUT_A", help="The greater integer", type=int)
+    PARSER.add_argument("INPUT_B", help="The lower integer", type=int)
+    ARGS = PARSER.parse_args()
+
+    pgcd(ARGS.INPUT_A, ARGS.INPUT_B)
