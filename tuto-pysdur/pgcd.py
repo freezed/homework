@@ -45,10 +45,13 @@ def pgcd(input_a, input_b):
 
 
 if __name__ == "__main__":
+
+    # TESTS
     import doctest
 
     doctest.testmod()
 
+    # ARGUMENTS, PARAMETERS & OPTIONS
     import argparse
 
     PARSER = argparse.ArgumentParser()
@@ -59,6 +62,7 @@ if __name__ == "__main__":
     )
     ARGS = PARSER.parse_args()
 
+    # DO THE JOB
     NEW_PGCD = pgcd(ARGS.INPUT_A, ARGS.INPUT_B)
 
     if ARGS.verbose:
