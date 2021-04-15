@@ -2,18 +2,15 @@
 # coding: utf8
 
 """
-Author: freezed <2160318-free_zed@users.noreply.gitlab.com> 2021-04-13
-Version: 0.1
-Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
+Author:     freezed <2160318-free_zed@users.noreply.gitlab.com> 2021-04-13
+Licence:    GNU GPL v3
 
 This is a script following
 https://gitlab.com/forga/process/fr/embarquement/-/issues/6
 
 The goal is to build durable python script using standard library
 
-:Tests:
->>> pgcd(561, 357)
-51
+This script compute the greater common divisor of 2 integrers
 """
 
 
@@ -53,8 +50,12 @@ if __name__ == "__main__":
 
     # ARGUMENTS, PARAMETERS & OPTIONS
     import argparse
+    import sys
 
-    PARSER = argparse.ArgumentParser()
+    PARSER = argparse.ArgumentParser(
+        description=sys.modules[__name__].__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     PARSER.add_argument("INPUT_A", help="The greater integer", type=int)
     PARSER.add_argument("INPUT_B", help="The lower integer", type=int)
     PARSER.add_argument(
