@@ -123,7 +123,11 @@ if __name__ == "__main__":
     doctest.testmod()
 
     # SETUPS
-    ARGS = argparse_setup()
+    try:
+        ARGS = argparse_setup()
+    except SystemExit:
+        sys.exit()
+
     logging_setup(ARGS)
 
     # CHECKS INPUTS
