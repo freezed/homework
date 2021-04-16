@@ -13,6 +13,9 @@ The goal is to build durable python script using standard library
 This script compute the greater common divisor of 2 integrers
 """
 
+# MESSAGES
+WRONG_INPUT_ORDER = "Inputs given in ascending order"
+
 
 def pgcd(input_a, input_b):
     """
@@ -50,6 +53,7 @@ if __name__ == "__main__":
 
     # ARGUMENTS, PARAMETERS & OPTIONS
     import argparse
+    import logging
     import sys
 
     PARSER = argparse.ArgumentParser(
@@ -61,12 +65,28 @@ if __name__ == "__main__":
     PARSER.add_argument(
         "-v", "--verbose", help="A near mathematics answer", action="store_true"
     )
-    ARGS = PARSER.parse_args()
 
-    # DO THE JOB
-    NEW_PGCD = pgcd(ARGS.INPUT_A, ARGS.INPUT_B)
+    try:
+        ARGS = PARSER.parse_args()
 
-    if ARGS.verbose:
-        print(f"PGCD({ARGS.INPUT_A};{ARGS.INPUT_B}) = {NEW_PGCD}")
+    except SystemExit:
+        sys.exit()
+
     else:
-        print(NEW_PGCD)
+        # CHECKS INPUTS
+        if ARGS.INPUT_A <= ARGS.INPUT_B:
+            logging.critical(WRONG_INPUT_ORDER)
+
+        # DO THE JOB
+        else:
+            NEW_PGCD = pgcd(ARGS.INPUT_A, ARGS.INPUT_B)
+
+        # RESPONSE
+        if ARGS.verbose:
+            print(f"PGCD({ARGS.INPUT_A};{ARGS.INPUT_B}) = {NEW_PGCD}")
+
+        else:
+            print(NEW_PGCD)
+
+    finally:
+        sys.exit()
