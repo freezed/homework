@@ -13,11 +13,12 @@ The goal is to build durable python script using standard library
 This script compute the greater common divisor of 2 integrers
 """
 import logging
+import sys
 
 # MESSAGES
-FUNCTION_CALL = "Function is called"
-SUBSTRACTION_MADE = "Substraction made"
-WRONG_INPUT_ORDER = "Inputs in ascending order"
+FUNCTION_CALL = "Function `%s` is called"
+SUBSTRACTION_MADE = "Substraction made: %s - %s"
+WRONG_INPUT_ORDER = "Revert input order (`%s < %s`)"
 
 
 def pgcd(input_a, input_b):
@@ -35,14 +36,14 @@ def pgcd(input_a, input_b):
     >>> pgcd(910, 42)
     14
     """
-    logging.info(FUNCTION_CALL)
+    logging.info(FUNCTION_CALL, "pgcd")
     rest = input_a - input_b
     check = input_b - rest
 
     while check != 0:
-        logging.debug(SUBSTRACTION_MADE)
         input_a = max(input_b, rest)
         input_b = min(input_b, rest)
+        logging.debug(SUBSTRACTION_MADE, input_a, input_b)
         rest = input_a - input_b
         check = max(input_b, rest) - min(input_b, rest)
 
@@ -58,7 +59,6 @@ if __name__ == "__main__":
 
     # ARGUMENTS, PARAMETERS & OPTIONS
     import argparse
-    import sys
 
     PARSER = argparse.ArgumentParser(
         description=sys.modules[__name__].__doc__,
@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     # CHECKS INPUTS
     if ARGS.INPUT_A <= ARGS.INPUT_B:
-        logging.critical(WRONG_INPUT_ORDER)
+        logging.critical(WRONG_INPUT_ORDER, ARGS.INPUT_A, ARGS.INPUT_B)
         sys.exit()
 
     # DO THE JOB
