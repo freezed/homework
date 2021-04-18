@@ -12,8 +12,11 @@ The goal is to build durable python script using standard library
 
 This script compute the greater common divisor of 2 integrers
 """
+import logging
 
 # MESSAGES
+FUNCTION_CALL = "Function is called"
+SUBSTRACTION_MADE = "Substraction made"
 WRONG_INPUT_ORDER = "Inputs in ascending order"
 
 
@@ -32,10 +35,12 @@ def pgcd(input_a, input_b):
     >>> pgcd(910, 42)
     14
     """
+    logging.info(FUNCTION_CALL)
     rest = input_a - input_b
     check = input_b - rest
 
     while check != 0:
+        logging.debug(SUBSTRACTION_MADE)
         input_a = max(input_b, rest)
         input_b = min(input_b, rest)
         rest = input_a - input_b
@@ -53,7 +58,6 @@ if __name__ == "__main__":
 
     # ARGUMENTS, PARAMETERS & OPTIONS
     import argparse
-    import logging
     import sys
 
     PARSER = argparse.ArgumentParser(
