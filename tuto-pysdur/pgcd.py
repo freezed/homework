@@ -17,8 +17,29 @@ import sys
 
 # MESSAGES
 FUNCTION_CALL = "Function `%s` is called"
+RESULT = "Result : `%s`"
 SUBSTRACTION_MADE = "Substraction made: %s - %s"
 WRONG_INPUT_ORDER = "Revert input order (`%s < %s`)"
+
+LOGGER = logging.getLogger(__file__)
+
+
+def logging_setup(args):
+    """Set logging up"""
+
+    loglevel = logging.WARNING
+    if args.debug:
+        loglevel = logging.DEBUG
+
+    LOGGER.setLevel(loglevel)
+
+    console_hdlr = logging.StreamHandler()
+    console_hdlr.setFormatter(
+        logging.Formatter("[%(name)s] %(levelname)s\t%(message)s")
+    )
+
+    root = logging.getLogger("")
+    root.addHandler(console_hdlr)
 
 
 def pgcd(input_a, input_b):
@@ -36,14 +57,13 @@ def pgcd(input_a, input_b):
     >>> pgcd(910, 42)
     14
     """
-    logging.info(FUNCTION_CALL, "pgcd")
     rest = input_a - input_b
     check = input_b - rest
 
     while check != 0:
         input_a = max(input_b, rest)
         input_b = min(input_b, rest)
-        logging.debug(SUBSTRACTION_MADE, input_a, input_b)
+        LOGGER.debug(SUBSTRACTION_MADE, input_a, input_b)
         rest = input_a - input_b
         check = max(input_b, rest) - min(input_b, rest)
 
@@ -69,17 +89,27 @@ if __name__ == "__main__":
     PARSER.add_argument(
         "-v", "--verbose", help="A near mathematics answer", action="store_true"
     )
-
+    PARSER.add_argument(
+        "-d",
+        "--debug",
+        default=False,
+        help="Set logging level to DEBUG",
+        action="store_true",
+    )
     ARGS = PARSER.parse_args()
+
+    logging_setup(ARGS)
 
     # CHECKS INPUTS
     if ARGS.INPUT_A <= ARGS.INPUT_B:
-        logging.critical(WRONG_INPUT_ORDER, ARGS.INPUT_A, ARGS.INPUT_B)
+        LOGGER.critical(WRONG_INPUT_ORDER, ARGS.INPUT_A, ARGS.INPUT_B)
         sys.exit()
 
     # DO THE JOB
     else:
+        LOGGER.info(FUNCTION_CALL, "pgcd()")
         NEW_PGCD = pgcd(ARGS.INPUT_A, ARGS.INPUT_B)
+        LOGGER.info(RESULT, NEW_PGCD)
 
     # RESPONSE
     if ARGS.verbose:
