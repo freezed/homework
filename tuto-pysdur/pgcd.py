@@ -17,6 +17,9 @@ import sys
 
 # MESSAGES
 FUNCTION_CALL = "Function `%s` is called"
+LOG_CONSOLE_FORMAT = "[%(name)s] %(levelname)s\t%(message)s"
+LOG_FILE_PATH = f"/tmp/{__file__}.log"
+LOG_FILE_FORMAT = "[%(asctime)s] " + LOG_CONSOLE_FORMAT
 RESULT = "Result : `%s`"
 SUBSTRACTION_MADE = "Substraction made : %s - %s"
 WRONG_INPUT_ORDER = "Revert input order (`%s < %s`)"
@@ -34,9 +37,7 @@ def argparse_setup():
     )
     parser.add_argument("INPUT_A", help="The greater integer", type=int)
     parser.add_argument("INPUT_B", help="The lower integer", type=int)
-    parser.add_argument(
-        "-v", "--verbose", help="A near mathematics answer", action="store_true"
-    )
+    parser.add_argument("-v", "--verbose", help="A verbose answer", action="store_true")
     parser.add_argument(
         "-d",
         "--debug",
@@ -44,25 +45,41 @@ def argparse_setup():
         help="Set logging level to DEBUG",
         action="store_true",
     )
+    parser.add_argument(
+        "-l",
+        "--logfile",
+        default=False,
+        help="Log into a file, not in console",
+        action="store_true",
+    )
     return parser.parse_args()
 
 
 def logging_setup(args):
-    """Setting up `logging` : console handler & optional DEBUG level"""
+    """
+    Setting up `logging` :
+        - console or file handler
+        - optional DEBUG level
+    """
 
+    root_logger = logging.getLogger("")
     loglevel = logging.WARNING
+
     if args.debug:
         loglevel = logging.DEBUG
 
     LOGGER.setLevel(loglevel)
 
-    console_hdlr = logging.StreamHandler()
-    console_hdlr.setFormatter(
-        logging.Formatter("[%(name)s] %(levelname)s\t%(message)s")
-    )
-
-    root = logging.getLogger("")
-    root.addHandler(console_hdlr)
+    # Add File Handler
+    if args.logfile:
+        file_hdlr = logging.FileHandler(LOG_FILE_PATH)
+        file_hdlr.setFormatter(logging.Formatter(LOG_FILE_FORMAT))
+        root_logger.addHandler(file_hdlr)
+    # Add Console Handler
+    else:
+        console_hdlr = logging.StreamHandler()
+        console_hdlr.setFormatter(logging.Formatter(LOG_CONSOLE_FORMAT))
+        root_logger.addHandler(console_hdlr)
 
 
 def pgcd(input_a, input_b):
@@ -95,6 +112,10 @@ def pgcd(input_a, input_b):
 
 
 if __name__ == "__main__":
+    """
+    Module's execution management
+    I did not test module's import
+    """
 
     # TESTS
     import doctest
