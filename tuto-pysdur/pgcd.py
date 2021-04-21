@@ -24,8 +24,31 @@ WRONG_INPUT_ORDER = "Revert input order (`%s < %s`)"
 LOGGER = logging.getLogger(__file__)
 
 
+def argparse_setup():
+    """Setting up `argparse` : description & options"""
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description=sys.modules[__name__].__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("INPUT_A", help="The greater integer", type=int)
+    parser.add_argument("INPUT_B", help="The lower integer", type=int)
+    parser.add_argument(
+        "-v", "--verbose", help="A near mathematics answer", action="store_true"
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        default=False,
+        help="Set logging level to DEBUG",
+        action="store_true",
+    )
+    return parser.parse_args()
+
+
 def logging_setup(args):
-    """Set logging up"""
+    """Setting up `logging` : console handler & optional DEBUG level"""
 
     loglevel = logging.WARNING
     if args.debug:
@@ -78,27 +101,8 @@ if __name__ == "__main__":
 
     doctest.testmod()
 
-    # ARGUMENTS, PARAMETERS & OPTIONS
-    import argparse
-
-    PARSER = argparse.ArgumentParser(
-        description=sys.modules[__name__].__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    PARSER.add_argument("INPUT_A", help="The greater integer", type=int)
-    PARSER.add_argument("INPUT_B", help="The lower integer", type=int)
-    PARSER.add_argument(
-        "-v", "--verbose", help="A near mathematics answer", action="store_true"
-    )
-    PARSER.add_argument(
-        "-d",
-        "--debug",
-        default=False,
-        help="Set logging level to DEBUG",
-        action="store_true",
-    )
-    ARGS = PARSER.parse_args()
-
+    # SETUPS
+    ARGS = argparse_setup()
     logging_setup(ARGS)
 
     # CHECKS INPUTS
